@@ -1,0 +1,317 @@
+/* ========== 占い処 六根清浄｜アニメーション用CSS (Chanoyu Theme) ========== */
+
+:root {
+    --color-primary: #3b3a39;
+    --color-gold: #8f9779;
+}
+
+/* ----- 1. スクロールフェードイン（プレミアム版） ----- */
+.animate-on-scroll {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.js-enabled .animate-on-scroll:not(.animated) {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.animate-on-scroll.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.animate-on-scroll.animate-delay-1 { transition-delay: 0.1s; }
+.animate-on-scroll.animate-delay-2 { transition-delay: 0.2s; }
+.animate-on-scroll.animate-delay-3 { transition-delay: 0.3s; }
+.animate-on-scroll.animate-delay-4 { transition-delay: 0.4s; }
+.animate-on-scroll.animate-delay-5 { transition-delay: 0.5s; }
+.animate-on-scroll.animate-delay-6 { transition-delay: 0.6s; }
+
+/* ----- 2. ヒーロー初回表示 ----- */
+.hero-reveal { opacity: 1; transform: translateY(0); }
+.hero-reveal.hero-visible { opacity: 1; transform: translateY(0); }
+.hero-reveal-title { transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s; }
+.hero-reveal-badge { transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s; }
+.hero-reveal-subtitle { transition: opacity 0.7s ease 0.4s, transform 0.7s ease 0.4s; }
+.hero-reveal-btn { transition: opacity 0.7s ease 0.7s, transform 0.7s ease 0.7s; }
+
+/* ----- 3. ヘッダー（Chanoyu: 透明オフホワイト → スクロール時も統一） ----- */
+.header {
+    transition: box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        background 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        backdrop-filter 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.header.scrolled {
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+    background: rgba(250, 250, 249, 0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.header.scrolled .header-inner {
+    transition: height 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.header.scrolled .logo-main {
+    transition: font-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ----- 4. トップへ戻るボタン (Chanoyu: 直線) ----- */
+.back-to-top {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(12px);
+    width: 40px;
+    height: 40px;
+    border-radius: 0;
+    background: var(--color-primary);
+    color: #fff;
+    border: 1px solid var(--color-gold);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.back-to-top.footer-hide {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(12px);
+    pointer-events: none;
+}
+
+.back-to-top:hover {
+    background: var(--color-gold);
+    color: var(--color-primary);
+    transform: translateX(-50%) translateY(-4px);
+}
+
+/* ========== 予約状況表示（Chanoyu版） ========== */
+.availability-inline {
+    display: block;
+    margin: 2rem auto;
+    max-width: 600px;
+    padding: 2.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 0;
+    border: 1px solid rgba(59, 58, 57, 0.15);
+    box-shadow: none;
+    font-family: 'Shippori Mincho', serif;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.availability-inline::after {
+    content: '';
+    position: absolute;
+    top: 8px; left: 8px; right: 8px; bottom: 8px;
+    border: 1px dashed rgba(59, 58, 57, 0.08);
+    pointer-events: none;
+}
+
+.availability-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(59, 58, 57, 0.15);
+}
+
+.availability-label {
+    font-size: 1rem;
+    color: #3b3a39 !important;
+    opacity: 1 !important;
+    letter-spacing: 0.15em;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.8rem;
+}
+
+.availability-tag {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: #3b3a39 !important;
+    background: transparent;
+    opacity: 1 !important;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid #8f9779;
+    border-radius: 0;
+    margin-right: 0.6rem;
+    vertical-align: middle;
+    box-shadow: none;
+}
+
+.availability-date {
+    font-size: 1.2rem;
+    color: #3b3a39 !important;
+    opacity: 1 !important;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    vertical-align: middle;
+}
+
+.availability-parts {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.part-status-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 100px;
+    flex: 1;
+    padding: 1rem 0.5rem;
+    background: transparent;
+    border-radius: 0;
+    border: 1px solid rgba(59, 58, 57, 0.15);
+}
+
+.part-name {
+    font-size: 0.9rem;
+    color: #3b3a39 !important;
+    opacity: 1 !important;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+}
+
+.part-time {
+    font-size: 0.7rem;
+    color: #706f6e !important;
+    opacity: 1 !important;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.part-badge {
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    min-width: 70px;
+}
+
+.part-badge.available {
+    background: #8f9779;
+    color: #fff;
+    border: 1px solid #8f9779;
+    box-shadow: none;
+}
+
+.part-badge.limited {
+    background: #c3b091;
+    color: #fff;
+    border: 1px solid #c3b091;
+    box-shadow: none;
+    animation: none;
+}
+
+@keyframes pulse-warning {
+    0%, 100% { box-shadow: none; transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+.part-badge.full {
+    background: #999;
+    color: #fff;
+    border: 1px solid #aaa;
+    opacity: 0.6;
+}
+
+.availability-note {
+    font-size: 0.75rem;
+    color: #706f6e !important;
+    opacity: 1 !important;
+    letter-spacing: 0.05em;
+    text-align: center;
+    margin-top: 1rem;
+    line-height: 1.8;
+}
+
+.all-full-message {
+    display: none;
+    font-size: 0.9rem;
+    color: #3b3a39 !important;
+    opacity: 1 !important;
+    letter-spacing: 0.1em;
+    margin-top: 1rem;
+    padding: 1.2rem;
+    border-top: 1px solid rgba(59, 58, 57, 0.15);
+    font-weight: 500;
+}
+
+.all-full-message.show { display: block; }
+
+/* ----- ご予約の流れ ----- */
+.flow-step {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.js-enabled .flow-step:not(.flow-visible) {
+    opacity: 0;
+    transform: translateY(16px);
+}
+
+.flow-step.flow-visible { opacity: 1; transform: translateY(0); }
+
+.flow-step .flow-line { transition: opacity 0.5s ease 0.2s; opacity: 0.4; }
+.js-enabled .flow-step:not(.flow-visible) .flow-line { opacity: 0; }
+.flow-step.flow-visible .flow-line { opacity: 0.4; }
+
+/* ========== レスポンシブ ========== */
+@media (max-width: 900px) {
+    .availability-inline { padding: 1.5rem 2rem; }
+}
+
+@media (max-width: 600px) {
+    .availability-inline { padding: 1.25rem 1.5rem; margin: 1.5rem auto; }
+    .availability-label { font-size: 1rem; }
+    .availability-tag { font-size: 0.75rem; padding: 0.25rem 0.5rem; }
+    .availability-date { font-size: 1.1rem; }
+    .availability-parts { gap: 0.75rem; }
+    .part-status-item { min-width: 70px; }
+    .part-name { font-size: 0.75rem; }
+    .part-time { font-size: 0.65rem; }
+    .part-badge { font-size: 0.7rem; padding: 0.35rem 0.7rem; }
+}
+
+@media (max-width: 480px) {
+    .availability-inline { padding: 1rem; margin: 1rem auto; max-width: 95%; }
+    .availability-label { font-size: 0.9rem; }
+    .availability-tag { font-size: 0.7rem; padding: 0.25rem 0.5rem; }
+    .availability-date { font-size: 1rem; }
+    .availability-parts { gap: 0.5rem; }
+    .part-status-item { min-width: 60px; }
+    .part-name { font-size: 0.7rem; }
+    .part-time { font-size: 0.6rem; }
+    .part-badge { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
+    .availability-note { font-size: 0.7rem; }
+}

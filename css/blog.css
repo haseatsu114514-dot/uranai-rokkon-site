@@ -1,0 +1,405 @@
+/* ========== ブログページ専用スタイル ========== */
+
+/* ブログメインコンテンツ */
+.main-content {
+    padding-top: 75px;
+    background: var(--color-cream);
+    min-height: 100vh;
+}
+
+/* ブログヒーロー（共通化） */
+.page-header {
+    background: linear-gradient(135deg, #3b3a39 0%, #4a4948 100%);
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.page-title {
+    font-size: 2.2rem;
+    color: var(--color-text-white);
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.page-subtitle {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+}
+
+/* ブログセクション */
+.blog-section {
+    background: var(--color-cream);
+    padding: 80px 20px;
+    min-height: 60vh;
+}
+
+.blog-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* 記事グリッド (復元) */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Ensure article card takes full height */
+.article-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    text-decoration: none;
+    /* Reset link style */
+    color: inherit;
+    /* Reset link color */
+    cursor: pointer;
+}
+
+.article-card:hover {
+    transform: translateY(-8px);
+    box-shadow:
+        0 16px 40px rgba(0, 0, 0, 0.12),
+        0 8px 16px rgba(196, 163, 90, 0.15);
+    border-color: var(--color-gold);
+}
+
+/* カード画像 */
+.article-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1.91 / 1;
+    /* Match Note.com OGP aspect ratio */
+    overflow: hidden;
+    background: linear-gradient(135deg,
+            var(--color-primary) 0%,
+            var(--color-primary-dark) 100%);
+}
+
+.article-image::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 8px,
+            rgba(196, 163, 90, 0.08) 8px,
+            rgba(196, 163, 90, 0.08) 9px);
+    z-index: 1;
+}
+
+/* 記事サムネイル */
+.article-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    /* Center the crop */
+    transition: transform 0.5s;
+}
+
+.article-card:hover .article-thumb {
+    transform: scale(1.05);
+}
+
+/* カテゴリーバッジ */
+.article-category {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--color-gold);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(196, 163, 90, 0.4);
+}
+
+/* カードコンテンツ */
+.article-content {
+    padding: 28px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.article-date {
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+}
+
+.article-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.article-excerpt {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+}
+
+/* 続きを読むリンク */
+.read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-gold);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.read-more::after {
+    content: '→';
+    transition: transform 0.3s;
+}
+
+/* Trigger hover on card hover */
+.article-card:hover .read-more {
+    color: var(--color-primary);
+}
+
+.article-card:hover .read-more::after {
+    transform: translateX(4px);
+}
+
+/* note.comバッジ */
+.note-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(65, 199, 100, 0.1);
+    color: #41c764;
+    padding: 4px 10px;
+    border-radius: 0;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-left: auto;
+}
+
+
+/* Loading Indicator */
+.loading-indicator {
+    text-align: center;
+    padding: 60px 20px;
+    font-family: 'Shippori Mincho', serif;
+    color: #666;
+}
+
+.spinner {
+    margin: 0 auto 20px;
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--color-primary, #9a8058);
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Pagination / Load More Button */
+.pagination-container {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.load-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 40px;
+    background: #fff;
+    border: 2px solid var(--color-gold);
+    color: var(--color-primary-dark);
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.load-more-btn:hover {
+    background: var(--color-gold);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(196, 163, 90, 0.3);
+}
+
+.load-more-btn svg {
+    transition: transform 0.3s;
+}
+
+.load-more-btn:hover svg {
+    transform: translateY(2px);
+}
+
+
+/* noteリンクセクション */
+.blog-note-link {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(196, 163, 90, 0.2);
+}
+
+.blog-note-link-text {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.blog-note-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #41c764 0%, #38b058 100%);
+    color: #fff;
+    padding: 8px 22px;
+    border-radius: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-shadow: 0 3px 12px rgba(65, 199, 100, 0.25);
+    line-height: 1;
+}
+
+.blog-note-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+.blog-note-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 16px rgba(65, 199, 100, 0.35);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .main-content {
+        padding-top: 60px;
+    }
+
+    .blog-section {
+        padding: 50px 15px;
+    }
+
+    .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .article-image {
+        height: 180px;
+    }
+}
+
+/* ========== Blog Filters ========== */
+.blog-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+    padding: 0 20px;
+}
+
+.filter-btn {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--font-base);
+}
+
+.filter-btn:hover {
+    background: #f5f5f5;
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: var(--color-primary);
+    /* Uses branding color */
+    color: #fff;
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 6px rgba(58, 74, 69, 0.2);
+}
+
+/* ========== Enhanced NEW Badge (Simple Pop) ========== */
+.new-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    /* Top Right: No overlap with category */
+    background: #ff5f5f;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 0;
+    z-index: 10;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+    /* Pop animation */
+    transform: scale(0);
+    animation: badge-pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes badge-pop {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* ========== ページ導線セクション (共通スタイル使用のため削除) ========== */
+/* .page-links, .page-links-container, .page-link-card in style.css */

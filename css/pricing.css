@@ -1,0 +1,1379 @@
+/* ========== 料金案内ページ専用スタイル ========== */
+
+/* 料金ページのcontainer幅を拡張（レポートカードが窮屈にならないように） */
+.sub-page .container {
+    max-width: 1100px;
+}
+
+/* ページヘッダー上書き */
+.page-title {
+    margin-bottom: 5px;
+    margin-top: 0;
+    /* Clear default margin to reduce gap */
+}
+
+.advance-notice {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 30px;
+    background: var(--color-gold);
+    color: var(--color-primary-dark);
+    border-radius: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
+/* ========== 複数価格表示 ========== */
+.course-prices-multi {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 15px 0;
+    width: 100%;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 4px;
+}
+
+.price-row:last-child {
+    border-bottom: none;
+}
+
+.price-label {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 600;
+}
+
+.price-value {
+    font-size: 1.2rem;
+    color: var(--color-primary-dark);
+    font-weight: 700;
+    font-family: 'Shippori Mincho', serif;
+}
+
+/* ========== コースカード ========== */
+.course-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 0;
+    padding: 24px 25px;
+    margin-bottom: 30px;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border-left: 4px solid var(--color-gold);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    /* 画像が角丸からはみ出ないように */
+}
+
+/* ========== レポート画像 ========== */
+.course-image-wrapper {
+    margin: -24px -25px 20px;
+    position: relative;
+    padding-top: 60%;
+    /* アスペクト比固定 (例: 16:9なら56.25%、3:2なら66.6%) */
+    background: #f5f5f5;
+    overflow: hidden;
+}
+
+.course-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* トリミングなし（全体表示） */
+    transition: transform 0.5s;
+}
+
+.course-card:hover .course-image {
+    transform: scale(1.05);
+}
+
+.course-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.course-card.popular {
+    border: 2px solid var(--color-gold);
+    border-left: 4px solid var(--color-gold);
+}
+
+.course-card.recommended {
+    border: 2px solid #c44569;
+    border-left: 4px solid #c44569;
+}
+
+.course-badge {
+    display: table;
+    margin: 0 auto 4px;
+    padding: 4px 16px;
+    border-radius: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
+/* バッジがないカードの余白調整 */
+.course-card.no-badge {
+    padding-top: 15px;
+}
+
+.course-badge.popular {
+    background: var(--color-gold);
+    color: var(--color-primary-dark);
+}
+
+.course-badge.recommended {
+    background: #60a5fa;
+    color: #fff;
+}
+
+.course-header {
+    text-align: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0dcd5;
+    margin-bottom: 15px;
+}
+
+.course-duration {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+.price-label {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 8px;
+}
+
+.course-prices {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 8px;
+}
+
+.original-price {
+    font-size: 1.1rem;
+    color: #999;
+    text-decoration: line-through;
+}
+
+.arrow {
+    color: var(--color-gold);
+    font-size: 1.2rem;
+}
+
+.discount-price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #c44569;
+}
+
+.tax-note {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.course-description {
+    margin-bottom: 10px;
+}
+
+.course-description.center-layout {
+    text-align: center;
+}
+
+.description-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #ddd;
+    padding-bottom: 8px;
+    display: inline-block;
+}
+
+.course-examples {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.course-examples.center-list {
+    text-align: center;
+}
+
+.course-examples li {
+    position: relative;
+    padding-left: 1.2em;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.course-examples.center-list li {
+    padding-left: 0;
+    margin-bottom: 10px;
+}
+
+.course-examples li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-gold);
+    font-weight: bold;
+}
+
+.course-examples.center-list li::before {
+    content: none;
+}
+
+.course-note {
+    background: rgba(196, 163, 90, 0.1);
+    border-left: 3px solid var(--color-gold);
+    padding: 15px 18px;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: #555;
+}
+
+.course-note.pink {
+    background: rgba(196, 69, 105, 0.08);
+    border-left-color: #c44569;
+}
+
+.course-cta {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.course-cta img {
+    max-width: 280px;
+    height: auto;
+    transition: transform 0.3s;
+}
+
+.course-cta img:hover {
+    transform: scale(1.03);
+}
+
+/* ========== セクションナビゲーション ========== */
+.pricing-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.pricing-nav-btn {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 10px;
+    row-gap: 2px;
+    align-items: center;
+    padding: 10px 20px;
+    background: #fff;
+    border-radius: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 1px solid #e0e0e0;
+}
+
+.pricing-nav-btn:hover,
+.pricing-nav-btn.active {
+    border-color: var(--color-gold);
+    background: linear-gradient(135deg, rgba(196, 163, 90, 0.05) 0%, rgba(196, 163, 90, 0.1) 100%);
+}
+
+.pricing-nav-btn .nav-icon {
+    font-size: 1.2rem;
+    grid-row: 1 / span 2;
+}
+
+.pricing-nav-btn .nav-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+}
+
+.pricing-nav-btn .nav-desc {
+    display: block;
+    font-size: 0.75rem;
+    color: #777;
+}
+
+/* ========== カレンダーカード ========== */
+.course-card.calendar {
+    border: 2px solid #10b981;
+    border-left: 4px solid #10b981;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(16, 185, 129, 0.05) 100%);
+}
+
+.course-badge.calendar {
+    background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+    color: #fff;
+}
+
+.course-note.calendar {
+    background: rgba(16, 185, 129, 0.08);
+    border-left-color: #10b981;
+}
+
+.course-card.calendar .course-note {
+    text-align: center;
+}
+
+/* カレンダー画像の微調整（少し拡大） */
+.course-card.calendar .course-image {
+    transform: scale(1.15);
+}
+
+.course-card.calendar:hover .course-image {
+    transform: scale(1.2);
+}
+
+.calendar-features {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0;
+    display: grid;
+    gap: 6px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* ========== 通常鑑定セクション ========== */
+.session-section {
+    margin-bottom: 20px;
+    scroll-margin-top: 100px;
+}
+
+.session-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 15px;
+    letter-spacing: 0.1em;
+}
+
+.session-subtitle {
+    text-align: center;
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 35px;
+}
+
+/* ========== プレミアムレポートセクション ========== */
+.premium-section {
+    margin-top: 50px;
+    margin-bottom: 30px;
+    padding-top: 40px;
+    scroll-margin-top: 80px;
+}
+
+.premium-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 15px;
+    letter-spacing: 0.1em;
+}
+
+.premium-subtitle {
+    text-align: center;
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.premium-features {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.feature-badge {
+    background: #fff;
+    border: 1px solid var(--color-gold);
+    color: var(--color-primary-dark);
+    padding: 8px 16px;
+    border-radius: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(196, 163, 90, 0.15);
+}
+
+.premium-note {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: -30px;
+    margin-bottom: 35px;
+}
+
+/* レポートプランのcontainerを広げる */
+.premium-section {
+    max-width: none;
+}
+
+.premium-cards-container {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* プレミアムカード共通で高さ揃え・ボタン位置揃え */
+.premium-cards-container .course-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+}
+
+.premium-cards-container .course-description {
+    flex: 1;
+}
+
+.premium-cards-container .course-cta {
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+/* サブタイトル（期間表示） */
+.course-subtitle {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 12px;
+}
+
+/* 割引通知 */
+.discount-notice {
+    display: block;
+    text-align: center;
+    margin: 0 0 4px;
+    padding: 3px 0;
+    background: none;
+    color: #c44569;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+/* 開始月・開始日指定のお知らせ */
+.start-date-notice {
+    display: block;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-primary-dark);
+    background: rgba(255, 255, 255, 0.8);
+    padding: 8px 12px;
+    border-radius: 0;
+    border: 1px dashed #bbb;
+    line-height: 1.5;
+}
+
+/* ショップボタン */
+.shop-btn {
+    display: inline-block;
+    padding: 14px 40px;
+    background: linear-gradient(135deg, var(--color-gold) 0%, #d4a84b 100%);
+    color: var(--color-primary-dark);
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 0;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(196, 163, 90, 0.3);
+}
+
+.shop-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(196, 163, 90, 0.4);
+}
+
+/* プレミアムカード（3ヶ月・ライトブルー系） */
+.course-card.premium-light {
+    border: 2px solid #60a5fa;
+    border-left: 4px solid #60a5fa;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(96, 165, 250, 0.08) 100%);
+}
+
+.course-badge.premium-light {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+    color: #fff;
+}
+
+.course-note.premium-light {
+    background: rgba(59, 130, 246, 0.08);
+    border-left-color: #3b82f6;
+}
+
+/* プレミアムカード（6ヶ月・ディープパープル系） */
+.course-card.premium {
+    border: 2px solid #8b5cf6;
+    border-left: 4px solid #8b5cf6;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(139, 92, 246, 0.08) 100%);
+}
+
+.course-badge.premium {
+    background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+    color: #fff;
+}
+
+.course-note.premium {
+    background: rgba(124, 58, 237, 0.08);
+    border-left-color: #7c3aed;
+}
+
+/* プレミアムゴールドカード */
+.course-card.premium-gold {
+    border: 2px solid #f59e0b;
+    border-left: 4px solid #f59e0b;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(245, 158, 11, 0.08) 100%);
+    position: relative;
+}
+
+.course-card.premium-gold::before {
+    content: '✦';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    color: #f59e0b;
+    opacity: 0.3;
+}
+
+.course-badge.premium-gold {
+    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+    color: #fff;
+}
+
+.course-note.premium-gold {
+    background: rgba(245, 158, 11, 0.1);
+    border-left-color: #f59e0b;
+}
+
+/* プレミアムブラウンレッドカード（自己分析向け） */
+.course-card.premium-brown {
+    border: 2px solid #9a3412;
+    border-left: 4px solid #9a3412;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(154, 52, 18, 0.06) 100%);
+}
+
+.course-badge.premium-brown {
+    background: linear-gradient(135deg, #7c2d12 0%, #9a3412 100%);
+    color: #fff;
+    padding: 4px 12px;
+}
+
+.course-note.premium-brown {
+    background: rgba(154, 52, 18, 0.07);
+    border-left-color: #9a3412;
+}
+
+/* プレミアムハートカード（恋愛向け） */
+.course-card.premium-heart {
+    border: 2px solid #ec4899;
+    border-left: 4px solid #ec4899;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(236, 72, 153, 0.06) 100%);
+}
+
+.course-badge.premium-heart {
+    background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+    color: #fff;
+    padding: 4px 12px;
+}
+
+/* プレミアム info セクション */
+.info-section.premium-info {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(245, 158, 11, 0.05) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    margin-top: 25px;
+}
+
+/* ========== 補足情報 ========== */
+.info-section {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 0;
+    padding: 25px 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04);
+}
+
+.info-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0dcd5;
+}
+
+.info-list {
+    list-style: none;
+    padding: 0;
+}
+
+.info-list li {
+    padding: 8px 0;
+    font-size: 0.95rem;
+    padding-left: 20px;
+    position: relative;
+}
+
+.info-list li::before {
+    content: '・';
+    position: absolute;
+    left: 0;
+    color: var(--color-gold);
+}
+
+.highlight {
+    color: #c44569;
+    font-weight: 600;
+}
+
+/* ページ導線（6カラム対応） */
+.page-links-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    margin-top: 48px;
+    margin-bottom: 0;
+    padding: 0 20px 40px;
+}
+
+.page-link-card {
+    background: #fff;
+    padding: 12px 6px;
+    border-radius: 0;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+    display: block;
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.page-link-card::after {
+    content: '→';
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-gold);
+    font-size: 0.75rem;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.page-link-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    border-color: var(--color-gold);
+}
+
+.page-link-card:hover::after {
+    opacity: 1;
+    right: 4px;
+}
+
+.page-link-title {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 3px;
+}
+
+.page-link-desc {
+    display: block;
+    font-size: 0.6rem;
+    color: #777;
+}
+
+/* ========== レスポンシブ ========== */
+@media (max-width: 768px) {
+    .advance-notice {
+        font-size: 0.85rem;
+        padding: 8px 20px;
+    }
+
+    /* コースカード */
+    .course-card {
+        padding: 20px 15px;
+        margin-bottom: 25px;
+    }
+
+    .course-duration {
+        font-size: 1.5rem;
+    }
+
+    .course-prices {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .original-price {
+        font-size: 1rem;
+    }
+
+    .discount-price {
+        font-size: 1.4rem;
+    }
+
+    .course-examples li {
+        font-size: 0.9rem;
+    }
+
+    .course-note {
+        font-size: 0.85rem;
+        padding: 12px 15px;
+    }
+
+    .course-cta img {
+        max-width: 220px;
+    }
+
+    /* プレミアムセクション */
+    .premium-section {
+        margin-top: 40px;
+        padding-top: 35px;
+    }
+
+    .premium-title {
+        font-size: 1.5rem;
+    }
+
+    .premium-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 25px;
+    }
+
+    .premium-note {
+        font-size: 0.8rem;
+        margin-bottom: 25px;
+    }
+
+    .premium-cards-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    /* ナビゲーション */
+    .pricing-nav {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .pricing-nav-btn {
+        padding: 15px 20px;
+        column-gap: 12px;
+    }
+
+    .pricing-nav-btn .nav-icon {
+        font-size: 1.5rem;
+    }
+
+    .pricing-nav-btn .nav-text {
+        font-size: 1rem;
+    }
+
+    .pricing-nav-btn .nav-desc {
+        font-size: 0.8rem;
+    }
+
+    /* セクションタイトル */
+    .session-title,
+    .premium-title {
+        font-size: 1.4rem;
+    }
+
+    .session-subtitle {
+        font-size: 0.9rem;
+    }
+
+    /* 補足情報 */
+    .info-section {
+        padding: 20px 15px;
+    }
+
+    .info-title {
+        font-size: 1rem;
+    }
+
+    .info-list li {
+        font-size: 0.9rem;
+    }
+
+    /* ページ導線 */
+    .page-links-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 36px;
+        padding: 0 15px 30px;
+    }
+
+    .page-link-card {
+        padding: 14px 8px;
+    }
+
+    .page-link-card::after {
+        display: none;
+    }
+
+    .page-link-title {
+        font-size: 0.75rem;
+    }
+
+    .page-link-desc {
+        font-size: 0.6rem;
+    }
+}
+
+/* ========== 価格表示の調整 ========== */
+.tax-note-small {
+    font-size: 0.8rem;
+    color: #888;
+    font-weight: normal;
+    margin-left: 3px;
+}
+
+.tax-note-mini {
+    font-size: 0.7rem;
+    color: #999;
+    font-weight: normal;
+}
+
+.course-prices {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 5px;
+}
+
+/* ========== フェーズ5 修正: レイアウト調整とコンパクト化 ========== */
+
+/* 2. 通常鑑定プランのコンパクト化 */
+.course-description.compact {
+    padding: 0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.course-description.compact .course-note {
+    background: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+    font-size: 0.95rem;
+    color: #555;
+    text-align: center;
+}
+
+.pricing-notes-compact {
+    text-align: center;
+    margin: 20px 0 40px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 0;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.scroll-btn-container {
+    margin-top: 12px;
+}
+
+.scroll-down-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 22px;
+    border-radius: 0;
+    border: 1px solid var(--color-gold);
+    color: var(--color-primary-dark);
+    background: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+.scroll-down-btn:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(196, 163, 90, 0.08) 0%, rgba(196, 163, 90, 0.15) 100%);
+    box-shadow: 0 6px 16px rgba(196, 163, 90, 0.2);
+}
+
+/* (discount-notice: 上部で一括定義済み) */
+
+/* Reduce top margin for purchase button in premium section */
+.premium-cards-container .course-cta {
+    margin-top: 10px;
+}
+
+/* 3. 開始月注記のデザイン（目立つバッジ風） */
+.discount-notice-badge {
+    display: inline-block;
+    background: #ec4899;
+    /* ピンク系 */
+    color: #fff;
+    padding: 5px 20px;
+    border-radius: 0;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(236, 72, 153, 0.3);
+    border: 2px solid #fff;
+}
+
+/* 4. フッターボタンの重なり修正 */
+.back-to-top {
+    bottom: 80px !important;
+    z-index: 9999;
+}
+
+@media (max-width: 768px) {
+    .back-to-top {
+        bottom: 90px !important;
+    }
+}
+
+/* 5. レイアウト統一（中央揃え） */
+/* デフォルトで中央揃えのため、追加スタイルは不要 */
+
+/* ========== LINE予約ボタン ========== */
+.line-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #06C755;
+    /* LINE Green */
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 0;
+    transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(6, 199, 85, 0.3);
+    letter-spacing: 0.05em;
+}
+
+.line-btn:hover {
+    background: #05b34c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(6, 199, 85, 0.4);
+    color: #fff;
+}
+
+/* ========== 鑑定プラン統一カラー ========== */
+
+/* 鑑定プランカード共通: ゴールドアクセントでシンプルに統一 */
+.course-card.course-30,
+.course-card.course-45,
+.course-card.course-60 {
+    border: 2px solid var(--color-gold);
+    border-left: 4px solid var(--color-gold);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.course-30 .course-badge,
+.course-45 .course-badge,
+.course-60 .course-badge {
+    background: var(--color-gold);
+    color: #fff;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* 鑑定プラン 分単価注釈（価格横インライン） */
+.session-saving-note {
+    font-size: 0.7rem;
+    color: #aaa;
+    margin-left: 4px;
+}
+
+/* 鑑定プランのコース名・価格を大きく */
+.session-section .course-duration {
+    font-size: 2.2rem;
+}
+
+.session-section .discount-price {
+    font-size: 2.2rem;
+}
+
+/* ボタンの中央揃え強制 & 余白極小化 */
+.session-section .course-cta {
+    text-align: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    /* Aggressively reduced from 25px */
+}
+
+/* 説明文の下マージンも削減 */
+.session-section .course-description {
+    margin-bottom: 5px;
+}
+
+.session-section .course-cta .line-btn {
+    display: inline-block;
+    /* ensure it respects text-align center */
+    margin: 0 auto;
+}
+
+/* ========== 運勢ナビ統合カード ========== */
+.course-card.premium-fortune {
+    border: 2px solid #6366f1;
+    border-left: 4px solid #6366f1;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(99, 102, 241, 0.06) 100%);
+}
+
+.course-badge.premium-fortune {
+    background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+    color: #fff;
+}
+
+.course-note.premium-fortune {
+    background: rgba(99, 102, 241, 0.08);
+    border-left-color: #6366f1;
+}
+
+/* 期間別価格表 */
+.fortune-price-table {
+    margin: 20px 0 10px;
+    border-radius: 0;
+    overflow: hidden;
+    border: 1px solid rgba(196, 163, 90, 0.3);
+}
+
+.fortune-price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(196, 163, 90, 0.15);
+    transition: background 0.3s;
+}
+
+.fortune-price-row:last-child {
+    border-bottom: none;
+}
+
+.fortune-price-row:hover {
+    background: rgba(196, 163, 90, 0.06);
+}
+
+.fortune-price-row.recommended-row {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(196, 163, 90, 0.12) 100%);
+    position: relative;
+}
+
+.fortune-price-row.recommended-row::before {
+    content: '★';
+    position: absolute;
+    left: 6px;
+    color: #f59e0b;
+    font-size: 0.65rem;
+}
+
+.fortune-period {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-primary-dark);
+    min-width: 80px;
+}
+
+.fortune-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #c44569;
+    font-family: 'Shippori Mincho', serif;
+}
+
+.fortune-discount {
+    display: inline-block;
+    background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+/* ========== 高級感デザイン（料金案内ページ） ========== */
+
+/* ページタイトルにゴールドのアクセント */
+.sub-page .page-header {
+    position: relative;
+    padding-bottom: 30px;
+}
+
+.sub-page .page-title {
+    font-size: 2.5rem;
+    letter-spacing: 0.15em;
+    color: #f5f0e8;
+    position: relative;
+    display: inline-block;
+}
+
+.sub-page .page-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: var(--color-gold-gradient);
+}
+
+.sub-page .page-subtitle {
+    font-size: 1.05rem;
+    color: rgba(245, 240, 232, 0.8);
+    letter-spacing: 0.1em;
+    margin-top: 15px;
+}
+
+/* セクションタイトルのプレミアム化 */
+.session-title,
+.premium-title {
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.session-title::before,
+.session-title::after,
+.premium-title::before,
+.premium-title::after {
+    content: '◆';
+    color: var(--color-gold);
+    font-size: 0.5em;
+    vertical-align: middle;
+    margin: 0 15px;
+    opacity: 0.6;
+}
+
+/* コースカードのプレミアム装飾 */
+.course-card {
+    position: relative;
+}
+
+.course-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, transparent 50%, rgba(196, 163, 90, 0.06) 50%);
+    border-radius: 0 12px 0 0;
+    pointer-events: none;
+}
+
+/* プレミアムセクションの装飾強化 */
+.premium-section {
+    position: relative;
+}
+
+.premium-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background: var(--color-gold-gradient);
+}
+
+/* バッジのプレミアム化 */
+.course-badge {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* 価格表示のプレミアム化 */
+.discount-price {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    letter-spacing: 0.03em;
+}
+
+/* ホバー時のゴールドグロー */
+.course-card:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08), 0 0 20px rgba(196, 163, 90, 0.1);
+}
+
+/* 購入ボタンのプレミアム化 */
+.shop-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.shop-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s;
+}
+
+.shop-btn:hover::before {
+    left: 100%;
+}
+
+/* LINE予約ボタンのプレミアム化 */
+.line-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.line-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+    transition: left 0.6s;
+}
+
+.line-btn:hover::before {
+    left: 100%;
+}
+
+/* プレミアム情報セクション */
+.info-section.premium-info {
+    position: relative;
+    border: 1px solid rgba(196, 163, 90, 0.25);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(196, 163, 90, 0.05) 100%);
+}
+
+/* レスポンシブ対応（価格表） */
+@media (max-width: 768px) {
+    .fortune-price-row {
+        padding: 12px 15px;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .fortune-period {
+        font-size: 1rem;
+        min-width: 65px;
+    }
+
+    .fortune-price {
+        font-size: 1.1rem;
+    }
+
+    .fortune-discount {
+        font-size: 0.65rem;
+    }
+
+    .sub-page .page-title {
+        font-size: 1.8rem;
+    }
+}
+
+/* ========== 鑑定形式の注釈テキスト ========== */
+.course-format-note {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: -5px;
+    margin-bottom: 8px;
+    letter-spacing: 0.03em;
+}
+
+/* 初回注記ハイライト */
+.session-note-highlight {
+    color: #c44569;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+/* モバイル小画面でレポートカード1列化 */
+@media (max-width: 580px) {
+    .premium-cards-container {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* ========== 鑑定プランカード高さ揃え ========== */
+.session-section .course-card.course-30,
+.session-section .course-card.course-60 {
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ========== レポートカード画像 object-fit: cover で統一 ========== */
+.premium-cards-container .course-image {
+    object-fit: cover;
+}
+
+/* ========== レポートカード全体の高さと画像サイズ統一 ========== */
+.premium-cards-container .course-image-wrapper {
+    padding-top: 65%;
+}
+/* ========== フォーム予約ボタン（LINEボタンの隣に並べる） ========== */
+.form-reserve-btn {
+    display: inline-block;
+    padding: 14px 44px;
+    background: #8f9779;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    border: 1px solid #8f9779;
+    border-radius: 0;
+    transition: all 0.3s;
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 16px rgba(143, 151, 121, 0.3);
+}
+
+.form-reserve-btn:hover {
+    background: #3b3a39;
+    border-color: #3b3a39;
+    color: #fff;
+    transform: translateY(-2px);
+    opacity: 1;
+}
