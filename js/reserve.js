@@ -131,7 +131,8 @@ const RESERVE_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxKDhJg8_LhjfD
     updateSameDayNotice();
 
     if (noSlot) noSlot.hidden = opts.length > 0;
-    if (submitBtn) submitBtn.disabled = opts.length === 0;
+    // 送信中に日付の再描画でボタンが押せる状態へ戻らないようにする
+    if (submitBtn && !sending) submitBtn.disabled = opts.length === 0;
   }
 
   function renderPartOptions(n) {
@@ -285,8 +286,107 @@ const RESERVE_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxKDhJg8_LhjfD
     if (note) note.hidden = false;
   }
 
+  // GASは受付処理のあと 302 で別URLへ転送する。ブラウザの fetch はこの転送結果を
+  // 読めないことがあり、その場合 Promise が数十秒たっても終わらない。
+  // 応答を待てる上限。これを過ぎたら再送信を促さない案内に切り替える。
+  var RESPONSE_WAIT_MS = 18000;
+  // これより短い失敗は、サーバーに届く前の通信エラーとみなす。
+  var QUICK_FAIL_MS = 2500;
+  var sending = false;
+  var successShown = false;
+  var detailsApplied = false;
+
+  function resetSubmitButton() {
+    sending = false;
+    if (!submitBtn) return;
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'この内容で予約を申し込む';
+    submitBtn.removeAttribute('aria-busy');
+  }
+
+  function showNetworkError() {
+    showError(
+      '通信できないため、送信できませんでした。<br>' +
+      'インターネット接続をご確認のうえ、もう一度お試しください。<br>' +
+      '受付メールがすでに届いている場合は、再送信は不要です。<br>' +
+      '届いていない場合は <a href="mailto:uranai.rokkon@gmail.com">メール</a> でもご予約いただけます。'
+    );
+    resetSubmitButton();
+  }
+
+  function revealSuccess(data) {
+    if (successShown) return;
+    successShown = true;
+    form.hidden = true;
+    errorBox.hidden = true;
+    var lead = document.querySelector('.reserve-form-lead');
+    if (lead) lead.hidden = true;
+    showGcalLink(data);
+    successBox.hidden = false;
+    successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (typeof gtag === 'function') {
+      gtag('event', 'reservation_form_submit', { course: data.course });
+    }
+  }
+
+  function setUnreadResponseText() {
+    if (detailsApplied) return;
+    var successText = document.getElementById('formSuccessText');
+    if (!successText) return;
+    successText.innerHTML =
+      '受付確認のメールをお送りしました。<br>' +
+      '届かない場合は、迷惑メールフォルダをご確認いただくか、<br>' +
+      '<a href="mailto:uranai.rokkon@gmail.com" class="text-link">uranai.rokkon@gmail.com</a>' +
+      ' までお問い合わせください。<br><br>' +
+      '同じ内容での再送信は不要です。<br>' +
+      '空き状況を確認のうえ、通常24時間以内に予約確定のご連絡をいたします。';
+  }
+
+  function applyResponseDetails(json) {
+    if (detailsApplied || !json) return;
+    if (!json.sameDayRequest && json.confirmationEmailSent !== false) return;
+    detailsApplied = true;
+    var successText = document.getElementById('formSuccessText');
+    if (!successText) return;
+    if (json.sameDayRequest) {
+      successText.innerHTML =
+        '<strong>当日希望として受け付け、担当者へ至急通知しました。</strong><br>' +
+        'この時点ではまだ確定していません。対応できる場合は確定メールをお送りします。<br>' +
+        '確定メールが届くまでは、ご来店・お支払い・Meetへの参加はお待ちください。';
+    }
+    if (json.confirmationEmailSent === false) {
+      if (json.sameDayRequest) {
+        successText.innerHTML += '<br><br>';
+      }
+      successText.innerHTML =
+        (json.sameDayRequest ? successText.innerHTML : '') +
+        'ご予約内容は記録されましたが、受付確認メールを送信できませんでした。<br>' +
+        '迷惑メールフォルダをご確認のうえ、届かない場合は<br>' +
+        '<a href="mailto:uranai.rokkon@gmail.com" class="text-link">uranai.rokkon@gmail.com</a> までお問い合わせください。';
+    }
+  }
+
+  function showAccepted(data, json) {
+    revealSuccess(data);
+    if (json) applyResponseDetails(json);
+    else setUnreadResponseText();
+  }
+
+  function isQuickNetworkFailure(err, elapsed) {
+    if (!err || elapsed >= QUICK_FAIL_MS) return false;
+    if (typeof navigator !== 'undefined' && navigator.onLine === false) return true;
+    var msg = String(err.message || err);
+    return err.name === 'TypeError' || /Failed to fetch|NetworkError|Load failed/i.test(msg);
+  }
+
+  function showRetryableError(message) {
+    showError(message);
+    resetSubmitButton();
+  }
+
   form.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (sending) return;
     errorBox.hidden = true;
 
     var data = collect();
@@ -296,66 +396,88 @@ const RESERVE_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxKDhJg8_LhjfD
       return;
     }
 
+    if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+      showNetworkError();
+      return;
+    }
+
+    sending = true;
     submitBtn.disabled = true;
     submitBtn.textContent = '送信しています…';
+    submitBtn.setAttribute('aria-busy', 'true');
 
-    // 文字列ボディ（text/plain）にすることでCORSプリフライトを回避する
+    var finished = false;
+    var startedAt = Date.now();
+    var timer = setTimeout(function () {
+      if (finished) return;
+      finished = true;
+      showAccepted(data, null);
+    }, RESPONSE_WAIT_MS);
+
+    // 文字列ボディ（text/plain）にすることでCORSプリフライトを回避する。
+    // 送信する項目・形式は変えない。
     fetch(RESERVE_ENDPOINT, {
       method: 'POST',
       body: JSON.stringify(data)
     })
       .then(function (res) {
+        // status 0 や不透明な転送応答は、中身を読めないだけで送信自体は届いていることが多い
+        if (res.type === 'opaqueredirect' || res.status === 0) {
+          var unread = new Error('unreadable response');
+          unread.unreadable = true;
+          throw unread;
+        }
         if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.json();
       })
       .then(function (json) {
-        if (json && json.status === 'ok') {
-          form.hidden = true;
-          var lead = document.querySelector('.reserve-form-lead');
-          if (lead) lead.hidden = true;
-          showGcalLink(data);
-          var successText = document.getElementById('formSuccessText');
-          if (successText && json.sameDayRequest) {
-            successText.innerHTML =
-              '<strong>当日希望として受け付け、担当者へ至急通知しました。</strong><br>' +
-              'この時点ではまだ確定していません。対応できる場合は確定メールをお送りします。<br>' +
-              '確定メールが届くまでは、ご来店・お支払い・Meetへの参加はお待ちください。';
-          }
-          if (json.confirmationEmailSent === false && successText) {
-            if (json.sameDayRequest) {
-              successText.innerHTML += '<br><br>';
-            }
-            successText.innerHTML =
-              (json.sameDayRequest ? successText.innerHTML : '') +
-              'ご予約内容は記録されましたが、受付確認メールを送信できませんでした。<br>' +
-              '迷惑メールフォルダをご確認のうえ、届かない場合は<br>' +
-              '<a href="mailto:uranai.rokkon@gmail.com" class="text-link">uranai.rokkon@gmail.com</a> までお問い合わせください。';
-          }
-          successBox.hidden = false;
-          successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          if (typeof gtag === 'function') {
-            gtag('event', 'reservation_form_submit', { course: data.course });
-          }
-        } else {
+        if (!(json && json.status === 'ok')) {
+          if (finished) return;
           var responseError = new Error((json && json.message) || 'invalid response');
+          responseError.rejected = true;
           responseError.userMessage = json && json.message;
           throw responseError;
         }
+        if (finished) {
+          applyResponseDetails(json);
+          return;
+        }
+        finished = true;
+        clearTimeout(timer);
+        showAccepted(data, json);
       })
       .catch(function (err) {
+        if (finished) return;
+        finished = true;
+        clearTimeout(timer);
         console.error('予約フォーム送信エラー:', err);
-        if (err && err.userMessage) {
-          showError(escapeHtml(err.userMessage));
-        } else {
-          showError(
-            '送信に失敗しました。お手数ですが、時間をおいて再度お試しいただくか、' +
-            '<a href="mailto:uranai.rokkon@gmail.com">メール</a> でご予約ください。'
+        if (err && err.rejected) {
+          showRetryableError(
+            err.userMessage
+              ? escapeHtml(err.userMessage)
+              : '送信に失敗しました。お手数ですが、時間をおいて再度お試しいただくか、' +
+                '<a href="mailto:uranai.rokkon@gmail.com">メール</a> でご予約ください。'
           );
+          return;
         }
-      })
-      .finally(function () {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'この内容で予約を申し込む';
+        if (err && err.unreadable) {
+          showAccepted(data, null);
+          return;
+        }
+        if (isQuickNetworkFailure(err, Date.now() - startedAt)) {
+          showNetworkError();
+          return;
+        }
+        if (err && /^HTTP /.test(String(err.message || ''))) {
+          showRetryableError(
+            '送信に失敗しました。お手数ですが、時間をおいて再度お試しいただくか、' +
+            '<a href="mailto:uranai.rokkon@gmail.com">メール</a> でご予約ください。<br>' +
+            '受付メールがすでに届いている場合は、再送信は不要です。'
+          );
+          return;
+        }
+        // 応答が読めない、または返る前に切れた。記録済みのことが多いので再送信は促さない。
+        showAccepted(data, null);
       });
   });
 
