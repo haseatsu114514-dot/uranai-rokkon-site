@@ -11,6 +11,7 @@
     letter-spacing: 0.3em;
     color: rgba(255, 255, 255, 0.85);
     margin-bottom: 1.2rem;
+    text-wrap: balance;
 }
 
 .rk-hero-words {
@@ -33,6 +34,11 @@
     letter-spacing: 0.12em;
     line-height: 2;
     margin-bottom: 2rem;
+}
+
+.rk-hero-phrase {
+    display: inline-block;
+    max-width: 100%;
 }
 
 /* ヒーロー直下のファクトチップ（静かな事実表示） */

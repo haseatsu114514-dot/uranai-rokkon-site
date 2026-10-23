@@ -287,6 +287,20 @@
 .flow-step.flow-visible .flow-line { opacity: 0.4; }
 
 /* ========== レスポンシブ ========== */
+@media (max-width: 768px) {
+    /* Leave the bottom reservation link unobstructed. */
+    .back-to-top {
+        left: auto;
+        right: 16px;
+        bottom: 100px;
+        transform: translateY(12px);
+    }
+
+    .back-to-top.visible { transform: translateY(0); }
+    .back-to-top.footer-hide { transform: translateY(12px); }
+    .back-to-top:hover { transform: translateY(-4px); }
+}
+
 @media (max-width: 900px) {
     .availability-inline { padding: 1.5rem 2rem; }
 }
