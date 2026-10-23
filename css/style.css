@@ -104,6 +104,7 @@ body::after { top: 2rem; right: 2rem; border-left: none; border-bottom: none; }
 .logo {
     color: var(--color-primary);
     text-align: center;
+    flex-shrink: 0;
 }
 
 .logo-main {
@@ -143,6 +144,7 @@ body::after { top: 2rem; right: 2rem; border-left: none; border-bottom: none; }
     font-weight: 400;
     position: relative;
     padding-bottom: 5px;
+    white-space: nowrap;
 }
 
 .nav a::after {
@@ -174,6 +176,7 @@ body::after { top: 2rem; right: 2rem; border-left: none; border-bottom: none; }
     letter-spacing: 0.1em;
     transition: all 0.4s ease;
     border: 1px solid var(--color-primary);
+    white-space: nowrap;
 }
 
 .contact-btn:hover {
@@ -272,8 +275,10 @@ body::after { top: 2rem; right: 2rem; border-left: none; border-bottom: none; }
    ========================================================================= */
 .hero {
     position: relative;
-    height: 85vh;
-    min-height: 600px;
+    isolation: isolate;
+    /* Keep the viewport-sized composition, but grow when the copy needs room. */
+    min-height: max(600px, 85vh);
+    min-height: max(600px, 85svh);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -287,6 +292,7 @@ body::after { top: 2rem; right: 2rem; border-left: none; border-bottom: none; }
     position: absolute;
     inset: 0;
     z-index: -2;
+    overflow: hidden;
 }
 
 .hero-bg img {
@@ -332,6 +338,8 @@ body::after { top: 2rem; right: 2rem; border-left: none; border-bottom: none; }
     align-items: center;
     gap: 0;
     max-width: 800px;
+    width: 100%;
+    flex-shrink: 0;
     margin: 0 auto;
 }
 
@@ -1279,6 +1287,11 @@ body::after { top: 2rem; right: 2rem; border-left: none; border-bottom: none; }
 /* =========================================================================
    RESPONSIVE (MOBILE)
    ========================================================================= */
+@media (min-width: 769px) and (max-width: 960px) {
+    .header-inner { gap: 16px; }
+    .nav { gap: 1rem; }
+}
+
 @media (max-width: 768px) {
     body::before, body::after { display: none; }
 
@@ -1303,6 +1316,10 @@ body::after { top: 2rem; right: 2rem; border-left: none; border-bottom: none; }
         gap: 0;
         z-index: 999;
         border-bottom: 1px solid var(--color-border);
+        max-height: calc(100vh - 60px);
+        max-height: calc(100dvh - 60px);
+        overflow-y: auto;
+        overscroll-behavior-y: contain;
     }
 
     .nav-wrapper.active { display: flex; }
@@ -1334,7 +1351,8 @@ body::after { top: 2rem; right: 2rem; border-left: none; border-bottom: none; }
     .menu-toggle { display: flex !important; }
 
     .hero {
-        min-height: 500px;
+        min-height: max(500px, 85vh);
+        min-height: max(500px, 85svh);
         padding-top: 60px;
     }
 
