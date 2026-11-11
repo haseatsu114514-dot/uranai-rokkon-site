@@ -193,7 +193,7 @@ const RESERVE_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxKDhJg8_LhjfD
   function checkEndpoint() {
     if (RESERVE_ENDPOINT) return true;
     form.innerHTML =
-      '<p style="text-align:center; line-height:2; color:#666; font-size:0.9rem;">' +
+      '<p class="reserve-form-closed">' +
       'フォーム予約は現在準備中です。<br>' +
       'お手数ですが、<a href="mailto:uranai.rokkon@gmail.com">メール</a>にてご予約ください。</p>';
     return false;

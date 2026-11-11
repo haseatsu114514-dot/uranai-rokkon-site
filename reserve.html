@@ -26,17 +26,19 @@
     <meta property="og:image" content="https://uranai-rokkon.com/images/otya.png">
 
     <!-- Favicon -->
-    <link rel="icon" href="images/favicon.png">
+    <link rel="icon" href="images/favicon-rokkon.png">
+    <link rel="apple-touch-icon" href="images/favicon-rokkon.png">
+    <meta name="theme-color" content="#f6f3ec">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
         rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css?v=20261023a">
-    <link rel="stylesheet" href="css/reserve.css?v=20260612a">
-    <link rel="stylesheet" href="css/animations.css?v=20261023a">
+    <link rel="stylesheet" href="css/style.css?v=20261111a">
+    <link rel="stylesheet" href="css/redesign.css?v=20261111a">
+    <link rel="stylesheet" href="css/reserve.css?v=20261111a">
 
     <!-- JSON-LD (Breadcrumb) -->
     <script type="application/ld+json">
@@ -63,25 +65,27 @@
     <!-- ヘッダー -->
     <header class="header">
         <div class="header-inner">
-            <a href="index.html" class="logo">
-                <span class="logo-main">六根清浄</span>
-                <span class="logo-sub">(Rokkon shojo)</span>
+            <a href="index.html" class="logo" aria-label="占い処 六根清浄 トップページ">
+                <img src="images/logo-mark-ink.png" alt="" class="logo-mark" width="38" height="38">
+                <span class="logo-text">
+                    <span class="logo-sub">占い処</span>
+                    <span class="logo-main">六根清浄</span>
+                </span>
             </a>
-            <div class="nav-wrapper">
-                <nav class="nav">
+            <div class="nav-wrapper" id="siteNav">
+                <nav class="nav" aria-label="メインメニュー">
                     <a href="index.html">TOP</a>
                     <a href="beginner.html">はじめて</a>
                     <a href="about.html">占い師</a>
                     <a href="pricing.html">料金案内</a>
                     <a href="testimonials.html">口コミ</a>
-                    <a href="faq.html">Q&A</a>
+                    <a href="faq.html">Q&amp;A</a>
                     <a href="blog.html">ブログ</a>
-
                 </nav>
                 <a href="reserve.html" class="contact-btn">ご予約</a>
             </div>
-            <button type="button" class="menu-toggle" onclick="toggleMenu(this);" aria-label="メニューを開く" aria-expanded="false">
-                <span></span>
+            <button type="button" class="menu-toggle" onclick="toggleMenu(this);" aria-label="メニューを開く"
+                aria-expanded="false" aria-controls="siteNav">
                 <span></span>
                 <span></span>
             </button>
@@ -91,21 +95,25 @@
     <!-- メインコンテンツ -->
     <main class="main-content sub-page">
         <div class="page-header">
-            <h1 class="page-title">ご予約</h1>
-            <p class="page-subtitle">フォームから24時間受け付けています。お申し込みは約3分で完了します</p>
+            <div class="page-header-inner">
+                <nav class="breadcrumb" aria-label="パンくずリスト">
+                    <ol>
+                        <li><a href="index.html">TOP</a></li>
+                        <li aria-current="page">ご予約</li>
+                    </ol>
+                </nav>
+                <h1 class="page-title">ご予約</h1>
+                <p class="page-subtitle">フォームから24時間受け付けています。お申し込みは約3分で完了します</p>
+            </div>
         </div>
 
         <div class="container reserve-container">
 
             <!-- 予約フォーム -->
             <section class="reserve-form-section" id="reserve-form">
-                <p class="reserve-form-lead">
-                    空きのある日時だけが表示されるので、選んで送信するだけ。<br>
-                    送信後すぐに受付確認のメールが自動で届き、<br>
-                    通常24時間以内に予約確定のご連絡をメールでお送りします。
-                </p>
+                <p class="reserve-form-lead">空きのある日時だけが表示されるので、選んで送信するだけ。送信後すぐに受付確認のメールが自動で届き、通常24時間以内に予約確定のご連絡をメールでお送りします。</p>
 
-                <div class="reserve-leadtime-note">
+                <div class="reserve-leadtime-note rk-doc-note">
                     通常のご予約は<strong>前日まで</strong>に承っています。<br>
                     当日も、空きがあり<strong>開始3時間前まで</strong>なら「当日希望」として送信できます。<br>
                     当日希望はまだ確定ではありません。確定メールをお待ちください。
@@ -151,7 +159,7 @@
                     </div>
 
                     <!-- 性別 -->
-                    <div class="form-block">
+                    <div class="form-block form-block--half">
                         <label class="form-label" for="sex">性別 <span class="required-mark">必須</span></label>
                         <select id="sex" name="sex" required>
                             <option value="">選択してください</option>
@@ -163,7 +171,7 @@
                     </div>
 
                     <!-- 生年月日 -->
-                    <div class="form-block">
+                    <div class="form-block form-block--half">
                         <label class="form-label" for="birthdate">生年月日 <span class="required-mark">必須</span></label>
                         <input type="date" id="birthdate" name="birthdate" required>
                         <p class="form-hint">鑑定書の作成に必要です。</p>
@@ -186,7 +194,7 @@
                     </div>
 
                     <!-- ご相談テーマ -->
-                    <div class="form-block">
+                    <div class="form-block form-block--half">
                         <label class="form-label" for="genre">ご相談テーマ <span class="optional-mark">任意</span></label>
                         <select id="genre" name="genre">
                             <option value="">選択してください</option>
@@ -262,19 +270,18 @@
 
                     <label class="privacy-consent">
                         <input type="checkbox" name="privacyConsent" id="privacyConsent" required>
-                        <span><a href="privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>を確認し、
-                            予約受付・鑑定準備のために入力内容が利用されることに同意します。</span>
+                        <span><a href="privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>を確認し、予約受付・鑑定準備のために入力内容が利用されることに同意します。</span>
                     </label>
 
                     <div class="form-error" id="formError" hidden></div>
 
-                    <button type="submit" class="reserve-submit" id="submitBtn">この内容で予約を申し込む</button>
+                    <button type="submit" class="reserve-submit cta-main-btn" id="submitBtn">この内容で予約を申し込む</button>
                 </form>
 
                 <!-- 送信完了表示 -->
                 <div class="form-success" id="formSuccess" hidden>
                     <div class="form-success-mark">✓</div>
-                    <h3 class="form-success-title">ご予約を受け付けました</h3>
+                    <h2 class="form-success-title">ご予約を受け付けました</h2>
                     <p class="form-success-text" id="formSuccessText">
                         受付確認のメールを自動でお送りしています。<br>
                         空き状況を確認のうえ、通常24時間以内に予約確定のご連絡をいたします。<br><br>
@@ -283,7 +290,7 @@
                         までお問い合わせください。
                     </p>
                     <div class="form-success-actions">
-                        <a href="#" id="gcalLink" class="outline-btn" target="_blank" rel="noopener" hidden>📅 希望日時をカレンダーに追加</a>
+                        <a href="#" id="gcalLink" class="outline-btn" target="_blank" rel="noopener" hidden>希望日時をカレンダーに追加</a>
                         <a href="index.html" class="outline-btn">トップページへ戻る</a>
                     </div>
                     <p class="form-success-note" id="gcalNote" hidden>※確定前のメモとしてご利用ください。正式な日時は確定のご連絡メールでお知らせします。</p>
@@ -291,76 +298,79 @@
             </section>
 
             <!-- 補足 -->
-            <div class="reserve-notes">
-                <h3 class="reserve-notes-title">ご予約にあたって</h3>
-                <ul class="reserve-notes-list">
+            <aside class="reserve-notes">
+                <h2 class="reserve-notes-title">ご予約にあたって</h2>
+                <ul class="reserve-notes-list rk-list">
                     <li>鑑定営業時間は 14:00〜22:00（最終受付 21:00）です</li>
                     <li>通常予約は前日まで。当日は空きがあり開始3時間前までなら、フォームから「当日希望」として送信できます（確定メールが届くまでは未確定です）</li>
                     <li>お支払いは予約確定後にご案内します（オンライン：PayPay / 銀行振込、対面：当日支払い）</li>
                     <li>延長は15分ごとに +2,000円です</li>
                     <li>日時のご都合が悪くなった場合は、確定メールへの返信でご連絡ください</li>
                 </ul>
-            </div>
+            </aside>
 
         </div>
 
-        <!-- ページ導線 -->
-        <div class="page-links-container">
-            <a href="index.html" class="page-link-card">
-                <span class="page-link-title">TOP</span>
-                <span class="page-link-desc">トップページ</span>
-            </a>
-            <a href="beginner.html" class="page-link-card">
-                <span class="page-link-title">はじめて</span>
-                <span class="page-link-desc">ご案内</span>
-            </a>
-            <a href="pricing.html" class="page-link-card">
-                <span class="page-link-title">料金案内</span>
-                <span class="page-link-desc">コース・料金</span>
-            </a>
-            <a href="testimonials.html" class="page-link-card">
-                <span class="page-link-title">口コミ</span>
-                <span class="page-link-desc">実際のご感想</span>
-            </a>
-            <a href="faq.html" class="page-link-card">
-                <span class="page-link-title">Q&A</span>
-                <span class="page-link-desc">よくあるご質問</span>
-            </a>
-            <a href="blog.html" class="page-link-card">
-                <span class="page-link-title">ブログ</span>
-                <span class="page-link-desc">コラム</span>
-            </a>
-        </div>
 
     </main>
 
     <!-- フッター -->
     <footer class="footer">
         <div class="footer-inner">
-            <nav class="footer-nav">
-                <a href="index.html">TOP</a>
-                <a href="beginner.html">はじめて</a>
-                <a href="about.html">占い師</a>
-                <a href="pricing.html">料金案内</a>
-                <a href="testimonials.html">口コミ</a>
-                <a href="faq.html">Q&A</a>
-                <a href="blog.html">ブログ</a>
-                <a href="reserve.html">ご予約</a>
-                <a href="privacy.html">プライバシー</a>
-            </nav>
-            <div class="footer-info">
-                <p class="footer-hours">鑑定営業時間：14:00〜22:00（最終受付 21:00）/ 予約フォーム24時間受付</p>
-                <p class="footer-contact">お問い合わせ：uranai.rokkon@gmail.com</p>
+            <div class="footer-brand">
+                <a href="index.html" class="footer-logo">
+                    <img src="images/logo-mark-paper.png" alt="" width="46" height="46" loading="lazy">
+                    <span class="footer-logo-text"><span class="footer-logo-sub">占い処</span>六根清浄</span>
+                </a>
+                <p class="footer-tagline">出会う場所。選ぶ相手。動く時期。<br>相性とタイミングを、次の一手に変える四柱推命。</p>
             </div>
-            <div class="footer-copy">© 2026 六根清浄 All Rights Reserved.</div>
+            <nav class="footer-nav" aria-label="フッターメニュー">
+                <p class="footer-heading">ご案内</p>
+                <ul>
+                    <li><a href="index.html">TOP</a></li>
+                    <li><a href="beginner.html">はじめて</a></li>
+                    <li><a href="about.html">占い師</a></li>
+                    <li><a href="pricing.html">料金案内</a></li>
+                    <li><a href="testimonials.html">口コミ</a></li>
+                    <li><a href="faq.html">Q&amp;A</a></li>
+                    <li><a href="blog.html">ブログ</a></li>
+                    <li><a href="reserve.html">ご予約</a></li>
+                    <li><a href="stella.html">ステラファイル</a></li>
+                    <li><a href="privacy.html">プライバシー</a></li>
+                </ul>
+            </nav>
+            <div class="footer-about">
+                <p class="footer-heading">鑑定のご案内</p>
+                <dl class="footer-info">
+                    <div>
+                        <dt>鑑定時間</dt>
+                        <dd>14:00〜22:00（最終受付 21:00）</dd>
+                    </div>
+                    <div>
+                        <dt>ご予約</dt>
+                        <dd>予約フォーム24時間受付</dd>
+                    </div>
+                    <div>
+                        <dt>場所</dt>
+                        <dd>名古屋・栄（対面）／オンライン</dd>
+                    </div>
+                    <div>
+                        <dt>お問い合わせ</dt>
+                        <dd><a href="mailto:uranai.rokkon@gmail.com">uranai.rokkon@gmail.com</a></dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-operator">運営：六根清浄（個人事業・2026年5月開業／名古屋・栄）｜ステラファイルに関するお問い合わせ：stella@uranai-rokkon.com</p>
+            <p class="footer-copy">© 2026 六根清浄</p>
         </div>
     </footer>
 
     <button type="button" id="back-to-top" class="back-to-top" aria-label="トップへ戻る">↑</button>
 
-    <script src="js/main.js"></script>
-    <script src="js/reserve.js?v=20261021a"></script>
-
+    <script src="js/main.js?v=20261111a"></script>
+    <script src="js/reserve.js?v=20261111a"></script>
 </body>
 
 </html>

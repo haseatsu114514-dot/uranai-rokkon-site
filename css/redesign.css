@@ -1,825 +1,1644 @@
 /* =========================================================================
-   ROKKON SHOJO — 2026 REDESIGN COMPONENTS
-   「出会う場所。選ぶ相手。動く時期。」コンセプト用の追加スタイル。
-   既存の茶の湯テーマ（style.css）のトークンを継承する。
-   クラスは rk- プレフィックスで既存と衝突しない。
+   占い処 六根清浄 — 本文コンポーネント（rk- プレフィックス）
+   「出会う場所。選ぶ相手。動く時期。」
+   style.css の変数（紙・墨・罫・抹茶）を使う。
    ========================================================================= */
 
-/* ---------- ヒーロー（新コピー） ---------- */
-.rk-hero-eyebrow {
-    font-size: 0.8rem;
-    letter-spacing: 0.3em;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 1.2rem;
-    text-wrap: balance;
+/* ---------- 枠組み ---------- */
+.rk-wrap {
+    width: min(var(--wrap), 100% - 2 * var(--gutter));
+    margin-inline: auto;
 }
 
-.rk-hero-words {
-    font-size: clamp(1.7rem, 5.2vw, 3rem);
-    font-weight: 600;
-    color: #fff;
-    letter-spacing: 0.12em;
-    line-height: 1.7;
-    margin-bottom: 1.4rem;
-    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
-}
-
-.rk-hero-words .rk-word {
-    display: inline-block;
-}
-
-.rk-hero-tagline {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.92);
-    letter-spacing: 0.12em;
-    line-height: 2;
-    margin-bottom: 2rem;
-}
-
-.rk-hero-phrase {
-    display: inline-block;
-    max-width: 100%;
-}
-
-/* ヒーロー直下のファクトチップ（静かな事実表示） */
-.rk-hero-facts {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.6rem;
-    margin: 0 0 2rem;
-}
-
-.rk-hero-fact {
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
-    color: rgba(255, 255, 255, 0.94);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    background: rgba(0, 0, 0, 0.18);
-    padding: 0.3rem 1.05rem;
-    border-radius: 2rem;
-    white-space: nowrap;
-}
-
-/* ---------- セクション共通 ---------- */
 .rk-section {
-    padding: 5rem 5vw;
-}
-
-.rk-section-inner {
-    max-width: 860px;
-    margin: 0 auto;
-}
-
-.rk-section-wide {
-    max-width: 1000px;
-    margin: 0 auto;
+    padding: clamp(4.5rem, 10vw, 8rem) 0;
 }
 
 .rk-section-alt {
-    background: #f4f3f0;
+    background: var(--paper-deep);
 }
 
-.rk-lead-text {
-    font-size: 1rem;
-    line-height: 2.3;
-    text-align: center;
-    color: var(--color-primary);
+/* 短い段が続くページ用に、上下の余白を詰める */
+.rk-section--compact,
+.rk-section--compact.rk-section--ruled > .rk-wrap {
+    padding-top: clamp(3.25rem, 6.5vw, 5rem);
 }
 
-.rk-lead-text strong {
-    font-weight: 600;
+.rk-section--compact {
+    padding-bottom: clamp(3.25rem, 6.5vw, 5rem);
 }
 
-.rk-center-note {
-    text-align: center;
-    font-size: 0.85rem;
-    color: #706f6e;
-    margin-top: 1.6rem;
-    line-height: 2;
+.rk-section--compact.rk-section--ruled {
+    padding-top: 0;
 }
 
-/* ---------- 30分で持ち帰れるもの（鑑定前・中・後） ---------- */
-.rk-value-grid {
+/* 同じ地色が続くときは、帯を変えずに罫線で区切る */
+.rk-section--ruled {
+    padding-top: 0;
+}
+
+.rk-section--ruled > .rk-wrap {
+    padding-top: clamp(4.5rem, 10vw, 8rem);
+    border-top: 1px solid var(--rule);
+}
+
+/* 見出しを左、本文を右に置く二段組 */
+.rk-split {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 3rem;
+    grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
+    gap: 2.5rem clamp(2.5rem, 6vw, 5.5rem);
+    align-items: start;
 }
 
-.rk-value-card {
-    background: #fff;
-    border: 1px solid var(--color-border);
-    padding: 2rem 1.6rem;
-    position: relative;
+.rk-split > .rk-head {
+    position: sticky;
+    top: calc(var(--header-h) + 2.5rem);
 }
 
-/* カード共通の静かなホバー */
-.rk-value-card,
-.rk-entry-card,
-.rk-ts-card {
-    transition: transform 0.35s var(--ease-premium), box-shadow 0.35s ease;
+.rk-head--wide {
+    max-width: 44em;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
-.rk-value-card:hover,
-.rk-entry-card:hover,
-.rk-ts-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 14px 30px rgba(59, 58, 57, 0.08);
+.rk-head--row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem 2rem;
+    flex-wrap: wrap;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
-.rk-value-phase {
-    display: inline-block;
-    font-size: 0.75rem;
-    letter-spacing: 0.25em;
-    color: var(--color-gold);
-    border: 1px solid var(--color-gold-light);
-    padding: 0.2rem 0.9rem;
-    margin-bottom: 1.2rem;
+.rk-label {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-bottom: 1.1rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    line-height: 1.6;
+    color: var(--moss-deep);
 }
 
-.rk-value-title {
-    font-size: 1.05rem;
+.rk-label::before {
+    content: '';
+    flex-shrink: 0;
+    width: 1.75rem;
+    height: 1px;
+    background: currentColor;
+}
+
+.rk-title {
+    font-size: clamp(1.5rem, 2.9vw, 2.125rem);
+    line-height: 1.6;
+    letter-spacing: 0.07em;
+    text-wrap: balance;
+}
+
+.rk-split .rk-title {
+    font-size: clamp(1.5rem, 2.5vw, 1.875rem);
+}
+
+.rk-desc {
+    margin-top: 1.1rem;
+    font-size: 0.9375rem;
+    color: var(--ink-soft);
+}
+
+.rk-body > * + * {
+    margin-top: 1.5rem;
+}
+
+.rk-body > p {
+    max-width: 40em;
+}
+
+/* 明朝で組む大きめの一文 */
+.rk-statement {
+    font-family: var(--font-mincho);
+    font-size: clamp(1.25rem, 2.3vw, 1.6rem);
+    font-weight: 500;
+    line-height: 2;
+    letter-spacing: 0.07em;
+    word-break: auto-phrase;
+}
+
+.rk-statement strong {
     font-weight: 600;
-    margin-bottom: 1rem;
+}
+
+.rk-subhead {
+    margin-bottom: 0.9rem;
+    font-size: 1.125rem;
     letter-spacing: 0.08em;
 }
 
-.rk-value-list {
+.rk-body > .rk-subhead {
+    margin-top: 3rem;
+    margin-bottom: 0;
+}
+
+.rk-note {
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+}
+
+.rk-fine-print {
+    font-size: 0.8125rem;
+    line-height: 1.8;
+    color: var(--ink-mute);
+}
+
+.rk-body > .rk-more,
+.rk-more {
+    margin-top: 2rem;
+}
+
+/* 罫を行頭に置く箇条書き */
+.rk-list {
     list-style: none;
-    font-size: 0.88rem;
-    line-height: 1.9;
-    color: #4c4b4a;
+    font-size: 0.9375rem;
+    line-height: 1.8;
 }
 
-.rk-value-list li {
-    padding-left: 1.1em;
+.rk-list li {
     position: relative;
-    margin-bottom: 0.5em;
+    padding-left: 1.2em;
 }
 
-.rk-value-list li::before {
-    content: '─';
+.rk-list li + li {
+    margin-top: 0.5em;
+}
+
+.rk-list li::before {
+    content: '';
     position: absolute;
     left: 0;
-    color: var(--color-gold-light);
+    top: 0.9em;
+    width: 0.55em;
+    height: 1px;
+    background: var(--moss);
 }
 
-/* ---------- 主な入口（3カード） ---------- */
-.rk-entry-grid {
+/* 項目名と説明を罫線で並べる定義リスト */
+.rk-deflist > div {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 3rem;
+    grid-template-columns: minmax(0, 17em) minmax(0, 1fr);
+    gap: 0.4rem 2.5rem;
+    padding: 1.3rem 0;
+    border-top: 1px solid var(--rule);
 }
 
-.rk-entry-card {
-    background: #fff;
-    border: 1px solid var(--color-border);
-    border-top: 2px solid var(--color-gold);
-    padding: 2.2rem 1.7rem;
+.rk-deflist > div:last-child {
+    border-bottom: 1px solid var(--rule);
 }
 
-.rk-entry-num {
+.rk-deflist dt {
+    font-family: var(--font-mincho);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+}
+
+.rk-deflist-tag {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-family: var(--font-gothic);
     font-size: 0.75rem;
-    letter-spacing: 0.3em;
-    color: var(--color-gold);
-    margin-bottom: 0.8rem;
+    letter-spacing: 0.14em;
+    color: var(--moss-deep);
 }
 
-.rk-entry-title {
-    font-size: 1.15rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    line-height: 1.8;
-    margin-bottom: 1rem;
+.rk-deflist dd {
+    font-size: 0.9375rem;
+    color: var(--ink-soft);
 }
 
-.rk-entry-text {
-    font-size: 0.9rem;
-    line-height: 2.1;
-    color: #4c4b4a;
-}
-
-.rk-entry-examples {
-    margin-top: 1.2rem;
-    padding-top: 1.2rem;
-    border-top: 1px dashed var(--color-border);
-    font-size: 0.82rem;
-    color: #706f6e;
-    line-height: 2;
-}
-
-.rk-entry-examples span {
-    display: inline-block;
-    margin-right: 0.8em;
-}
-
-.rk-entry-examples span::before {
-    content: '・';
-    color: var(--color-gold);
-}
-
-/* ---------- 鑑定例（説明用の例） ---------- */
-.rk-case-box {
-    background: #fff;
-    border: 1px solid var(--color-border);
-    padding: 2.6rem 2.4rem;
-    margin-top: 3rem;
+/* =========================================================================
+   トップ：ヒーロー
+   ========================================================================= */
+.hero-visual {
     position: relative;
+    height: clamp(440px, 62vh, 640px);
+    overflow: hidden;
+    background: #2b2723;
+}
+
+.hero-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 60% 50%;
+}
+
+/* 左側だけを沈めて、縦組みの文字を読みやすくする */
+.hero-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(24, 21, 18, 0.8) 0%, rgba(24, 21, 18, 0.55) 26%, rgba(24, 21, 18, 0) 56%),
+        linear-gradient(0deg, rgba(24, 21, 18, 0.4) 0%, rgba(24, 21, 18, 0) 34%);
+}
+
+.hero-copy-area {
+    position: absolute;
+    z-index: 1;
+    top: clamp(2.5rem, 9vh, 5rem);
+    left: max(var(--gutter), calc((100% - var(--wrap)) / 2));
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    gap: clamp(1.25rem, 2.4vw, 2.25rem);
+    color: #fff;
+}
+
+.hero-copy {
+    writing-mode: vertical-rl;
+    font-size: clamp(2.1rem, 3.5vw, 3.1rem);
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: 0.16em;
+    font-feature-settings: normal;
+    text-shadow: 0 0 28px rgba(0, 0, 0, 0.35);
+}
+
+.hero-copy span {
+    display: block;
+}
+
+/* 行頭を一段ずつ下げる */
+.hero-copy span + span {
+    margin-block-start: 0.42em;
+}
+
+.hero-copy span:nth-child(2) {
+    margin-top: 0.9em;
+}
+
+.hero-copy span:nth-child(3) {
+    margin-top: 1.8em;
+}
+
+.hero-spine {
+    writing-mode: vertical-rl;
+    margin-top: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.86);
+}
+
+.hero-spine::before {
+    content: '';
+    display: inline-block;
+    width: 1px;
+    height: 3rem;
+    margin-bottom: 1rem;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .hero-copy span,
+    .hero-spine {
+        opacity: 0;
+        animation: hero-ink 1.2s var(--ease-premium) forwards;
+    }
+
+    .hero-copy span:nth-child(1) { animation-delay: 0.15s; }
+    .hero-copy span:nth-child(2) { animation-delay: 0.45s; }
+    .hero-copy span:nth-child(3) { animation-delay: 0.75s; }
+    .hero-spine { animation-delay: 1.15s; }
+
+    @keyframes hero-ink {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+}
+
+/* 写真の裾に重ねる案内パネル */
+.hero-panel {
+    position: relative;
+    z-index: 2;
+    width: min(var(--wrap), 100% - 2 * var(--gutter));
+    margin: -72px auto 0;
+    background: var(--surface);
+}
+
+.hero-panel-cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    padding: clamp(1.75rem, 3.5vw, 2.75rem) clamp(1.5rem, 3.5vw, 3rem) clamp(2rem, 3.5vw, 3rem);
+}
+
+.hero-intro {
+    padding-right: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.hero-lead {
+    font-family: var(--font-mincho);
+    font-size: clamp(1.125rem, 1.85vw, 1.375rem);
+    font-weight: 500;
+    line-height: 1.95;
+    letter-spacing: 0.06em;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+}
+
+.hero-facts {
+    margin-top: 1.75rem;
+    border-bottom: 1px solid var(--rule-soft);
+}
+
+.hero-facts > div {
+    display: grid;
+    grid-template-columns: 4.5em minmax(0, 1fr);
+    gap: 1rem;
+    padding: 0.7rem 0;
+    border-top: 1px solid var(--rule-soft);
+}
+
+.hero-facts dt {
+    font-size: 0.8125rem;
+    letter-spacing: 0.14em;
+    line-height: 1.85;
+    color: var(--ink-mute);
+}
+
+.hero-facts dd {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+}
+
+.hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2.25rem;
+    margin-top: 1.75rem;
+}
+
+/* ---------- お知らせ ---------- */
+.notices-inner {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    min-height: 3.5rem;
+    padding: 0.75rem clamp(1.5rem, 3.5vw, 3rem);
+    border-bottom: 1px solid var(--rule-soft);
+}
+
+.notices-label {
+    flex-shrink: 0;
+    padding-right: 1.25rem;
+    border-right: 1px solid var(--rule);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    line-height: 1.4;
+}
+
+.notices-ticker {
+    flex: 1;
+    min-width: 0;
+}
+
+.notice-item {
+    display: none;
+    align-items: baseline;
+    gap: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.7;
+}
+
+.notice-item.active {
+    display: flex;
+}
+
+.notice-date {
+    flex-shrink: 0;
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-mute);
+}
+
+.notices-nav {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.notices-nav.is-single {
+    display: none;
+}
+
+.notices-nav-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.notices-nav-btn::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-top: 1px solid var(--ink);
+    border-left: 1px solid var(--ink);
+}
+
+#noticesPrev::before { transform: translateX(2px) rotate(-45deg); }
+#noticesNext::before { transform: translateX(-2px) rotate(135deg); }
+
+.notices-nav-btn:hover {
+    border-color: var(--ink);
+}
+
+/* ---------- 直近の予約状況 ---------- */
+.availability-section {
+    padding-left: clamp(1.5rem, 4vw, 3.5rem);
+    border-left: 1px solid var(--rule-soft);
+}
+
+.availability-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--ink);
+}
+
+.availability-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+}
+
+.availability-date {
+    font-family: var(--font-mincho);
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    min-height: 1.5em;
+}
+
+.availability-tag {
+    display: inline-block;
+    margin-right: 0.7em;
+    padding: 0.2em 0.7em;
+    border: 1px solid var(--ink);
+    font-family: var(--font-gothic);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    line-height: 1.4;
+    vertical-align: 0.25em;
+}
+
+.part-status-item {
+    display: grid;
+    grid-template-columns: 4.25em minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--rule-soft);
+}
+
+.part-name {
+    font-family: var(--font-mincho);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+
+.part-time {
+    font-size: 0.875rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+}
+
+.part-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+}
+
+.part-badge::before {
+    content: '';
+    width: 0.6em;
+    height: 0.6em;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.part-badge.available { color: var(--moss); }
+.part-badge.limited { color: var(--ochre); }
+
+.part-badge.full,
+.part-badge.loading,
+.part-badge.preparing {
+    color: var(--ink-mute);
+}
+
+.part-badge.full::before,
+.part-badge.loading::before,
+.part-badge.preparing::before {
+    background: transparent;
+    border: 1px solid currentColor;
+}
+
+.part-badge[title]:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+.availability-note {
+    margin-top: 0.9rem;
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--ink-mute);
+}
+
+.all-full-message {
+    display: none;
+    margin-top: 1rem;
+    padding: 0.9rem 1.1rem;
+    background: var(--paper);
+    font-size: 0.875rem;
+    line-height: 1.75;
+}
+
+.all-full-message.show {
+    display: block;
+}
+
+.line-button-wrapper {
+    margin-top: 1.5rem;
+}
+
+.line-button-wrapper .cta-main-btn {
+    display: grid;
+    width: 100%;
+}
+
+/* =========================================================================
+   トップ：各セクション
+   ========================================================================= */
+
+/* ---------- 鑑定前・中・後（時系列） ---------- */
+.rk-phases {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--ink);
+}
+
+.rk-phase {
+    position: relative;
+    padding: 2rem 2.25rem 0.5rem 0;
+}
+
+.rk-phase + .rk-phase {
+    padding-left: 2.25rem;
+    border-left: 1px solid var(--rule);
+}
+
+.rk-phase::before {
+    content: '';
+    position: absolute;
+    top: -4.5px;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ink);
+}
+
+.rk-phase + .rk-phase::before {
+    left: -4.5px;
+}
+
+.rk-phase-when {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    color: var(--moss-deep);
+}
+
+.rk-phase-title {
+    margin: 0.35rem 0 1.1rem;
+    font-size: 1.25rem;
+}
+
+.rk-phases + .rk-note {
+    margin-top: 2.5rem;
+}
+
+/* ---------- 三つの相談（合言葉を縦に添える） ---------- */
+.rk-themes {
+    border-top: 1px solid var(--ink);
+}
+
+.rk-theme {
+    display: grid;
+    grid-template-columns: 4rem minmax(0, 1fr) minmax(0, 17rem);
+    gap: 1.5rem clamp(1.5rem, 4vw, 3.5rem);
+    align-items: start;
+    padding: clamp(2rem, 4.5vw, 3.25rem) 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.rk-theme-key {
+    writing-mode: vertical-rl;
+    justify-self: start;
+    padding-top: 0.3rem;
+    font-family: var(--font-mincho);
+    font-size: 1.375rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    line-height: 1;
+    color: var(--moss-deep);
+}
+
+.rk-theme-title {
+    margin-bottom: 0.9rem;
+    font-size: clamp(1.3rem, 2.4vw, 1.625rem);
+}
+
+.rk-theme-text {
+    max-width: 38em;
+    font-size: 0.9375rem;
+    color: var(--ink-soft);
+}
+
+.rk-theme-examples {
+    list-style: none;
+    padding-left: 1.5rem;
+    border-left: 1px solid var(--rule);
+    font-size: 0.875rem;
+    line-height: 1.7;
+}
+
+.rk-theme-examples::before {
+    content: 'たとえば';
+    display: block;
+    margin-bottom: 0.6rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+}
+
+.rk-theme-examples li + li {
+    margin-top: 0.35rem;
+}
+
+/* ---------- 鑑定例 ---------- */
+.rk-case {
+    padding: clamp(1.5rem, 4vw, 2.75rem);
+    background: var(--surface);
+    border: 1px solid var(--rule);
 }
 
 .rk-case-tag {
-    position: absolute;
-    top: -0.8em;
-    left: 2rem;
-    background: var(--color-primary);
+    display: inline-block;
+    padding: 0.25em 0.9em;
+    background: var(--ink);
     color: #fff;
-    font-size: 0.72rem;
-    letter-spacing: 0.2em;
-    padding: 0.25rem 1rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    line-height: 1.6;
 }
 
 .rk-case-consult {
-    font-size: 1.05rem;
-    font-weight: 600;
+    margin: 1.25rem 0 1.75rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--font-mincho);
+    font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+    font-weight: 500;
+    line-height: 1.7;
     letter-spacing: 0.06em;
-    line-height: 1.9;
-    margin-bottom: 1.8rem;
-    padding-bottom: 1.4rem;
-    border-bottom: 1px solid var(--color-border);
+}
+
+.rk-case-consult-label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-family: var(--font-gothic);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
 }
 
 .rk-case-cols {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 2.5rem;
 }
 
 .rk-case-col-title {
-    font-size: 0.82rem;
-    letter-spacing: 0.2em;
-    color: var(--color-gold);
-    margin-bottom: 0.9rem;
+    margin-bottom: 0.8rem;
+    font-family: var(--font-gothic);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
 }
 
-.rk-case-list {
+.rk-topics {
     list-style: none;
-    font-size: 0.9rem;
-    line-height: 1.95;
-    color: #4c4b4a;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 2.5rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.9375rem;
+    line-height: 1.7;
 }
 
-.rk-case-list li {
-    padding-left: 1.1em;
-    position: relative;
-    margin-bottom: 0.45em;
+.rk-topics li {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--rule);
 }
 
-.rk-case-list li::before {
-    content: '─';
-    position: absolute;
-    left: 0;
-    color: var(--color-gold-light);
-}
-
-.rk-case-more {
-    margin-top: 2.4rem;
-}
-
-.rk-case-more-title {
-    text-align: center;
-    font-size: 0.85rem;
-    letter-spacing: 0.2em;
-    color: #706f6e;
-    margin-bottom: 1.4rem;
-}
-
-.rk-chip-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.7rem;
-}
-
-.rk-chip {
-    font-size: 0.82rem;
-    letter-spacing: 0.05em;
-    color: var(--color-primary);
-    background: #fff;
-    border: 1px solid var(--color-border);
-    padding: 0.45rem 1.1rem;
-    border-radius: 2rem;
-}
-
-/* ---------- 30分と60分の違い ---------- */
-.rk-compare-wrap {
-    overflow-x: auto;
-    margin-top: 3rem;
-    -webkit-overflow-scrolling: touch;
-}
-
+/* ---------- 比較表 ---------- */
 .rk-compare {
     width: 100%;
     border-collapse: collapse;
-    background: #fff;
-    border: 1px solid var(--color-border);
-    font-size: 0.9rem;
-    min-width: 560px;
+    font-size: 0.9375rem;
+    line-height: 1.8;
 }
 
 .rk-compare th,
 .rk-compare td {
-    padding: 1.1rem 1.3rem;
-    border-bottom: 1px solid var(--color-border);
+    padding: 1.15rem 1.5rem 1.15rem 0;
+    border-bottom: 1px solid var(--rule);
     text-align: left;
     vertical-align: top;
-    line-height: 1.9;
+}
+
+.rk-compare th:last-child,
+.rk-compare td:last-child {
+    padding-right: 0;
 }
 
 .rk-compare thead th {
-    background: #f4f3f0;
+    padding-top: 0;
+    padding-bottom: 0.9rem;
+    border-bottom-color: var(--ink);
+    font-family: var(--font-mincho);
+    font-size: 1.125rem;
     font-weight: 600;
     letter-spacing: 0.08em;
-    border-bottom: 1px solid var(--color-border);
 }
 
 .rk-compare tbody th {
-    width: 8.5em;
+    width: 9.5em;
+    padding-top: 1.35rem;
+    font-size: 0.8125rem;
     font-weight: 500;
-    color: #706f6e;
-    font-size: 0.82rem;
-    letter-spacing: 0.1em;
-    background: #fafaf9;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
 }
 
-.rk-compare .rk-compare-price {
-    font-size: 1.05rem;
-    font-weight: 600;
+.rk-compare-price {
+    font-family: var(--font-mincho);
+    font-size: 1.625rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1.3;
 }
 
-.rk-compare .rk-compare-price small {
+.rk-compare-price small {
+    margin-left: 0.2em;
+    font-family: var(--font-gothic);
     font-size: 0.75rem;
     font-weight: 400;
-    color: #706f6e;
+    color: var(--ink-mute);
 }
 
-/* ---------- 四柱推命の仕組み・歴史 ---------- */
-.rk-method-box {
-    background: #fff;
-    border: 1px solid var(--color-border);
-    padding: 2.6rem 2.4rem;
-    margin-top: 2.6rem;
+/* ---------- 命式の図 ---------- */
+.rk-meishiki table {
+    width: 100%;
+    max-width: 34rem;
+    border-collapse: collapse;
+    text-align: center;
 }
 
-.rk-method-box + .rk-method-box {
-    margin-top: 1.6rem;
-}
-
-.rk-method-title {
+.rk-meishiki thead th {
+    padding: 0 0 0.8rem;
+    border-bottom: 1px solid var(--ink);
+    font-family: var(--font-mincho);
     font-size: 1rem;
     font-weight: 600;
-    letter-spacing: 0.15em;
-    margin-bottom: 1.2rem;
-    padding-left: 0.9rem;
-    border-left: 2px solid var(--color-gold);
+    letter-spacing: 0.16em;
+    line-height: 1.5;
 }
 
-.rk-method-text {
-    font-size: 0.92rem;
-    line-height: 2.2;
-    color: #4c4b4a;
-}
-
-.rk-method-text + .rk-method-text {
-    margin-top: 1.2em;
-}
-
-.rk-fine-print {
-    font-size: 0.78rem;
-    color: #8a8988;
-    margin-top: 1.4rem;
-    line-height: 1.9;
-}
-
-/* ---------- 活動履歴（年表） ---------- */
-.rk-timeline {
-    list-style: none;
-    margin-top: 2.6rem;
-    border-left: 1px solid var(--color-gold-light);
-    padding-left: 2rem;
-}
-
-.rk-timeline li {
-    position: relative;
-    padding-bottom: 1.8rem;
-    font-size: 0.92rem;
-    line-height: 2;
-    color: #4c4b4a;
-}
-
-.rk-timeline li:last-child {
-    padding-bottom: 0;
-}
-
-.rk-timeline li::before {
-    content: '';
-    position: absolute;
-    left: calc(-2rem - 4.5px);
-    top: 0.75em;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--color-gold);
-}
-
-.rk-timeline .rk-timeline-label {
+.rk-meishiki thead th small {
     display: block;
-    font-size: 0.78rem;
-    letter-spacing: 0.15em;
-    color: var(--color-gold);
-}
-
-.rk-timeline strong {
-    font-weight: 600;
-    color: var(--color-primary);
-}
-
-/* ---------- 六根清浄の由来（短縮版） ---------- */
-.rk-origin {
-    text-align: center;
-    padding: 4.5rem 5vw;
-    background: var(--color-primary);
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.rk-origin-logo {
-    width: 74px;
-    margin: 0 auto 1.4rem;
-    opacity: 0.9;
-}
-
-.rk-origin-title {
-    font-size: 1.1rem;
-    letter-spacing: 0.3em;
-    margin-bottom: 1.2rem;
-    color: #fff;
-}
-
-.rk-origin-text {
-    font-size: 0.9rem;
-    line-height: 2.2;
-    max-width: 560px;
-    margin: 0 auto 1.6rem;
-}
-
-.rk-origin .text-link {
-    color: var(--color-gold-light);
-}
-
-/* ---------- 記事レイアウト（はじめてページ等） ---------- */
-.rk-doc {
-    max-width: 720px;
-    margin: 0 auto;
-}
-
-.rk-doc-section {
-    margin-bottom: 4.5rem;
-}
-
-.rk-doc h2 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    line-height: 1.8;
-    margin-bottom: 1.6rem;
-    padding-bottom: 0.8rem;
-    border-bottom: 1px solid var(--color-gold-light);
-}
-
-.rk-doc h3 {
-    font-size: 1.05rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    margin: 2.2rem 0 1rem;
-    padding-left: 0.8rem;
-    border-left: 2px solid var(--color-gold);
-}
-
-.rk-doc p {
-    font-size: 0.95rem;
-    line-height: 2.3;
-    margin-bottom: 1.6em;
-    color: #3f3e3d;
-}
-
-.rk-doc ul {
-    list-style: none;
-    margin: 0 0 1.6em;
-}
-
-.rk-doc ul li {
-    font-size: 0.92rem;
-    line-height: 2.1;
-    padding-left: 1.2em;
-    position: relative;
-    margin-bottom: 0.4em;
-    color: #4c4b4a;
-}
-
-.rk-doc ul li::before {
-    content: '─';
-    position: absolute;
-    left: 0;
-    color: var(--color-gold-light);
-}
-
-.rk-doc .rk-doc-note {
-    background: #f4f3f0;
-    border-left: 2px solid var(--color-gold);
-    padding: 1.4rem 1.6rem;
-    font-size: 0.88rem;
-    line-height: 2.1;
-    color: #4c4b4a;
-    margin-bottom: 1.6em;
-}
-
-/* わかること／わからないこと */
-.rk-two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin: 2rem 0;
-}
-
-.rk-col-box {
-    background: #fff;
-    border: 1px solid var(--color-border);
-    padding: 1.8rem 1.6rem;
-}
-
-.rk-col-box.rk-col-no {
-    background: #fafaf9;
-}
-
-.rk-col-box-title {
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    margin-bottom: 1rem;
-    color: var(--color-primary);
-}
-
-.rk-col-box ul {
-    margin: 0;
-}
-
-.rk-col-box ul li {
-    font-size: 0.88rem;
-}
-
-/* ---------- 口コミ（ケース形式） ---------- */
-.rk-ts-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.8rem;
-    max-width: 960px;
-    margin: 0 auto;
-}
-
-.rk-ts-card {
-    background: #fff;
-    border: 1px solid var(--color-border);
-    padding: 2.2rem 2rem;
-    display: flex;
-    flex-direction: column;
-}
-
-.rk-ts-head {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    margin-bottom: 1.2rem;
-}
-
-.rk-ts-theme {
-    font-size: 0.72rem;
-    letter-spacing: 0.15em;
-    color: var(--color-gold);
-    border: 1px solid var(--color-gold-light);
-    padding: 0.15rem 0.8rem;
-}
-
-.rk-ts-issue {
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    line-height: 1.9;
-    margin-bottom: 1.2rem;
-}
-
-.rk-ts-quote {
-    font-size: 0.88rem;
-    line-height: 2.1;
-    color: #4c4b4a;
-    border-left: 2px solid var(--color-gold-light);
-    padding-left: 1.2rem;
-    margin-bottom: 1.4rem;
-    flex-grow: 1;
-}
-
-.rk-ts-author {
-    font-size: 0.8rem;
-    color: #8a8988;
-    text-align: right;
-}
-
-.rk-ts-note {
-    max-width: 760px;
-    margin: 3rem auto 0;
-    font-size: 0.8rem;
-    color: #8a8988;
-    line-height: 2;
-    text-align: center;
-}
-
-/* ---------- 料金ページ追加 ---------- */
-.rk-course-points {
-    list-style: none;
-    margin: 1.4rem 0 0.6rem;
-    text-align: left;
-}
-
-.rk-course-points li {
-    font-size: 0.88rem;
-    line-height: 2;
-    padding-left: 1.2em;
-    position: relative;
-    color: #4c4b4a;
-    margin-bottom: 0.3em;
-}
-
-.rk-course-points li::before {
-    content: '─';
-    position: absolute;
-    left: 0;
-    color: var(--color-gold-light);
-}
-
-.rk-course-lead {
-    font-size: 0.95rem;
-    font-weight: 600;
+    font-family: var(--font-gothic);
+    font-size: 0.6875rem;
+    font-weight: 400;
     letter-spacing: 0.06em;
-    margin-top: 0.8rem;
+    color: var(--ink-mute);
 }
 
-/* ---------- 鑑定者ダイジェスト（トップ用） ---------- */
-.rk-profile-digest {
-    display: flex;
-    gap: 2.4rem;
-    align-items: flex-start;
-    background: #fff;
-    border: 1px solid var(--color-border);
-    padding: 2.6rem 2.4rem;
-    margin-top: 3rem;
+.rk-meishiki tbody th {
+    width: 3.5em;
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-align: left;
+    color: var(--ink-mute);
 }
 
-.rk-profile-photo {
-    width: 168px;
-    flex-shrink: 0;
-    border-radius: 4px;
+.rk-meishiki tbody td {
+    padding: 1rem 0 0.85rem;
+    border-bottom: 1px solid var(--rule);
+    border-left: 1px solid var(--rule-soft);
+    font-family: var(--font-mincho);
+    font-size: clamp(1.75rem, 4.4vw, 2.5rem);
+    line-height: 1.2;
+}
+
+.rk-meishiki tbody td small {
+    display: block;
+    margin-top: 0.4rem;
+    font-family: var(--font-gothic);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--moss-deep);
+}
+
+.rk-meishiki figcaption {
+    margin-top: 0.9rem;
+    font-size: 0.75rem;
+    color: var(--ink-mute);
+}
+
+.rk-cols2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem clamp(2rem, 4vw, 3rem);
+    font-size: 0.9375rem;
+}
+
+.rk-body > .rk-cols2 {
+    margin-top: 2.75rem;
+}
+
+/* ---------- 鑑定師 ---------- */
+.rk-profile {
+    display: grid;
+    grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+    gap: 2.5rem clamp(2.5rem, 6vw, 5.5rem);
+    align-items: center;
+}
+
+.rk-profile-photo img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 12%;
 }
 
 .rk-profile-name {
-    font-size: 1.2rem;
+    margin: 1.5rem 0 1.25rem;
+    font-family: var(--font-mincho);
+    font-size: 1.75rem;
     font-weight: 600;
-    letter-spacing: 0.15em;
-    margin-bottom: 1rem;
+    letter-spacing: 0.16em;
+    line-height: 1.4;
 }
 
 .rk-profile-name span {
     display: block;
-    font-size: 0.75rem;
+    margin-top: 0.4rem;
+    font-family: var(--font-gothic);
+    font-size: 0.8125rem;
     font-weight: 400;
-    color: #8a8988;
     letter-spacing: 0.1em;
-    margin-top: 0.3rem;
+    color: var(--ink-mute);
 }
 
 .rk-profile-text {
-    font-size: 0.9rem;
-    line-height: 2.1;
-    color: #4c4b4a;
-    margin-bottom: 0.8rem;
+    max-width: 38em;
+    font-size: 0.9375rem;
 }
 
-.rk-profile-note {
-    font-size: 0.76rem;
-    color: #8a8988;
-    margin-bottom: 1.4rem;
+.rk-profile-text + .rk-fine-print {
+    margin-top: 0.75rem;
 }
 
-@media (max-width: 700px) {
-    .rk-profile-digest {
-        flex-direction: column;
-        align-items: center;
-        text-align: left;
-        padding: 2rem 1.5rem;
+/* ---------- お客様の声（抜粋） ---------- */
+.voices-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.5rem clamp(2rem, 4vw, 3.5rem);
+}
+
+.voice-card {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--ink);
+}
+
+.voice-tag {
+    margin-bottom: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--moss-deep);
+}
+
+.voice-quote {
+    flex: 1;
+    font-family: var(--font-mincho);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    line-height: 2;
+    letter-spacing: 0.05em;
+}
+
+.voice-author {
+    margin-top: 1.25rem;
+    font-size: 0.8125rem;
+    color: var(--ink-mute);
+}
+
+/* ---------- ご予約の流れ ---------- */
+.flow-steps {
+    list-style: none;
+    border-top: 1px solid var(--ink);
+}
+
+.flow-step {
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    gap: 0 1.5rem;
+    padding: 1.75rem 0 1.9rem;
+    border-bottom: 1px solid var(--rule);
+}
+
+.flow-number {
+    font-family: var(--font-mincho);
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--moss-deep);
+}
+
+.flow-title {
+    margin-bottom: 0.6rem;
+    font-size: 1.1875rem;
+}
+
+.flow-desc {
+    font-size: 0.9375rem;
+    color: var(--ink-soft);
+}
+
+.flow-pay {
+    margin-top: 0.9rem;
+}
+
+.flow-pay:first-child {
+    margin-top: 0;
+}
+
+.flow-pay > div {
+    display: grid;
+    grid-template-columns: 10.5em minmax(0, 1fr);
+    gap: 0.25rem 1rem;
+    padding: 0.65rem 0;
+    border-top: 1px solid var(--rule-soft);
+}
+
+.flow-pay dt {
+    font-weight: 500;
+    color: var(--ink);
+}
+
+.flow-note {
+    margin-top: 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--ink-mute);
+}
+
+.flow-cta {
+    margin-top: 1.1rem;
+}
+
+/* ---------- 屋号の由来 ---------- */
+.rk-origin-inner {
+    display: grid;
+    grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
+    gap: 2.5rem clamp(2.5rem, 6vw, 5.5rem);
+    align-items: center;
+}
+
+.rk-origin-logo {
+    width: min(100%, 190px);
+    justify-self: center;
+    opacity: 0.92;
+}
+
+.rk-origin-title {
+    margin-bottom: 1.25rem;
+    font-size: clamp(1.75rem, 3.6vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: 0.3em;
+}
+
+.rk-origin-text {
+    max-width: 37em;
+    font-size: 0.9375rem;
+}
+
+/* =========================================================================
+   レスポンシブ
+   ========================================================================= */
+@media (max-width: 960px) {
+    .rk-split {
+        grid-template-columns: 1fr;
+    }
+
+    .rk-split > .rk-head {
+        position: static;
+    }
+
+    .rk-theme {
+        grid-template-columns: 3rem minmax(0, 1fr);
+    }
+
+    .rk-theme-examples {
+        grid-column: 2;
+    }
+
+    .voices-grid {
+        grid-template-columns: 1fr;
+        gap: 2.25rem;
+    }
+}
+
+@media (max-width: 820px) {
+    .hero-panel-cols {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-intro {
+        padding-right: 0;
+    }
+
+    .availability-section {
+        margin-top: 2.25rem;
+        padding-top: 2.25rem;
+        padding-left: 0;
+        border-left: 0;
+        border-top: 1px solid var(--rule-soft);
+    }
+
+    .rk-phases {
+        grid-template-columns: 1fr;
+        border-top: 0;
+        border-left: 1px solid var(--ink);
+    }
+
+    .rk-phase,
+    .rk-phase + .rk-phase {
+        padding: 0 0 2.25rem 1.75rem;
+        border-left: 0;
+    }
+
+    .rk-phase:last-child {
+        padding-bottom: 0;
+    }
+
+    .rk-phase::before,
+    .rk-phase + .rk-phase::before {
+        top: 0.55rem;
+        left: -4.5px;
+    }
+
+    .rk-profile,
+    .rk-origin-inner {
+        grid-template-columns: 1fr;
     }
 
     .rk-profile-photo {
-        width: 150px;
+        max-width: 280px;
+    }
+
+    .rk-origin-logo {
+        width: 120px;
+        justify-self: start;
     }
 }
 
-/* ---------- 汎用CTA間隔 ---------- */
-.rk-cta-center {
-    text-align: center;
-    margin-top: 3rem;
-}
-
-.rk-cta-center .cta-main-btn {
-    margin: 0 auto;
-}
-
-/* ---------- レスポンシブ ---------- */
-@media (max-width: 900px) {
-    .rk-value-grid,
-    .rk-entry-grid {
-        grid-template-columns: 1fr;
-        gap: 1.2rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .rk-section {
-        padding: 3.5rem 6vw;
+@media (max-width: 640px) {
+    .hero-visual {
+        height: clamp(430px, 64svh, 560px);
     }
 
-    .rk-hero-words {
-        letter-spacing: 0.08em;
+    .hero-visual img {
+        object-position: 55% 50%;
     }
 
-    .rk-hero-tagline {
-        font-size: 0.88rem;
+    .hero-visual::after {
+        background:
+            linear-gradient(90deg, rgba(24, 21, 18, 0.82) 0%, rgba(24, 21, 18, 0.5) 45%, rgba(24, 21, 18, 0.1) 100%),
+            linear-gradient(0deg, rgba(24, 21, 18, 0.45) 0%, rgba(24, 21, 18, 0) 34%);
     }
 
-    .rk-hero-eyebrow {
-        font-size: 0.7rem;
-        letter-spacing: 0.2em;
+    .hero-copy-area {
+        top: 2.25rem;
     }
 
-    .rk-hero-fact {
-        font-size: 0.72rem;
-        padding: 0.25rem 0.85rem;
+    .hero-panel {
+        width: 100%;
+        margin-top: 0;
     }
 
-    .rk-case-box {
-        padding: 2rem 1.5rem;
+    .hero-panel-cols {
+        padding: 2rem var(--gutter) 2.5rem;
     }
 
-    .rk-case-cols {
-        grid-template-columns: 1fr;
-        gap: 1.6rem;
+    .notices-inner {
+        padding: 0.75rem var(--gutter);
+        gap: 0.9rem;
     }
 
-    .rk-two-col {
+    .notices-label {
+        padding-right: 0.9rem;
+    }
+
+    .notice-item {
+        flex-direction: column;
+        gap: 0;
+        font-size: 0.8125rem;
+    }
+
+    .rk-deflist > div {
         grid-template-columns: 1fr;
     }
 
-    .rk-ts-grid {
+    .rk-theme {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .rk-theme-key {
+        writing-mode: horizontal-tb;
+        padding-top: 0;
+        font-size: 1rem;
+        letter-spacing: 0.24em;
+    }
+
+    .rk-theme-examples {
+        grid-column: auto;
+    }
+
+    .rk-case-cols,
+    .rk-topics,
+    .rk-cols2 {
         grid-template-columns: 1fr;
     }
 
-    .rk-method-box {
-        padding: 2rem 1.5rem;
+    /* 比較表：項目名を小見出しにして、2コースを横に並べる */
+    .rk-compare,
+    .rk-compare thead,
+    .rk-compare tbody {
+        display: block;
     }
 
-    .rk-lead-text {
-        text-align: left;
+    .rk-compare tr {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 1.25rem;
     }
 
-    .rk-lead-text br.rk-pc-br {
+    .rk-compare thead th:first-child {
         display: none;
     }
 
-    .rk-timeline {
-        padding-left: 1.5rem;
+    .rk-compare tbody th {
+        grid-column: 1 / -1;
+        width: auto;
+        padding: 1rem 0 0;
+        border-bottom: 0;
     }
 
-    .rk-timeline li::before {
-        left: calc(-1.5rem - 4.5px);
+    .rk-compare td {
+        padding: 0.35rem 0 1rem;
+        font-size: 0.875rem;
+    }
+
+    .rk-compare-price {
+        font-size: 1.375rem;
+    }
+
+    .flow-step {
+        grid-template-columns: 2.25rem minmax(0, 1fr);
+        gap: 0 1rem;
+    }
+
+    .flow-number {
+        font-size: 1.625rem;
+    }
+
+    .flow-pay > div {
+        grid-template-columns: 1fr;
     }
 }
 
-@media (max-width: 480px) {
-    /* 3語を1行ずつ縦に積んで読ませる */
-    .rk-hero-words .rk-word {
-        display: block;
-        line-height: 1.6;
+/* =========================================================================
+   下層ページ共通：読みもの（.rk-doc）・目次・注記・表
+   ========================================================================= */
+
+/* 目次つきの二段組（左に目次、右に本文） */
+.rk-doc-layout {
+    display: grid;
+    grid-template-columns: minmax(200px, 260px) minmax(0, var(--wrap-narrow));
+    gap: 2.5rem clamp(2.5rem, 6vw, 5.5rem);
+    align-items: start;
+}
+
+.rk-toc {
+    position: sticky;
+    top: calc(var(--header-h) + 2.5rem);
+}
+
+.rk-toc-title {
+    margin-bottom: 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    color: var(--ink-mute);
+}
+
+.rk-toc ol {
+    list-style: none;
+    border-top: 1px solid var(--rule);
+    counter-reset: toc;
+}
+
+.rk-toc li {
+    border-bottom: 1px solid var(--rule);
+    counter-increment: toc;
+}
+
+.rk-toc a {
+    display: grid;
+    grid-template-columns: 1.75em minmax(0, 1fr);
+    padding: 0.7rem 0;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+}
+
+.rk-toc a::before {
+    content: counter(toc);
+    font-family: var(--font-mincho);
+    color: var(--ink-mute);
+}
+
+.rk-toc a:hover {
+    color: var(--ink);
+}
+
+.rk-doc {
+    max-width: var(--wrap-narrow);
+}
+
+.rk-doc-section {
+    padding: clamp(2.75rem, 6vw, 4rem) 0;
+    border-top: 1px solid var(--rule);
+}
+
+.rk-doc-section:first-child {
+    padding-top: 0;
+    border-top: 0;
+}
+
+.rk-doc-section:last-child {
+    padding-bottom: 0;
+}
+
+.rk-doc h2 {
+    margin-bottom: 1.5rem;
+    font-size: clamp(1.375rem, 2.6vw, 1.75rem);
+    text-wrap: balance;
+}
+
+.rk-doc h3 {
+    margin: 2.5rem 0 0.75rem;
+    font-size: 1.125rem;
+    letter-spacing: 0.06em;
+}
+
+.rk-doc h2 + h3 {
+    margin-top: 0;
+}
+
+.rk-doc p {
+    margin-bottom: 1.25em;
+    line-height: 2;
+}
+
+.rk-doc p:last-child {
+    margin-bottom: 0;
+}
+
+.rk-doc ul {
+    list-style: none;
+    margin-bottom: 1.5em;
+    line-height: 1.85;
+}
+
+.rk-doc ul li {
+    position: relative;
+    padding-left: 1.2em;
+}
+
+.rk-doc ul li + li {
+    margin-top: 0.5em;
+}
+
+.rk-doc ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.92em;
+    width: 0.55em;
+    height: 1px;
+    background: var(--moss);
+}
+
+/* 注記（左に一本線） */
+.rk-doc-note,
+.rk-doc .rk-doc-note {
+    margin: 1.75rem 0;
+    padding: 1.15rem 1.4rem;
+    background: var(--paper-deep);
+    border-left: 2px solid var(--moss);
+    font-size: 0.9375rem;
+    line-height: 1.9;
+    color: var(--ink-soft);
+}
+
+.rk-doc-note:last-child {
+    margin-bottom: 0;
+}
+
+/* 整理できること／扱えないこと */
+.rk-two-col {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 2rem 0;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+}
+
+.rk-col-box {
+    padding: 1.5rem 1.75rem 1.75rem 0;
+}
+
+.rk-col-box + .rk-col-box {
+    padding-left: 1.75rem;
+    padding-right: 0;
+    border-left: 1px solid var(--rule);
+}
+
+.rk-col-box-title {
+    margin-bottom: 0.9rem;
+    font-family: var(--font-mincho);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
+.rk-col-box ul {
+    margin-bottom: 0;
+    font-size: 0.9375rem;
+}
+
+.rk-col-box.rk-col-no ul li::before {
+    background: var(--ink-mute);
+}
+
+/* 項目と内容の表（事業者情報など） */
+.rk-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid var(--ink);
+    font-size: 0.9375rem;
+    line-height: 1.8;
+}
+
+.rk-table th,
+.rk-table td {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--rule);
+    text-align: left;
+    vertical-align: top;
+}
+
+.rk-table th {
+    width: 9.5em;
+    padding-right: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--ink-mute);
+}
+
+/* 本文末尾の予約ボタンなど */
+.rk-cta-center {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+@media (max-width: 960px) {
+    .rk-doc-layout {
+        grid-template-columns: 1fr;
     }
 
-    .rk-hero-words {
-        font-size: 1.9rem;
+    .rk-toc {
+        position: static;
+        max-width: var(--wrap-narrow);
+    }
+}
+
+@media (max-width: 640px) {
+    .rk-two-col {
+        grid-template-columns: 1fr;
+        border-bottom: 0;
+    }
+
+    .rk-col-box,
+    .rk-col-box + .rk-col-box {
+        padding: 1.5rem 0;
+        border-left: 0;
+        border-bottom: 1px solid var(--rule);
+    }
+
+    .rk-table th {
+        width: 7em;
+        padding-right: 1rem;
+    }
+}
+
+/* ---------- 細かな共通部品 ---------- */
+
+/* 規約などの短い条文（プライバシーポリシー） */
+.rk-doc--compact .rk-doc-section {
+    padding: clamp(1.75rem, 4vw, 2.5rem) 0;
+}
+
+.rk-doc--compact h2 {
+    margin-bottom: 0.9rem;
+    font-size: clamp(1.125rem, 2.2vw, 1.3125rem);
+}
+
+.rk-doc--compact p,
+.rk-doc--compact ul {
+    font-size: 0.9375rem;
+}
+
+.rk-doc-date {
+    margin-bottom: clamp(1.75rem, 4vw, 2.5rem);
+    padding-bottom: clamp(1.75rem, 4vw, 2.5rem);
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.8125rem;
+    color: var(--ink-mute);
+}
+
+.rk-doc-date + .rk-doc-section {
+    padding-top: 0;
+    border-top: 0;
+}
+
+/* 矢印リンクを横に並べる */
+.rk-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2.25rem;
+}
+
+/* 見出しが無く、ラベルだけを左に置く段 */
+.rk-head > .rk-label:only-child {
+    margin-bottom: 0;
+    padding-top: 0.9rem;
+}
+
+/* 英文の要約 */
+.rk-english {
+    letter-spacing: 0.01em;
+    line-height: 1.8;
+    word-break: normal;
+    overflow-wrap: break-word;
+}
+
+.rk-english > * + * {
+    margin-top: 1rem;
+}
+
+@media (max-width: 960px) {
+    .rk-head > .rk-label:only-child {
+        padding-top: 0;
+    }
+}
+
+/* =========================================================================
+   口コミ（相談テーマと声を一行ずつ）
+   ========================================================================= */
+.rk-ts-grid {
+    border-top: 1px solid var(--ink);
+}
+
+.rk-ts-card {
+    display: grid;
+    grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    column-gap: clamp(2.5rem, 6vw, 5.5rem);
+    padding: clamp(2rem, 4.5vw, 3.25rem) 0;
+    border-bottom: 1px solid var(--rule);
+}
+
+.rk-ts-theme {
+    grid-column: 1;
+    margin-bottom: 0.7rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--moss-deep);
+}
+
+.rk-ts-issue {
+    grid-column: 1;
+    font-family: var(--font-mincho);
+    font-size: clamp(1.125rem, 2vw, 1.3125rem);
+    font-weight: 500;
+    line-height: 1.7;
+    letter-spacing: 0.06em;
+    word-break: auto-phrase;
+}
+
+.rk-ts-quote {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    max-width: 40em;
+    font-size: 0.9375rem;
+    line-height: 2;
+}
+
+.rk-ts-author {
+    grid-column: 2;
+    grid-row: 3;
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+    color: var(--ink-mute);
+}
+
+.rk-ts-note {
+    margin-top: 2rem;
+    font-size: 0.8125rem;
+    line-height: 1.9;
+    color: var(--ink-mute);
+}
+
+@media (max-width: 760px) {
+    .rk-ts-card {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+    }
+
+    .rk-ts-quote,
+    .rk-ts-author {
+        grid-column: 1;
+        grid-row: auto;
+    }
+
+    .rk-ts-quote {
+        margin-top: 1.1rem;
     }
 }

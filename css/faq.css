@@ -1,297 +1,186 @@
-@charset "UTF-8";
+/* =========================================================================
+   Q&A ページ
+   質問は罫線で区切った一覧。開閉は js/faq.js が .faq-item に .faq-open を付ける。
+   ========================================================================= */
 
-/* ========== メインコンテンツ ========== */
-.main-content {
-    padding-top: 75px;
-    background: var(--color-cream);
-    min-height: 100vh;
+.faq-groups {
+    min-width: 0;
 }
 
-.page-header {
-    background: linear-gradient(135deg, #3b3a39 0%, #4a4948 100%);
-    padding: 40px 20px;
-    text-align: center;
+.faq-group + .faq-group {
+    margin-top: clamp(3rem, 7vw, 5rem);
 }
 
-.page-title {
-    font-size: 2.2rem;
-    color: var(--color-text-white);
-    letter-spacing: 0.15em;
-    font-weight: 600;
-    margin-bottom: 10px;
+.faq-group-title {
+    margin-bottom: 1.1rem;
+    font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+    letter-spacing: 0.08em;
 }
 
-.page-subtitle {
-    font-size: 1rem;
-    color: var(--color-text-light);
-    letter-spacing: 0.05em;
-    line-height: 1.8;
+.faq-list {
+    border-top: 1px solid var(--ink);
 }
 
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 60px 20px;
-}
-
-/* ========== アコーディオンスタイル ========== */
 .faq-item {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 0;
-    margin-bottom: 16px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-    border: 2px solid transparent;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-bottom: 1px solid var(--rule);
 }
 
-.faq-item:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    border-color: rgba(196, 163, 90, 0.3);
-}
-
-.faq-item.faq-open {
-    border-color: var(--color-gold);
-    box-shadow: 0 6px 24px rgba(196, 163, 90, 0.2);
-}
-
-.question {
-    font-size: 1.05rem;
-    color: var(--color-primary-dark);
-    font-weight: 600;
-    padding: 24px 60px 24px 28px;
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    gap: 14px;
+.faq-q {
+    font-size: 1.0625rem;
+    letter-spacing: 0.05em;
     line-height: 1.7;
-    position: relative;
-    transition: all 0.3s;
 }
 
-.question:hover {
-    background: rgba(196, 163, 90, 0.05);
-    color: var(--color-gold);
+/* 質問（ボタン） */
+.question {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr) 1.25rem;
+    align-items: start;
+    gap: 0 0.5rem;
+    width: 100%;
+    padding: 1.35rem 0.25rem 1.35rem 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    letter-spacing: inherit;
+    text-align: left;
+    color: var(--ink);
+    cursor: pointer;
 }
 
 .question::before {
     content: 'Q';
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 32px;
-    height: 32px;
-    background: var(--color-gold);
-    color: white;
-    border-radius: 50%;
-    font-size: 0.9rem;
-    font-weight: 700;
-    flex-shrink: 0;
-    transition: all 0.3s;
+    font-size: 1.25rem;
+    line-height: 1.45;
+    color: var(--moss-deep);
 }
 
-.faq-item.faq-open .question::before {
-    background: var(--color-primary);
-    transform: scale(1.1);
-}
-
+/* 開閉の目印（＋／−）を罫線で描く */
 .question::after {
-    content: '+';
-    position: absolute;
-    right: 28px;
-    font-size: 1.8rem;
-    color: var(--color-gold);
-    font-weight: 300;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    line-height: 1;
+    content: '';
+    grid-column: 3;
+    width: 0.875rem;
+    height: 0.875rem;
+    margin-top: 0.5rem;
+    justify-self: end;
+    background:
+        linear-gradient(var(--ink), var(--ink)) center / 100% 1px no-repeat,
+        linear-gradient(var(--ink), var(--ink)) center / 1px 100% no-repeat;
+    transition: transform 0.3s var(--ease-premium);
 }
 
 .faq-item.faq-open .question::after {
-    content: '−';
+    background: linear-gradient(var(--ink), var(--ink)) center / 100% 1px no-repeat;
     transform: rotate(180deg);
 }
 
+.question:hover {
+    color: var(--moss-deep);
+}
+
+/* 回答 */
 .answer-wrap {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s var(--ease-premium);
 }
 
 .faq-item.faq-open .answer-wrap {
-    max-height: 2000px;
+    grid-template-rows: 1fr;
 }
 
 .answer {
-    color: #555;
-    font-size: 0.98rem;
-    line-height: 1.9;
-    padding: 0 28px 28px 74px;
-    animation: fadeIn 0.4s ease-in;
+    min-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    padding: 0 1.75rem 0 2.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.95;
+    color: var(--ink-soft);
+    transition: visibility 0.35s;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.faq-item.faq-open .answer {
+    visibility: visible;
 }
 
-.answer-label {
-    display: inline-block;
-    color: var(--color-primary);
-    font-weight: 600;
-    margin-right: 8px;
+.answer > :first-child {
+    margin-top: 0.1rem;
+}
+
+.answer > :last-child {
+    margin-bottom: 1.75rem;
+}
+
+.answer p + p,
+.answer ul + p,
+.answer p + ul,
+.answer p + .note-box {
+    margin-top: 0.9em;
+}
+
+.answer strong {
+    color: var(--ink);
 }
 
 .answer ul {
-    margin: 12px 0;
-    padding-left: 20px;
+    list-style: none;
 }
 
-.answer li {
-    margin-bottom: 8px;
-    line-height: 1.8;
-}
-
-.note-box {
-    background: rgba(196, 163, 90, 0.08);
-    border-left: 3px solid var(--color-gold);
-    padding: 16px 18px;
-    margin: 16px 0 8px 0;
-    border-radius: 0 6px 6px 0;
-    font-size: 0.95rem;
-    line-height: 1.9;
-}
-
-.link-text {
-    color: var(--color-gold);
-    font-weight: 600;
-}
-
-/* ========== ページ導線 (FAQ固有・6カラム対応) ========== */
-.page-links-container {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 10px;
-    margin-top: 48px;
-}
-
-.page-link-card {
-    background: #fff;
-    padding: 12px 6px;
-    border-radius: 0;
-    text-align: center;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s;
-    display: block;
-    border: 2px solid transparent;
+.answer ul li {
     position: relative;
+    padding-left: 1.2em;
 }
 
-.page-link-card::after {
-    content: '→';
+.answer ul li + li {
+    margin-top: 0.3em;
+}
+
+.answer ul li::before {
+    content: '';
     position: absolute;
-    right: 6px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--color-gold);
-    font-size: 0.75rem;
-    opacity: 0;
-    transition: all 0.3s;
+    left: 0;
+    top: 0.95em;
+    width: 0.55em;
+    height: 1px;
+    background: var(--moss);
 }
 
-.page-link-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-    border-color: var(--color-gold);
+/* 手順の囲み */
+.note-box {
+    padding: 1.15rem 1.4rem;
+    background: var(--paper-deep);
+    border-left: 2px solid var(--moss);
 }
 
-.page-link-card:hover::after {
-    opacity: 1;
-    right: 4px;
+.note-box-title {
+    margin-bottom: 0.4rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--ink);
 }
 
-.page-link-title {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--color-primary);
-    margin-bottom: 3px;
+.note-box ol {
+    padding-left: 1.4em;
 }
 
-.page-link-desc {
-    display: block;
-    font-size: 0.6rem;
-    color: #888;
+.note-box ol + p {
+    margin-top: 0.75em;
 }
 
-/* ========== レスポンシブ（PC: 769px以上 / スマホ: 768px以下） ========== */
-@media (max-width: 768px) {
-    .main-content {
-        padding-top: 60px;
+@media (max-width: 640px) {
+    .faq-q {
+        font-size: 1rem;
     }
 
-    .page-header {
-        padding: 35px 15px;
-    }
-
-    .page-title {
-        font-size: 1.5rem;
-    }
-
-    .container {
-        padding: 35px 15px;
-    }
-
-    /* FAQ */
     .question {
-        font-size: 0.9rem;
-        padding: 18px 45px 18px 16px;
-        gap: 10px;
-    }
-
-    .question::before {
-        min-width: 26px;
-        height: 26px;
-        font-size: 0.75rem;
-    }
-
-    .question::after {
-        right: 18px;
-        font-size: 1.5rem;
+        grid-template-columns: 1.75rem minmax(0, 1fr) 1.25rem;
+        padding: 1.15rem 0;
     }
 
     .answer {
-        font-size: 0.85rem;
-        padding: 0 16px 20px 48px;
-    }
-
-    /* ページ導線 */
-    .page-links-container {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        margin-top: 36px;
-    }
-
-    .page-link-card {
-        padding: 14px 8px;
-    }
-
-    .page-link-card::after {
-        display: none;
-    }
-
-    .page-link-title {
-        font-size: 0.75rem;
-    }
-
-    .page-link-desc {
-        font-size: 0.6rem;
+        padding: 0 0 0 2.25rem;
     }
 }

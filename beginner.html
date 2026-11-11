@@ -25,18 +25,19 @@
     <meta property="og:image" content="https://uranai-rokkon.com/images/otya.png">
 
     <!-- Favicon -->
-    <link rel="icon" href="images/favicon.png">
+    <link rel="icon" href="images/favicon-rokkon.png">
+    <link rel="apple-touch-icon" href="images/favicon-rokkon.png">
+    <meta name="theme-color" content="#f6f3ec">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
         rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css?v=20261023a">
-    <link rel="stylesheet" href="css/redesign.css?v=20261023a">
-    <link rel="stylesheet" href="css/animations.css?v=20261023a">
+    <link rel="stylesheet" href="css/style.css?v=20261111a">
+    <link rel="stylesheet" href="css/redesign.css?v=20261111a">
 
     <!-- JSON-LD (Breadcrumb) -->
     <script type="application/ld+json">
@@ -63,25 +64,27 @@
     <!-- ヘッダー -->
     <header class="header">
         <div class="header-inner">
-            <a href="index.html" class="logo">
-                <span class="logo-main">六根清浄</span>
-                <span class="logo-sub">(Rokkon shojo)</span>
+            <a href="index.html" class="logo" aria-label="占い処 六根清浄 トップページ">
+                <img src="images/logo-mark-ink.png" alt="" class="logo-mark" width="38" height="38">
+                <span class="logo-text">
+                    <span class="logo-sub">占い処</span>
+                    <span class="logo-main">六根清浄</span>
+                </span>
             </a>
-            <div class="nav-wrapper">
-                <nav class="nav">
+            <div class="nav-wrapper" id="siteNav">
+                <nav class="nav" aria-label="メインメニュー">
                     <a href="index.html">TOP</a>
-                    <a href="beginner.html" class="current">はじめて</a>
+                    <a href="beginner.html" aria-current="page">はじめて</a>
                     <a href="about.html">占い師</a>
                     <a href="pricing.html">料金案内</a>
                     <a href="testimonials.html">口コミ</a>
-                    <a href="faq.html">Q&A</a>
+                    <a href="faq.html">Q&amp;A</a>
                     <a href="blog.html">ブログ</a>
-
                 </nav>
                 <a href="reserve.html" class="contact-btn">ご予約</a>
             </div>
-            <button type="button" class="menu-toggle" onclick="toggleMenu(this);" aria-label="メニューを開く" aria-expanded="false">
-                <span></span>
+            <button type="button" class="menu-toggle" onclick="toggleMenu(this);" aria-label="メニューを開く"
+                aria-expanded="false" aria-controls="siteNav">
                 <span></span>
                 <span></span>
             </button>
@@ -91,14 +94,35 @@
     <!-- メインコンテンツ -->
     <main class="main-content sub-page">
         <div class="page-header">
-            <h1 class="page-title">はじめての方へ</h1>
-            <p class="page-subtitle">占いを信じ切っていなくても、判断材料として使えます。<br>約5分で読める案内です。</p>
+            <div class="page-header-inner">
+                <nav class="breadcrumb" aria-label="パンくずリスト">
+                    <ol>
+                        <li><a href="index.html">TOP</a></li>
+                        <li aria-current="page">はじめての方へ</li>
+                    </ol>
+                </nav>
+                <h1 class="page-title">はじめての方へ</h1>
+                <p class="page-subtitle">占いを信じ切っていなくても、判断材料として使えます。<br>約5分で読める案内です。</p>
+            </div>
         </div>
 
-        <div class="container">
+        <div class="container rk-doc-layout">
+            <nav class="rk-toc" aria-label="このページの目次">
+                <p class="rk-toc-title">目次</p>
+                <ol>
+                        <li><a href="#trust">占いを信じていなくても、大丈夫です</a></li>
+                        <li><a href="#scope">四柱推命でわかること・わからないこと</a></li>
+                        <li><a href="#usage">五行・命式・時期を、どう使うか</a></li>
+                        <li><a href="#history">四柱推命の短い歴史</a></li>
+                        <li><a href="#flow">鑑定の進み方</a></li>
+                        <li><a href="#prepare">ご用意いただくもの</a></li>
+                        <li><a href="#after">鑑定のあとに残るもの</a></li>
+                </ol>
+            </nav>
+
             <article class="rk-doc">
 
-                <section class="rk-doc-section animate-on-scroll">
+                <section class="rk-doc-section" id="trust">
                     <h2>占いを信じていなくても、大丈夫です</h2>
                     <p>
                         六根清浄の鑑定は、「未来を言い当てて、信じてもらう」ためのものではありません。迷っている選択について、四柱推命という道具で判断材料を増やし、<strong>決められる状態まで整理する</strong>ための時間です。
@@ -108,7 +132,7 @@
                     </p>
                 </section>
 
-                <section class="rk-doc-section animate-on-scroll">
+                <section class="rk-doc-section" id="scope">
                     <h2>四柱推命でわかること・わからないこと</h2>
                     <p>
                         四柱推命は、生まれた年・月・日・時を十干と十二支の組み合わせ（命式）に置き換え、性質の傾向や時期の変化を読む方法です。できることと、できないことがあります。
@@ -139,7 +163,7 @@
                     </p>
                 </section>
 
-                <section class="rk-doc-section animate-on-scroll">
+                <section class="rk-doc-section" id="usage">
                     <h2>五行・命式・時期を、どう使うか</h2>
                     <h3>五行 — 縁が生まれやすい場所を考える</h3>
                     <p>
@@ -158,7 +182,7 @@
                     </p>
                 </section>
 
-                <section class="rk-doc-section animate-on-scroll">
+                <section class="rk-doc-section" id="history">
                     <h2>四柱推命の短い歴史</h2>
                     <p>
                         四柱推命の原型は、中国・唐代の李虚中に結び付けられる、生まれた年・月・日を使った推命法にさかのぼるとされます。宋代には、生まれた時間を加えた四柱八字の形へ発展し、徐子平の名と結び付いた「子平術」として体系化されたと伝えられています。成立の過程には諸説があります。
@@ -168,7 +192,7 @@
                     </p>
                 </section>
 
-                <section class="rk-doc-section animate-on-scroll">
+                <section class="rk-doc-section" id="flow">
                     <h2>鑑定の進み方</h2>
                     <h3>1. 予約フォームから申し込む（約3分）</h3>
                     <p>
@@ -188,7 +212,7 @@
                     </p>
                 </section>
 
-                <section class="rk-doc-section animate-on-scroll">
+                <section class="rk-doc-section" id="prepare">
                     <h2>ご用意いただくもの</h2>
                     <ul>
                         <li><strong>あなたの生年月日</strong>（必須）</li>
@@ -201,7 +225,7 @@
                     </p>
                 </section>
 
-                <section class="rk-doc-section animate-on-scroll">
+                <section class="rk-doc-section" id="after">
                     <h2>鑑定のあとに残るもの</h2>
                     <ul>
                         <li>今回のテーマについて「次にすること」が決まっている状態</li>
@@ -214,68 +238,71 @@
                 </section>
 
             </article>
-
-            <!-- CTA -->
-            <div class="beginner-cta rk-cta-center">
-                <p class="rk-lead-text" style="margin-bottom: 1.6rem;">
-                    フォームから予約を入れるだけで、あとは当日、<br class="rk-pc-br">
-                    こちらが聞きながら進めます。
-                </p>
-                <a href="reserve.html" class="cta-main-btn">ご予約はこちら<span class="cta-main-sub">24時間受付・空き日時から選べます</span></a>
-            </div>
-
-            <!-- ページ導線 -->
-            <div class="page-links-container">
-                <a href="index.html" class="page-link-card">
-                    <span class="page-link-title">TOP</span>
-                    <span class="page-link-desc">トップページ</span>
-                </a>
-                <a href="about.html" class="page-link-card">
-                    <span class="page-link-title">占い師</span>
-                    <span class="page-link-desc">活動履歴</span>
-                </a>
-                <a href="pricing.html" class="page-link-card">
-                    <span class="page-link-title">料金案内</span>
-                    <span class="page-link-desc">コース・料金</span>
-                </a>
-                <a href="testimonials.html" class="page-link-card">
-                    <span class="page-link-title">口コミ</span>
-                    <span class="page-link-desc">実際のご感想</span>
-                </a>
-                <a href="faq.html" class="page-link-card">
-                    <span class="page-link-title">Q&A</span>
-                    <span class="page-link-desc">Q&A</span>
-                </a>
-                <a href="blog.html" class="page-link-card">
-                    <span class="page-link-title">ブログ</span>
-                    <span class="page-link-desc">コラム</span>
-                </a>
-
-
-            </div>
-
         </div>
+
+        <!-- CTA -->
+        <section class="final-cta-section">
+            <div class="final-cta-inner">
+                <div>
+                    <h2 class="final-cta-title">フォームから予約を入れるだけで、<wbr>あとは当日、<wbr>こちらが聞きながら進めます。</h2>
+                </div>
+                <div class="final-cta-action">
+                    <a href="reserve.html" class="cta-main-btn">ご予約はこちら<span class="cta-main-sub">24時間受付・空き日時から選べます</span></a>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- フッター -->
     <footer class="footer">
         <div class="footer-inner">
-            <nav class="footer-nav">
-                <a href="index.html">TOP</a>
-                <a href="beginner.html">はじめて</a>
-                <a href="about.html">占い師</a>
-                <a href="pricing.html">料金案内</a>
-                <a href="testimonials.html">口コミ</a>
-                <a href="faq.html">Q&A</a>
-                <a href="blog.html">ブログ</a>
-                <a href="reserve.html">ご予約</a>
-                <a href="privacy.html">プライバシー</a>
-            </nav>
-            <div class="footer-info">
-                <p class="footer-hours">鑑定営業時間：14:00〜22:00（最終受付 21:00）/ 予約フォーム24時間受付</p>
-                <p class="footer-contact">お問い合わせ：uranai.rokkon@gmail.com</p>
+            <div class="footer-brand">
+                <a href="index.html" class="footer-logo">
+                    <img src="images/logo-mark-paper.png" alt="" width="46" height="46" loading="lazy">
+                    <span class="footer-logo-text"><span class="footer-logo-sub">占い処</span>六根清浄</span>
+                </a>
+                <p class="footer-tagline">出会う場所。選ぶ相手。動く時期。<br>相性とタイミングを、次の一手に変える四柱推命。</p>
             </div>
-            <div class="footer-copy">© 2026 六根清浄 All Rights Reserved.</div>
+            <nav class="footer-nav" aria-label="フッターメニュー">
+                <p class="footer-heading">ご案内</p>
+                <ul>
+                    <li><a href="index.html">TOP</a></li>
+                    <li><a href="beginner.html">はじめて</a></li>
+                    <li><a href="about.html">占い師</a></li>
+                    <li><a href="pricing.html">料金案内</a></li>
+                    <li><a href="testimonials.html">口コミ</a></li>
+                    <li><a href="faq.html">Q&amp;A</a></li>
+                    <li><a href="blog.html">ブログ</a></li>
+                    <li><a href="reserve.html">ご予約</a></li>
+                    <li><a href="stella.html">ステラファイル</a></li>
+                    <li><a href="privacy.html">プライバシー</a></li>
+                </ul>
+            </nav>
+            <div class="footer-about">
+                <p class="footer-heading">鑑定のご案内</p>
+                <dl class="footer-info">
+                    <div>
+                        <dt>鑑定時間</dt>
+                        <dd>14:00〜22:00（最終受付 21:00）</dd>
+                    </div>
+                    <div>
+                        <dt>ご予約</dt>
+                        <dd>予約フォーム24時間受付</dd>
+                    </div>
+                    <div>
+                        <dt>場所</dt>
+                        <dd>名古屋・栄（対面）／オンライン</dd>
+                    </div>
+                    <div>
+                        <dt>お問い合わせ</dt>
+                        <dd><a href="mailto:uranai.rokkon@gmail.com">uranai.rokkon@gmail.com</a></dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-operator">運営：六根清浄（個人事業・2026年5月開業／名古屋・栄）｜ステラファイルに関するお問い合わせ：stella@uranai-rokkon.com</p>
+            <p class="footer-copy">© 2026 六根清浄</p>
         </div>
     </footer>
 
@@ -286,7 +313,7 @@
         <span class="sticky-text">ご予約はこちら｜24時間受付</span>
     </a>
 
-    <script src="js/main.js?v=20260724b"></script>
+    <script src="js/main.js?v=20261111a"></script>
 </body>
 
 </html>

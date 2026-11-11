@@ -148,6 +148,241 @@ async function fetchArticleContent(url, retries = 2) {
 
 const SITEMAP_PATH = path.join(__dirname, '../sitemap.xml');
 
+// ---------------------------------------------------------------------------
+// テンプレート
+// 記事ページ（blog/<id>.html）と一覧カード（blog.html の #blog-grid 内）の HTML。
+// 見た目は css/blog.css が持つ。ここにインライン style や <style> は書かない。
+// ヘッダー・フッターは他ページと同じもの（パスだけ blog/ から見た相対）。
+// ---------------------------------------------------------------------------
+const ASSET_VERSION = '20261111a';
+
+const SITE_HEADER = `    <!-- ヘッダー -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="../index.html" class="logo" aria-label="占い処 六根清浄 トップページ">
+                <img src="../images/logo-mark-ink.png" alt="" class="logo-mark" width="38" height="38">
+                <span class="logo-text">
+                    <span class="logo-sub">占い処</span>
+                    <span class="logo-main">六根清浄</span>
+                </span>
+            </a>
+            <div class="nav-wrapper" id="siteNav">
+                <nav class="nav" aria-label="メインメニュー">
+                    <a href="../index.html">TOP</a>
+                    <a href="../beginner.html">はじめて</a>
+                    <a href="../about.html">占い師</a>
+                    <a href="../pricing.html">料金案内</a>
+                    <a href="../testimonials.html">口コミ</a>
+                    <a href="../faq.html">Q&amp;A</a>
+                    <a href="../blog.html" aria-current="page">ブログ</a>
+                </nav>
+                <a href="../reserve.html" class="contact-btn">ご予約</a>
+            </div>
+            <button type="button" class="menu-toggle" onclick="toggleMenu(this);" aria-label="メニューを開く"
+                aria-expanded="false" aria-controls="siteNav">
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>`;
+
+const SITE_FOOTER = `    <!-- フッター -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a href="../index.html" class="footer-logo">
+                    <img src="../images/logo-mark-paper.png" alt="" width="46" height="46" loading="lazy">
+                    <span class="footer-logo-text"><span class="footer-logo-sub">占い処</span>六根清浄</span>
+                </a>
+                <p class="footer-tagline">出会う場所。選ぶ相手。動く時期。<br>相性とタイミングを、次の一手に変える四柱推命。</p>
+            </div>
+            <nav class="footer-nav" aria-label="フッターメニュー">
+                <p class="footer-heading">ご案内</p>
+                <ul>
+                    <li><a href="../index.html">TOP</a></li>
+                    <li><a href="../beginner.html">はじめて</a></li>
+                    <li><a href="../about.html">占い師</a></li>
+                    <li><a href="../pricing.html">料金案内</a></li>
+                    <li><a href="../testimonials.html">口コミ</a></li>
+                    <li><a href="../faq.html">Q&amp;A</a></li>
+                    <li><a href="../blog.html">ブログ</a></li>
+                    <li><a href="../reserve.html">ご予約</a></li>
+                    <li><a href="../stella.html">ステラファイル</a></li>
+                    <li><a href="../privacy.html">プライバシー</a></li>
+                </ul>
+            </nav>
+            <div class="footer-about">
+                <p class="footer-heading">鑑定のご案内</p>
+                <dl class="footer-info">
+                    <div>
+                        <dt>鑑定時間</dt>
+                        <dd>14:00〜22:00（最終受付 21:00）</dd>
+                    </div>
+                    <div>
+                        <dt>ご予約</dt>
+                        <dd>予約フォーム24時間受付</dd>
+                    </div>
+                    <div>
+                        <dt>場所</dt>
+                        <dd>名古屋・栄（対面）／オンライン</dd>
+                    </div>
+                    <div>
+                        <dt>お問い合わせ</dt>
+                        <dd><a href="mailto:uranai.rokkon@gmail.com">uranai.rokkon@gmail.com</a></dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-operator">運営：六根清浄（個人事業・2026年5月開業／名古屋・栄）｜ステラファイルに関するお問い合わせ：stella@uranai-rokkon.com</p>
+            <p class="footer-copy">© 2026 六根清浄</p>
+        </div>
+    </footer>
+
+    <button type="button" id="back-to-top" class="back-to-top" aria-label="トップへ戻る">↑</button>`;
+
+const SITE_STICKY = `    <!-- スマホ追従予約ボタン -->
+    <a href="../reserve.html" class="sticky-reservation-btn">
+        <span class="sticky-text">ご予約はこちら｜24時間受付</span>
+    </a>`;
+
+const FINAL_CTA = `        <!-- 最終CTA -->
+        <section class="final-cta-section">
+            <div class="final-cta-inner">
+                <div>
+                    <h2 class="final-cta-title">テーマをひとつ、<wbr>30分で整理しませんか</h2>
+                    <p class="final-cta-text">
+                        ご予約はフォームから24時間受付。<br>
+                        空きのある日時から選ぶだけ、お申し込みは約3分です。
+                    </p>
+                </div>
+                <div class="final-cta-action">
+                    <a href="../reserve.html" class="cta-main-btn">ご予約はこちら<span
+                            class="cta-main-sub">24時間受付・空き日時から選べます</span></a>
+                    <p class="final-cta-sub">
+                        <a href="../beginner.html" class="text-link light">はじめての方はこちら</a>
+                    </p>
+                </div>
+            </div>
+        </section>`;
+
+// 記事ページ全体。値はすべて HTML にそのまま差し込む文字列
+// （description / ogDescription は呼び出し側で &quot; エスケープ済みのもの）。
+function renderArticleHTML(d) {
+    return `<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${d.title} | 占い処 六根清浄 ブログ</title>
+    <meta name="description" content="${d.description}">
+    <link rel="canonical" href="${d.canonicalUrl}">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    ${d.jsonLd}
+    </script>
+
+    <!-- OGP -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="${d.title} | 占い処 六根清浄">
+    <meta property="og:description" content="${d.ogDescription}">
+    <meta property="og:url" content="${d.canonicalUrl}">
+    <meta property="og:image" content="${d.thumbUrl}">
+
+    <!-- Favicon -->
+    <link rel="icon" href="../images/favicon-rokkon.png">
+    <link rel="apple-touch-icon" href="../images/favicon-rokkon.png">
+    <meta name="theme-color" content="#f6f3ec">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/style.css?v=${ASSET_VERSION}">
+    <link rel="stylesheet" href="../css/redesign.css?v=${ASSET_VERSION}">
+    <link rel="stylesheet" href="../css/blog.css?v=${ASSET_VERSION}">
+</head>
+
+<body>
+
+${SITE_HEADER}
+
+    <!-- メインコンテンツ -->
+    <main class="main-content">
+        <article class="post">
+            <header class="page-header post-header">
+                <div class="page-header-inner">
+                    <nav class="breadcrumb" aria-label="パンくずリスト">
+                        <ol>
+                            <li><a href="../index.html">TOP</a></li>
+                            <li><a href="../blog.html">ブログ</a></li>
+                            <li aria-current="page">${d.title}</li>
+                        </ol>
+                    </nav>
+                    <h1 class="post-title">${d.title}</h1>
+                </div>
+            </header>
+
+            <div class="post-layout">
+                <p class="article-meta post-meta">
+                    <time class="article-date" datetime="${d.isoDate}">${d.formattedDate}</time>
+                    <span class="article-category">${d.displayCategory}</span>
+                </p>
+
+                <div class="post-main">
+                    <img src="${d.thumbUrl}" alt="${d.title}" class="article-header-image" onerror="this.style.display='none'">
+
+                    <div class="article-body">
+                        ${d.content}
+                    </div>
+
+                    <footer class="post-footer">
+                        <a href="${d.noteUrl}" target="_blank" rel="noopener" class="arrow-link original-link">この記事のNote元ページを開く</a>
+                        <a href="../blog.html" class="post-back">ブログ一覧に戻る</a>
+                    </footer>
+                </div>
+            </div>
+        </article>
+
+${FINAL_CTA}
+    </main>
+
+${SITE_FOOTER}
+${SITE_STICKY}
+
+    <script src="../js/main.js?v=${ASSET_VERSION}"></script>
+</body>
+
+</html>
+`;
+}
+
+// 一覧カード 1 枚。blog.html の #blog-grid 内に並ぶ。
+function renderCardHTML(c) {
+    const newBadgeHtml = c.isNew ? '<span class="new-badge">NEW</span>' : '';
+
+    return `
+        <a href="blog/${c.fileName}" class="article-card" data-category="${c.category}" data-timestamp="${c.timestamp}">
+            <div class="article-image">
+                <img src="${c.thumbUrl}" alt="${c.title}" class="article-thumb" loading="lazy" onerror="this.src='images/otya.png'">
+            </div>
+            <div class="article-content">
+                <p class="article-meta">
+                    <time class="article-date" datetime="${c.isoDate}">${c.formattedDate}</time>
+                    <span class="article-category">${c.displayCategory}</span>${newBadgeHtml}
+                </p>
+                <h2 class="article-title">${c.title}</h2>
+                <p class="article-excerpt">${c.excerpt}</p>
+            </div>
+        </a>
+    `;
+}
+
 function generateArticlePage(item, content, categorySlug, displayCategory, excerpt) {
     const title = item.title || "無題";
     const pubDate = new Date(item.pubDate);
@@ -184,230 +419,19 @@ function generateArticlePage(item, content, categorySlug, displayCategory, excer
         "description": excerpt || title
     };
 
-    const html = `<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title} | 占い処 六根清浄 ブログ</title>
-    <meta name="description" content="${(excerpt || title).replace(/"/g, '&quot;')}">
-    <link rel="canonical" href="${canonicalUrl}">
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    ${JSON.stringify(jsonLd)}
-    </script>
-
-    <!-- OGP -->
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="${title} | 占い処 六根清浄">
-    <meta property="og:description" content="${(excerpt || '六根清浄のブログ記事です。').replace(/"/g, '&quot;')}">
-    <meta property="og:url" content="${canonicalUrl}">
-    <meta property="og:image" content="${thumbUrl}">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="../images/favicon.png">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/blog.css">
-    <style>
-        .article-body {
-            font-family: 'Shippori Mincho', serif;
-            line-height: 2.0;
-            color: #333;
-            font-size: 1.05rem;
-            margin-top: 40px;
-        }
-        .article-body h2 {
-            font-size: 1.4rem;
-            margin-top: 50px;
-            margin-bottom: 25px;
-            border-bottom: 1px solid var(--color-gold);
-            padding-bottom: 10px;
-            color: var(--color-primary-dark);
-        }
-        .article-body h3 {
-            font-size: 1.2rem;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        .article-body p {
-            margin-bottom: 2em;
-        }
-        .article-body img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin: 20px 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        .article-body a {
-            color: #2cb696;
-            text-decoration: underline;
-            text-underline-offset: 3px;
-            transition: color 0.2s;
-        }
-        .article-body a:hover {
-            color: #1a9a7a;
-        }
-        .article-body .external-article-widget {
-            display: flex;
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
-            overflow: hidden;
-            background: #fff;
-            text-decoration: none;
-            margin: 20px 0;
-            transition: box-shadow 0.2s;
-        }
-        .article-body .external-article-widget:hover {
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .article-body .external-article-widget a {
-            text-decoration: none;
-            color: inherit;
-        }
-        .article-body .external-article-widget-title {
-            font-size: 0.95rem;
-            color: #333;
-            display: block;
-            margin-bottom: 4px;
-        }
-        .article-body .external-article-widget-description,
-        .article-body .external-article-widget-url {
-            font-size: 0.8rem;
-            color: #999;
-            display: block;
-        }
-        .article-body .external-article-widget-price {
-            font-size: 0.85rem;
-            color: #333;
-            margin-top: 6px;
-        }
-        .article-body .external-article-widget-button .a-button {
-            display: inline-block;
-            background: #333;
-            color: #fff;
-            padding: 6px 16px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            margin-top: 8px;
-        }
-        .article-body .external-article-widget-image {
-            flex-shrink: 0;
-        }
-        .article-body .external-article-widget-productImage {
-            display: block;
-            width: 120px;
-            height: 120px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-        .article-body blockquote {
-            border-left: 4px solid var(--color-gold);
-            padding-left: 15px;
-            margin: 20px 0;
-            color: #666;
-            font-style: italic;
-        }
-        .article-header-image {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 1.91 / 1;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 30px;
-        }
-        .original-link {
-            display: inline-block;
-            margin-top: 40px;
-            padding: 15px 25px;
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            color: #666;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-        .original-link:hover {
-            background: #f0f0f0;
-            color: #333;
-        }
-    </style>
-</head>
-<body>
-    <header class="header">
-        <div class="header-inner">
-            <a href="../index.html" class="logo">
-                <span class="logo-main">六根清浄</span>
-                <span class="logo-sub">(Rokkon shojo)</span>
-            </a>
-            <div class="nav-wrapper">
-                <nav class="nav">
-                    <a href="../index.html">TOP</a>
-                    <a href="../beginner.html">はじめて</a>
-                    <a href="../about.html">占い師</a>
-                    <a href="../pricing.html">料金案内</a>
-                    <a href="../testimonials.html">口コミ</a>
-                    <a href="../faq.html">Q&A</a>
-                    <a href="../blog.html">ブログ</a>
-                </nav>
-                <a href="../reserve.html" class="contact-btn">ご予約</a>
-            </div>
-            <button type="button" class="menu-toggle" onclick="toggleMenu(this);" aria-label="メニューを開く" aria-expanded="false">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-    </header>
-
-    <main class="main-content" style="padding-top: 100px; padding-bottom: 80px;">
-        <article class="blog-inner" style="background: #fff; padding: 40px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-            
-            <header class="article-header">
-                <div class="article-meta" style="margin-bottom: 15px; color: #888;">
-                    <span class="article-date">${formattedDate}</span>
-                    <span class="article-category" style="position: static; display: inline-block; margin-left: 10px;">${displayCategory}</span>
-                </div>
-                <h1 style="font-size: 1.8rem; margin-bottom: 30px; letter-spacing: 0.05em; line-height: 1.5;">${title}</h1>
-                <img src="${thumbUrl}" alt="${title}" class="article-header-image" onerror="this.style.display='none'">
-            </header>
-
-            <div class="article-body">
-                ${content}
-            </div>
-
-            <footer style="margin-top: 60px; border-top: 1px solid #eee; padding-top: 30px;">
-                <a href="${noteUrl}" target="_blank" rel="noopener" class="original-link">
-                    この記事のNote元ページを開く
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-left: 5px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                </a>
-                <div style="margin-top: 30px; text-align: center;">
-                    <a href="../blog.html" class="load-more-btn" style="text-decoration: none;">ブログ一覧に戻る</a>
-                </div>
-            </footer>
-        </article>
-    </main>
-
-    <footer class="footer">
-        <div class="footer-inner">
-             <div class="footer-copy">© 2026 六根清浄 All Rights Reserved.</div>
-        </div>
-    </footer>
-
-    <script src="../js/main.js"></script>
-</body>
-</html>`;
+    const html = renderArticleHTML({
+        title,
+        description: (excerpt || title).replace(/"/g, '&quot;'),
+        ogDescription: (excerpt || '六根清浄のブログ記事です。').replace(/"/g, '&quot;'),
+        canonicalUrl,
+        jsonLd: JSON.stringify(jsonLd),
+        thumbUrl,
+        isoDate,
+        formattedDate,
+        displayCategory,
+        content,
+        noteUrl
+    });
 
     console.log(`Writing article page: ${fileName}`);
     fs.writeFileSync(filePath, html);
@@ -416,7 +440,6 @@ function generateArticlePage(item, content, categorySlug, displayCategory, excer
 
 function generateCardHTML(item, internalLink, manualExcerpt = null) {
     const title = item.title || "無題";
-    const link = internalLink;
     const pubDate = new Date(item.pubDate);
     const formattedDate = format(pubDate, 'yyyy年M月d日');
 
@@ -442,27 +465,19 @@ function generateCardHTML(item, internalLink, manualExcerpt = null) {
     const now = new Date();
     const diffHours = (now - pubDate) / (1000 * 60 * 60);
     const isNew = diffHours < 24;
-    const newBadgeHtml = isNew ? '<span class="new-badge">NEW</span>' : '';
 
-    return `
-        <a href="blog/${internalLink}" class="article-card" data-category="${assignedCategory}" data-timestamp="${pubDate.getTime()}">
-            <div class="article-image">
-                <span class="article-category">${displayCategory}</span>
-                ${newBadgeHtml}
-                <img src="${thumbUrl}" alt="${title}" class="article-thumb" onerror="this.src='images/otya.png'">
-            </div>
-            <div class="article-content">
-                <div class="article-meta" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.8rem; color: #888;">
-                    <span class="article-date">${formattedDate}</span>
-                </div>
-                <h2 class="article-title">${title}</h2>
-                <p class="article-excerpt">${excerpt}</p>
-                <div style="display: flex; align-items: center; justify-content: space-between;">
-                    <span class="read-more">記事を読む</span>
-                </div>
-            </div>
-        </a>
-    `;
+    return renderCardHTML({
+        fileName: internalLink,
+        category: assignedCategory,
+        displayCategory,
+        timestamp: pubDate.getTime(),
+        isoDate: pubDate.toISOString(),
+        formattedDate,
+        thumbUrl,
+        title,
+        excerpt,
+        isNew
+    });
 }
 
 async function updateSitemap(items) {
@@ -660,4 +675,10 @@ async function updateBlogHTML() {
     await updateSitemap(items);
 }
 
-updateBlogHTML();
+// テンプレートの確認用に関数を公開する（require しただけでは何も実行しない）。
+// `node scripts/update_blog.js` として直接実行されたときだけ更新処理を走らせる。
+module.exports = { renderArticleHTML, renderCardHTML, generateArticlePage, generateCardHTML, assignCategory, CAT_MAP };
+
+if (require.main === module) {
+    updateBlogHTML();
+}

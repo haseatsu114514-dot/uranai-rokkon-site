@@ -25,64 +25,76 @@
   <meta property="og:image" content="https://uranai-rokkon.com/images/otya.png">
 
   <!-- Favicon -->
-  <link rel="icon" href="images/favicon.png">
+  <link rel="icon" href="images/favicon-rokkon.png">
+    <link rel="apple-touch-icon" href="images/favicon-rokkon.png">
+    <meta name="theme-color" content="#f6f3ec">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
+        rel="stylesheet">
 
   <!-- CSS -->
-  <link rel="stylesheet" href="css/style.css?v=20261023a">
-  <link rel="stylesheet" href="css/redesign.css?v=20261023a">
-  <link rel="stylesheet" href="css/animations.css?v=20261023a">
+    <link rel="stylesheet" href="css/style.css?v=20261111a">
+    <link rel="stylesheet" href="css/redesign.css?v=20261111a">
 </head>
 
 <body>
 
-  <!-- ヘッダー -->
-  <header class="header">
-    <div class="header-inner">
-      <a href="index.html" class="logo">
-        <span class="logo-main">六根清浄</span>
-        <span class="logo-sub">(Rokkon shojo)</span>
-      </a>
-      <div class="nav-wrapper">
-        <nav class="nav">
-          <a href="index.html">TOP</a>
-          <a href="beginner.html">はじめて</a>
-          <a href="about.html">占い師</a>
-          <a href="pricing.html">料金案内</a>
-          <a href="testimonials.html" class="current">口コミ</a>
-          <a href="faq.html">Q&A</a>
-          <a href="blog.html">ブログ</a>
-
-        </nav>
-        <a href="reserve.html" class="contact-btn">ご予約</a>
-      </div>
-      <button type="button" class="menu-toggle" onclick="toggleMenu(this);" aria-label="メニューを開く" aria-expanded="false">
-                <span></span>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="index.html" class="logo" aria-label="占い処 六根清浄 トップページ">
+                <img src="images/logo-mark-ink.png" alt="" class="logo-mark" width="38" height="38">
+                <span class="logo-text">
+                    <span class="logo-sub">占い処</span>
+                    <span class="logo-main">六根清浄</span>
+                </span>
+            </a>
+            <div class="nav-wrapper" id="siteNav">
+                <nav class="nav" aria-label="メインメニュー">
+                    <a href="index.html">TOP</a>
+                    <a href="beginner.html">はじめて</a>
+                    <a href="about.html">占い師</a>
+                    <a href="pricing.html">料金案内</a>
+                    <a href="testimonials.html" aria-current="page">口コミ</a>
+                    <a href="faq.html">Q&amp;A</a>
+                    <a href="blog.html">ブログ</a>
+                </nav>
+                <a href="reserve.html" class="contact-btn">ご予約</a>
+            </div>
+            <button type="button" class="menu-toggle" onclick="toggleMenu(this);" aria-label="メニューを開く"
+                aria-expanded="false" aria-controls="siteNav">
                 <span></span>
                 <span></span>
             </button>
-    </div>
-  </header>
+        </div>
+    </header>
 
   <!-- メインコンテンツ -->
   <main class="main-content sub-page">
     <!-- ページヘッダー -->
-    <section class="page-header">
-      <h1 class="page-title">口コミ</h1>
-      <p class="page-subtitle">数より、参考になる声を。<br>「何に迷い、何が整理でき、どう動いたか」が分かるご感想を選んで掲載しています。</p>
-    </section>
+    <div class="page-header">
+        <div class="page-header-inner">
+            <nav class="breadcrumb" aria-label="パンくずリスト">
+                <ol>
+                    <li><a href="index.html">TOP</a></li>
+                    <li aria-current="page">口コミ</li>
+                </ol>
+            </nav>
+            <h1 class="page-title">口コミ</h1>
+            <p class="page-subtitle">数より、参考になる声を。<br>「何に迷い、何が整理でき、どう動いたか」が分かるご感想を選んで掲載しています。</p>
+        </div>
+    </div>
 
     <!-- 口コミ（ケース形式） -->
-    <section class="rk-section" style="padding-top: 2rem;">
+    <section class="rk-section">
+      <div class="rk-wrap">
       <div class="rk-ts-grid">
 
-        <article class="rk-ts-card animate-on-scroll">
-          <div class="rk-ts-head"><span class="rk-ts-theme">恋愛・復縁</span></div>
+        <article class="rk-ts-card">
+          <p class="rk-ts-theme">恋愛・復縁</p>
           <p class="rk-ts-issue">別れて半年。連絡していいのか迷っていた</p>
           <blockquote class="rk-ts-quote">
             別れて半年、未練タラタラで周りには「執着だよ」「次行きな」って何回言われたことか。でも先生は「相性見る限り、別れる組み合わせじゃない。彼、今運気落ちてるから◯月以降にこういう内容で連絡して」って超具体的で。言われた通りにしたら長文返信きて泣きました。今は復縁して同棲してます。
@@ -90,8 +102,8 @@
           <div class="rk-ts-author">みなみさん（26歳・女性）</div>
         </article>
 
-        <article class="rk-ts-card animate-on-scroll">
-          <div class="rk-ts-head"><span class="rk-ts-theme">恋愛</span></div>
+        <article class="rk-ts-card">
+          <p class="rk-ts-theme">恋愛</p>
           <p class="rk-ts-issue">彼と噛み合わない。別れるべきか迷っていた</p>
           <blockquote class="rk-ts-quote">
             彼氏との関係で悩んでて。好きだけど噛み合わないというか…。友達は「別れたら？」って言うし、親は「まだ若いんだから」って。鑑定で相性とか、どう接すればいいか、地雷ワードとかを教えてもらえて本当に関係が良くなりました。別れなくてよかったです！
@@ -99,8 +111,8 @@
           <div class="rk-ts-author">りおさん（21歳・女性）</div>
         </article>
 
-        <article class="rk-ts-card animate-on-scroll">
-          <div class="rk-ts-head"><span class="rk-ts-theme">出会い</span></div>
+        <article class="rk-ts-card">
+          <p class="rk-ts-theme">出会い</p>
           <p class="rk-ts-issue">アプリで複数の候補。選びきれなかった</p>
           <blockquote class="rk-ts-quote">
             アプリで何人かいい人がいて、友達に相談したら「気持ち次第じゃない？」って。いや、それが分からないから困ってるんだけど…って（笑）長谷川さんに占ってもらったら、今まで選んでた彼氏がたまたま相性悪かったってわかって。占い通りの人を選んだら結婚まで進みました。
@@ -108,8 +120,8 @@
           <div class="rk-ts-author">M.Tさん（29歳・女性）</div>
         </article>
 
-        <article class="rk-ts-card animate-on-scroll">
-          <div class="rk-ts-head"><span class="rk-ts-theme">結婚・婚活</span></div>
+        <article class="rk-ts-card">
+          <p class="rk-ts-theme">結婚・婚活</p>
           <p class="rk-ts-issue">婚活3年目。このまま動き続けるべきか</p>
           <blockquote class="rk-ts-quote">
             32歳、婚活3年目。何十人と会って全部ダメで「私に問題があるのかも」って本気で病んでました。長谷川さんに「今年は縁がない年。来年の春から動いて」って。言われた通りにしたら3人目で今の彼に出会えて、しかも長谷川さんが言ってた特徴そのままの人。
@@ -117,8 +129,8 @@
           <div class="rk-ts-author">さくらさん（33歳・女性）</div>
         </article>
 
-        <article class="rk-ts-card animate-on-scroll">
-          <div class="rk-ts-head"><span class="rk-ts-theme">結婚</span></div>
+        <article class="rk-ts-card">
+          <p class="rk-ts-theme">結婚</p>
           <p class="rk-ts-issue">プロポーズの時期を決めかねていた</p>
           <blockquote class="rk-ts-quote">
             彼女と5年付き合ってるけど、なかなかプロポーズする勇気が出なくて。鑑定で「相性は抜群。◯月に動けば、向こうも覚悟決めてる」って言われてプロポーズしたら泣いて喜んでくれました。背中押してもらえて本当に感謝です。
@@ -126,8 +138,8 @@
           <div class="rk-ts-author">大輔さん（34歳・男性）</div>
         </article>
 
-        <article class="rk-ts-card animate-on-scroll">
-          <div class="rk-ts-head"><span class="rk-ts-theme">仕事</span></div>
+        <article class="rk-ts-card">
+          <p class="rk-ts-theme">仕事</p>
           <p class="rk-ts-issue">3年目。辞めていいのか分からなかった</p>
           <blockquote class="rk-ts-quote">
             仕事がしんどいけど辞めていいのか分からなくて。まだ3年目だし頑張らないとって余計モヤモヤして。長谷川さんに鑑定してもらったら、私が素質的に苦手なことを無理に頑張ってたことが分かりました。向いてる分野を教えてもらって転職活動したら、すぐ内定もらえて。今は毎日楽しく働けてます。
@@ -135,8 +147,8 @@
           <div class="rk-ts-author">川田さん（27歳・女性）</div>
         </article>
 
-        <article class="rk-ts-card animate-on-scroll">
-          <div class="rk-ts-head"><span class="rk-ts-theme">仕事</span></div>
+        <article class="rk-ts-card">
+          <p class="rk-ts-theme">仕事</p>
           <p class="rk-ts-issue">休職するかどうか、決められなかった</p>
           <blockquote class="rk-ts-quote">
             仕事で精神的に追い詰められて、休職か悩んでました。具体的にどうすればいいか分からなくて。先生は人生経験が豊富で、選択肢を真剣に考えてくれました。利用できそうな制度とかすごく具体的に教えてくれて。おかげで冷静に判断できて、今は休みながら復帰の準備をしています。
@@ -144,8 +156,8 @@
           <div class="rk-ts-author">Y.Nさん（42歳・女性）</div>
         </article>
 
-        <article class="rk-ts-card animate-on-scroll">
-          <div class="rk-ts-head"><span class="rk-ts-theme">人生・家族</span></div>
+        <article class="rk-ts-card">
+          <p class="rk-ts-theme">人生・家族</p>
           <p class="rk-ts-issue">母との距離の取り方に悩んでいた</p>
           <blockquote class="rk-ts-quote">
             母との関係がずっと苦しくて。何を言っても否定、姉と比較、私の選択は全部ダメ出し。「お母さんの命式見ると、本人も苦しんでるタイプ。愛情はあるけど表現が下手」って言われて涙が止まらなくなって。「あなたは実家出た方がいい命式」って背中押されて一人暮らし始めたら本当に楽になりました。
@@ -160,94 +172,103 @@
         ※ ご感想は、これまでの鑑定活動（占い館・チャット占い在籍時を含みます）でいただいたものです。<br>
         ※ 鑑定は未来を保証するものではありません。結果には個人差があります。
       </p>
-    </section>
-
-    <!-- CTAセクション -->
-    <section class="cta-section">
-      <p class="cta-text">迷っていることを、決められる状態まで。</p>
-      <a href="reserve.html" class="cta-main-btn">ご予約はこちら<span class="cta-main-sub">24時間受付・空き日時から選べます</span></a>
+      </div>
     </section>
 
     <!-- 感想募集 -->
-    <section class="rk-section" style="padding-top: 0;">
-      <div class="rk-section-inner" style="text-align: center;">
-        <h2 class="section-title">鑑定を受けられた方へ</h2>
-        <p class="rk-lead-text" style="font-size: 0.92rem;">
-          よろしければ、ご感想をお寄せください。<br>
-          サイトへの掲載可否は選んでいただけます。掲載は内容を確認のうえ決定します。
-        </p>
-        <div class="rk-cta-center" style="margin-top: 1.6rem;">
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSdG_cRsdXN-z8HUmzwUdAv7exsxFM41qp-WLr6hGORGmQI28w/viewform?usp=header"
-            class="outline-btn" target="_blank" rel="noopener">感想を送る（Googleフォーム）</a>
+    <section class="rk-section rk-section-alt">
+      <div class="rk-wrap rk-split">
+        <header class="rk-head">
+          <h2 class="rk-title">鑑定を受けられた方へ</h2>
+        </header>
+        <div class="rk-body">
+          <p>
+            よろしければ、ご感想をお寄せください。<br>
+            サイトへの掲載可否は選んでいただけます。掲載は内容を確認のうえ決定します。
+          </p>
+          <p class="rk-more">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSdG_cRsdXN-z8HUmzwUdAv7exsxFM41qp-WLr6hGORGmQI28w/viewform?usp=header"
+              class="outline-btn" target="_blank" rel="noopener">感想を送る（Googleフォーム）</a>
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- ページ導線 -->
-    <section class="page-links">
-      <div class="page-links-inner">
-        <a href="index.html" class="page-link-card">
-          <span class="page-link-title">TOP</span>
-          <span class="page-link-desc">トップページ</span>
-        </a>
-        <a href="beginner.html" class="page-link-card">
-          <span class="page-link-title">はじめて</span>
-          <span class="page-link-desc">ご案内</span>
-        </a>
-        <a href="about.html" class="page-link-card">
-          <span class="page-link-title">占い師</span>
-          <span class="page-link-desc">活動履歴</span>
-        </a>
-        <a href="pricing.html" class="page-link-card">
-          <span class="page-link-title">料金案内</span>
-          <span class="page-link-desc">コース・料金</span>
-        </a>
-        <a href="faq.html" class="page-link-card">
-          <span class="page-link-title">Q&A</span>
-          <span class="page-link-desc">Q&A</span>
-        </a>
-        <a href="blog.html" class="page-link-card">
-          <span class="page-link-title">ブログ</span>
-          <span class="page-link-desc">コラム</span>
-        </a>
-
-
+    <!-- CTAセクション -->
+    <section class="final-cta-section">
+      <div class="final-cta-inner">
+        <div>
+          <h2 class="final-cta-title">迷っていることを、<wbr>決められる状態まで。</h2>
+        </div>
+        <div class="final-cta-action">
+          <a href="reserve.html" class="cta-main-btn">ご予約はこちら<span class="cta-main-sub">24時間受付・空き日時から選べます</span></a>
+        </div>
       </div>
     </section>
+
   </main>
 
-  <!-- フッター -->
-  <footer class="footer">
-    <div class="footer-inner">
-            <nav class="footer-nav">
-                <a href="index.html">TOP</a>
-                <a href="beginner.html">はじめて</a>
-                <a href="about.html">占い師</a>
-                <a href="pricing.html">料金案内</a>
-                <a href="testimonials.html">口コミ</a>
-                <a href="faq.html">Q&A</a>
-                <a href="blog.html">ブログ</a>
-                <a href="reserve.html">ご予約</a>
-                <a href="privacy.html">プライバシー</a>
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a href="index.html" class="footer-logo">
+                    <img src="images/logo-mark-paper.png" alt="" width="46" height="46" loading="lazy">
+                    <span class="footer-logo-text"><span class="footer-logo-sub">占い処</span>六根清浄</span>
+                </a>
+                <p class="footer-tagline">出会う場所。選ぶ相手。動く時期。<br>相性とタイミングを、次の一手に変える四柱推命。</p>
+            </div>
+            <nav class="footer-nav" aria-label="フッターメニュー">
+                <p class="footer-heading">ご案内</p>
+                <ul>
+                    <li><a href="index.html">TOP</a></li>
+                    <li><a href="beginner.html">はじめて</a></li>
+                    <li><a href="about.html">占い師</a></li>
+                    <li><a href="pricing.html">料金案内</a></li>
+                    <li><a href="testimonials.html">口コミ</a></li>
+                    <li><a href="faq.html">Q&amp;A</a></li>
+                    <li><a href="blog.html">ブログ</a></li>
+                    <li><a href="reserve.html">ご予約</a></li>
+                    <li><a href="stella.html">ステラファイル</a></li>
+                    <li><a href="privacy.html">プライバシー</a></li>
+                </ul>
             </nav>
-      <div class="footer-info">
-        <p class="footer-hours">鑑定営業時間：14:00〜22:00（最終受付 21:00）/ 予約フォーム24時間受付</p>
-        <p class="footer-contact">お問い合わせ：uranai.rokkon@gmail.com</p>
-      </div>
-      <div class="footer-copy">© 2026 六根清浄 All Rights Reserved.</div>
-    </div>
-  </footer>
+            <div class="footer-about">
+                <p class="footer-heading">鑑定のご案内</p>
+                <dl class="footer-info">
+                    <div>
+                        <dt>鑑定時間</dt>
+                        <dd>14:00〜22:00（最終受付 21:00）</dd>
+                    </div>
+                    <div>
+                        <dt>ご予約</dt>
+                        <dd>予約フォーム24時間受付</dd>
+                    </div>
+                    <div>
+                        <dt>場所</dt>
+                        <dd>名古屋・栄（対面）／オンライン</dd>
+                    </div>
+                    <div>
+                        <dt>お問い合わせ</dt>
+                        <dd><a href="mailto:uranai.rokkon@gmail.com">uranai.rokkon@gmail.com</a></dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-operator">運営：六根清浄（個人事業・2026年5月開業／名古屋・栄）｜ステラファイルに関するお問い合わせ：stella@uranai-rokkon.com</p>
+            <p class="footer-copy">© 2026 六根清浄</p>
+        </div>
+    </footer>
 
-  <!-- トップへ戻る -->
-  <button type="button" id="back-to-top" class="back-to-top" aria-label="トップへ戻る">↑</button>
+    <button type="button" id="back-to-top" class="back-to-top" aria-label="トップへ戻る">↑</button>
 
-  <!-- スマホ追従予約ボタン -->
-  <a href="reserve.html" class="sticky-reservation-btn">
-    <span class="sticky-text">ご予約はこちら｜24時間受付</span>
-  </a>
+    <!-- スマホ追従予約ボタン -->
+    <a href="reserve.html" class="sticky-reservation-btn">
+        <span class="sticky-text">ご予約はこちら｜24時間受付</span>
+    </a>
 
-  <!-- JS -->
-  <script src="js/main.js?v=20260724b"></script>
+    <script src="js/main.js?v=20261111a"></script>
 </body>
 
 </html>

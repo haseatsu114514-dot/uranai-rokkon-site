@@ -1,313 +1,352 @@
 /* =========================================================================
-   RESERVE PAGE（ご予約ページ）
+   ご予約ページ
+   左に「ご予約にあたって」、右に申込書（フォーム）を置く二段組。
+   フォームは js/reserve.js が動かしている。id・name と、JS が書き換える
+   要素（#formError / #formSuccessText / #sameDayNotice など）のクラス名は
+   変えないこと。JS は表示の切り替えに hidden 属性を使う。
    ========================================================================= */
 
+/* 入力欄の罫（本文の罫より一段濃くして、欄の輪郭が読めるようにする） */
 .reserve-container {
-    max-width: 760px;
+    --field-rule: var(--ink-mute);
+    --field-h: 3rem;
 }
 
-/* ----- 予約方法の選択 ----- */
-.reserve-methods {
+@supports (color: color-mix(in srgb, red, blue)) {
+    .reserve-container {
+        --field-rule: color-mix(in srgb, var(--ink-mute) 70%, var(--rule));
+    }
+}
+
+/* hidden 属性を、display を指定した要素でも必ず効かせる */
+.reserve-container [hidden] {
+    display: none !important;
+}
+
+/* ---------- 二段組 ---------- */
+.reserve-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 70px;
+    grid-template-columns: minmax(220px, 300px) minmax(0, 720px);
+    justify-content: space-between;
+    gap: 3.5rem clamp(2.5rem, 6vw, 5.5rem);
+    align-items: start;
 }
 
-.reserve-method-card {
-    background: #fff;
-    border: 1px solid var(--color-border);
-    border-top: 2px solid var(--color-gold);
-    padding: 36px 28px 32px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.reserve-method-tag {
-    font-size: 0.75rem;
-    color: var(--color-gold);
-    letter-spacing: 0.15em;
-    margin-bottom: 10px;
-}
-
-.reserve-method-title {
-    font-size: 1.25rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    color: var(--color-primary);
-    margin-bottom: 14px;
-}
-
-.reserve-method-desc {
-    font-size: 0.85rem;
-    line-height: 1.9;
-    color: #666;
-    margin-bottom: 22px;
-    flex: 1;
-}
-
-.reserve-method-card .hero-btn {
-    position: relative;
-    display: inline-block;
-}
-
-/* ----- フォームセクション ----- */
 .reserve-form-section {
-    scroll-margin-top: 110px;
-    margin-bottom: 70px;
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    scroll-margin-top: calc(var(--header-h) + 1.5rem);
 }
 
+/* ---------- ご予約にあたって（左の欄） ---------- */
+.reserve-notes {
+    grid-column: 1;
+    grid-row: 1;
+    position: sticky;
+    top: calc(var(--header-h) + 2.5rem);
+}
+
+.reserve-notes-title {
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--ink);
+    font-size: 1.25rem;
+    letter-spacing: 0.08em;
+}
+
+.reserve-notes-list {
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+}
+
+.reserve-notes-list li + li {
+    margin-top: 0.75em;
+}
+
+/* ---------- フォーム前の案内 ---------- */
 .reserve-form-lead {
-    text-align: center;
-    font-size: 0.9rem;
-    line-height: 2;
-    color: #666;
-    margin: -20px 0 40px;
-}
-
-.reserve-leadtime-note {
-    background: rgba(143, 151, 121, 0.08);
-    border: 1px solid var(--color-gold);
-    color: #555;
-    font-size: 0.85rem;
-    line-height: 1.9;
-    text-align: center;
-    padding: 16px 20px;
-    margin-bottom: 30px;
+    text-wrap: pretty;
 }
 
 .reserve-leadtime-note strong {
-    color: var(--color-gold);
+    color: var(--ink);
 }
 
-.reserve-leadtime-note a {
-    color: var(--color-gold);
-    text-decoration: underline;
-}
-
+/* ---------- 申込書 ---------- */
 .reserve-form {
-    background: #fff;
-    border: 1px solid var(--color-border);
-    padding: 40px 36px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 1.5rem;
+    margin-top: 2.75rem;
+    padding-top: 2.25rem;
+    border-top: 1px solid var(--ink);
+}
+
+.reserve-form > * {
+    grid-column: 1 / -1;
+}
+
+.reserve-form > .form-block--half {
+    grid-column: auto;
+}
+
+/* 「ご相談テーマ」は左半分だけを使い、右は空けておく */
+.reserve-form > .form-block--half:has(#genre) {
+    grid-column: 1;
 }
 
 .form-block {
-    margin-bottom: 28px;
-    border: none;
+    min-width: 0;
+    border: 0;
 }
 
 .form-label {
     display: block;
-    font-size: 0.9rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.9375rem;
     font-weight: 500;
-    letter-spacing: 0.1em;
-    color: var(--color-primary);
-    margin-bottom: 10px;
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+}
+
+/* legend は float させないと下の余白が安定しない */
+legend.form-label {
+    float: left;
+    width: 100%;
+}
+
+legend.form-label + * {
+    clear: both;
 }
 
 .required-mark,
 .optional-mark {
-    display: inline-block;
-    font-size: 0.65rem;
-    font-weight: 400;
+    margin-left: 0.6em;
+    font-size: 0.75rem;
+    font-weight: 500;
     letter-spacing: 0.1em;
-    padding: 2px 8px;
-    margin-left: 8px;
-    vertical-align: 2px;
 }
 
 .required-mark {
-    color: #fff;
-    background: var(--color-gold);
+    color: var(--shu);
 }
 
 .optional-mark {
-    color: #888;
-    border: 1px solid var(--color-border);
+    font-weight: 400;
+    color: var(--ink-mute);
 }
 
-.reserve-form input[type="text"],
-.reserve-form input[type="email"],
-.reserve-form input[type="date"],
+/* ---------- 入力欄 ---------- */
+.reserve-form input[type='text'],
+.reserve-form input[type='email'],
+.reserve-form input[type='date'],
 .reserve-form select,
 .reserve-form textarea {
+    display: block;
     width: 100%;
-    font-family: 'Shippori Mincho', serif;
-    font-size: 16px; /* iOSの自動ズーム防止 */
-    color: var(--color-primary);
-    background: var(--color-cream);
-    border: 1px solid var(--color-border);
+    min-height: var(--field-h);
+    padding: 0.7rem 0.9rem;
+    font: inherit;
+    font-size: 1rem; /* 16px 未満にすると iOS が拡大表示する */
+    line-height: 1.5;
+    letter-spacing: 0.03em;
+    color: var(--ink);
+    background-color: var(--surface);
+    border: 1px solid var(--field-rule);
     border-radius: 0;
-    padding: 12px 14px;
-    transition: border-color 0.3s ease, background 0.3s ease;
     -webkit-appearance: none;
     appearance: none;
+    transition: border-color 0.2s ease;
 }
 
-.reserve-form select {
-    background-image: linear-gradient(45deg, transparent 50%, #888 50%),
-        linear-gradient(135deg, #888 50%, transparent 50%);
-    background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
-    background-size: 5px 5px;
-    background-repeat: no-repeat;
-    padding-right: 36px;
+.reserve-form input::placeholder,
+.reserve-form textarea::placeholder {
+    color: var(--ink-mute);
+    opacity: 0.75;
 }
 
-.reserve-form input:focus,
+.reserve-form input[type='text']:focus,
+.reserve-form input[type='email']:focus,
+.reserve-form input[type='date']:focus,
 .reserve-form select:focus,
 .reserve-form textarea:focus {
-    outline: none;
-    border-color: var(--color-gold);
-    background: #fff;
+    border-color: var(--ink);
+    outline: 1px solid var(--ink);
+    outline-offset: 0;
+}
+
+.reserve-form input[type='text'],
+.reserve-form input[type='email'],
+.reserve-form input[type='date'],
+.reserve-form select {
+    height: var(--field-h);
+}
+
+/* 欄に収まらない記入例は、途中で切らずに「…」で終える */
+.reserve-form input:placeholder-shown {
+    text-overflow: ellipsis;
 }
 
 .reserve-form textarea {
-    resize: vertical;
+    min-height: 8.5rem;
     line-height: 1.8;
+    resize: vertical;
+}
+
+.reserve-form input[type='date'] {
+    text-align: left;
+}
+
+.reserve-form input[type='date']::-webkit-date-and-time-value {
+    text-align: left;
+}
+
+/* 選択欄の山形（罫線と同じ細さ） */
+.reserve-form select {
+    padding-right: 2.75rem;
+    background-image:
+        linear-gradient(45deg, transparent calc(50% - 0.5px), var(--ink) calc(50% - 0.5px), var(--ink) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+        linear-gradient(-45deg, transparent calc(50% - 0.5px), var(--ink) calc(50% - 0.5px), var(--ink) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+    background-position: calc(100% - 1rem - 7px) 50%, calc(100% - 1rem) 50%;
+    background-size: 7px 7px;
+    background-repeat: no-repeat;
+    cursor: pointer;
 }
 
 .datetime-row {
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 10px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+    gap: 0.75rem;
 }
 
 .form-hint {
-    font-size: 0.75rem;
-    color: #999;
-    margin-top: 6px;
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
     line-height: 1.7;
+    color: var(--ink-mute);
 }
 
-.same-day-notice {
-    margin-top: 12px;
-    padding: 12px 14px;
-    border: 1px solid rgba(180, 80, 70, 0.5);
-    background: rgba(180, 80, 70, 0.08);
-    color: #8f3c34;
-    font-size: 0.8rem;
-    line-height: 1.8;
-}
-
-/* ----- コース選択（ラジオカード） ----- */
-.course-options {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-}
-
-.course-option {
+/* ---------- 選択肢（コース・お支払い方法） ---------- */
+.course-option,
+.pay-option {
+    position: relative;
     display: block;
     cursor: pointer;
 }
 
-.course-option input {
+/* ラジオ本体は隠し、丸印を自前で描く（操作はキーボードでもそのまま可能） */
+.course-option input,
+.pay-option input {
     position: absolute;
+    top: 50%;
+    left: 1.1rem;
+    width: 1px;
+    height: 1px;
     opacity: 0;
     pointer-events: none;
+}
+
+.course-option-body,
+.pay-option span {
+    position: relative;
+    min-height: var(--field-h);
+    background: var(--surface);
+    border: 1px solid var(--field-rule);
+    transition: border-color 0.2s ease;
+}
+
+.course-option-body::before,
+.pay-option span::before {
+    content: '';
+    flex-shrink: 0;
+    width: 1.125rem;
+    height: 1.125rem;
+    border: 1px solid var(--ink-mute);
+    border-radius: 50%;
+    background: var(--surface);
+}
+
+.course-option input:checked + .course-option-body,
+.pay-option input:checked + span {
+    z-index: 1;
+    border-color: var(--ink);
+    outline: 1px solid var(--ink);
+    outline-offset: -2px;
+}
+
+.course-option input:checked + .course-option-body::before,
+.pay-option input:checked + span::before {
+    border-color: var(--ink);
+    background: radial-gradient(circle, var(--ink) 0 38%, var(--surface) 44%);
+}
+
+.course-option input:focus-visible + .course-option-body,
+.pay-option input:focus-visible + span {
+    z-index: 2;
+    outline: 2px solid var(--moss);
+    outline-offset: 2px;
+}
+
+/* コース：罫でつないだ3行。左に名称と補足、右に料金 */
+.course-option + .course-option {
+    margin-top: -1px;
 }
 
 .course-option-body {
-    display: flex;
-    align-items: baseline;
-    gap: 14px;
-    flex-wrap: wrap;
-    border: 1px solid var(--color-border);
-    background: var(--color-cream);
-    padding: 16px 18px;
-    transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+        'dot name price'
+        '.   note note';
+    align-items: center;
+    gap: 0.1rem 0.9rem;
+    padding: 0.95rem 1.25rem 1rem 1.1rem;
 }
 
 .course-option-body::before {
-    content: '';
-    width: 14px;
-    height: 14px;
-    border: 1px solid #aaa;
-    border-radius: 50%;
-    background: #fff;
-    flex-shrink: 0;
-    align-self: center;
-    transition: all 0.2s ease;
-}
-
-.course-option input:checked + .course-option-body {
-    border-color: var(--color-gold);
-    background: #fff;
-    box-shadow: 0 4px 16px rgba(143, 151, 121, 0.15);
-}
-
-.course-option input:checked + .course-option-body::before {
-    border-color: var(--color-gold);
-    background: var(--color-gold);
-    box-shadow: inset 0 0 0 3px #fff;
-}
-
-.course-option input:focus-visible + .course-option-body {
-    outline: 2px solid var(--color-gold);
-    outline-offset: 2px;
+    grid-area: dot;
 }
 
 .course-option-name {
-    font-size: 0.95rem;
+    grid-area: name;
     font-weight: 500;
-    letter-spacing: 0.08em;
-    color: var(--color-primary);
+    letter-spacing: 0.06em;
 }
 
 .course-option-price {
-    font-size: 0.9rem;
-    color: var(--color-gold);
-    font-weight: 500;
+    grid-area: price;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
 }
 
 .course-option-note {
-    font-size: 0.75rem;
-    color: #999;
+    grid-area: note;
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--ink-mute);
 }
 
-/* ----- 支払い方法（インラインのラジオ） ----- */
+/* お支払い方法：横に並べた2枠 */
 .pay-options {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 26rem;
 }
 
-.pay-option {
-    cursor: pointer;
-}
-
-.pay-option input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
+.pay-option + .pay-option {
+    margin-left: -1px;
 }
 
 .pay-option span {
-    display: inline-block;
-    border: 1px solid var(--color-border);
-    background: var(--color-cream);
-    color: var(--color-primary);
-    font-size: 0.9rem;
-    letter-spacing: 0.08em;
-    padding: 10px 26px;
-    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.7rem 1.1rem;
+    letter-spacing: 0.06em;
 }
 
-.pay-option input:checked + span {
-    border-color: var(--color-gold);
-    background: var(--color-gold);
-    color: #fff;
-}
-
-.pay-option input:focus-visible + span {
-    outline: 2px solid var(--color-gold);
-    outline-offset: 2px;
-}
-
-/* ----- スパム対策フィールド（不可視） ----- */
+/* ---------- スパム対策の欄（画面には出さない） ---------- */
 .hp-field {
     position: absolute !important;
     left: -9999px !important;
@@ -316,197 +355,266 @@
     overflow: hidden;
 }
 
-/* ----- 注意書き・エラー・送信 ----- */
-.form-privacy-note {
-    font-size: 0.75rem;
-    color: #999;
-    line-height: 1.9;
-    margin-bottom: 24px;
+/* ---------- 注意書き・エラー ---------- */
+.same-day-notice,
+.form-error {
+    padding: 1rem 1.25rem;
+    border-left: 2px solid var(--moss);
+    background: var(--paper-deep);
+    font-size: 0.875rem;
+    line-height: 1.85;
+    color: var(--ink-soft);
 }
 
-.privacy-consent {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    font-size: 0.78rem;
-    color: #666;
-    line-height: 1.8;
-    margin-bottom: 24px;
-    cursor: pointer;
+.same-day-notice {
+    margin-top: 0.9rem;
 }
 
-.privacy-consent input {
-    flex: 0 0 auto;
-    width: 17px;
-    height: 17px;
-    margin-top: 5px;
-    accent-color: var(--color-gold);
-}
-
-.privacy-consent a {
-    color: var(--color-primary);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+.same-day-notice strong {
+    color: var(--ink);
 }
 
 .form-error {
-    background: rgba(180, 80, 70, 0.08);
-    border: 1px solid rgba(180, 80, 70, 0.4);
-    color: #a04a40;
-    font-size: 0.85rem;
-    line-height: 1.8;
-    padding: 14px 16px;
-    margin-bottom: 20px;
+    border-left-color: var(--shu);
+    background: var(--surface);
+    font-size: 0.9375rem;
+    color: var(--shu);
 }
 
-.form-error a {
-    color: #a04a40;
+.form-error a,
+.privacy-consent a,
+.reserve-form-closed a {
     text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
 }
 
-.reserve-submit {
+/* ---------- 同意と送信 ---------- */
+.privacy-consent {
+    position: relative;
     display: block;
-    width: 100%;
-    font-family: 'Shippori Mincho', serif;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    color: #fff;
-    background: var(--color-gold);
-    border: 1px solid var(--color-gold);
-    padding: 18px;
+    margin-top: 0.5rem;
+    padding: 2rem 0 0 2.25rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.875rem;
+    line-height: 1.8;
+    color: var(--ink-soft);
     cursor: pointer;
-    transition: all 0.3s ease;
 }
 
-.reserve-submit:hover {
-    background: var(--color-primary);
-    border-color: var(--color-primary);
+.privacy-consent a {
+    color: var(--ink);
+}
+
+.privacy-consent a:hover {
+    color: var(--moss-deep);
+}
+
+/* チェック欄も本体は隠し、角のある枠を自前で描く */
+.privacy-consent input {
+    position: absolute;
+    top: 2.15rem;
+    left: 0;
+    width: 1.375rem;
+    height: 1.375rem;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.privacy-consent span::before {
+    content: '';
+    position: absolute;
+    top: 2.15rem;
+    left: 0;
+    width: 1.375rem;
+    height: 1.375rem;
+    border: 1px solid var(--ink-mute);
+    background: var(--surface);
+}
+
+.privacy-consent span::after {
+    content: '';
+    position: absolute;
+    top: calc(2.15rem + 0.22rem);
+    left: 0.47rem;
+    width: 0.42rem;
+    height: 0.75rem;
+    border-right: 2px solid var(--surface);
+    border-bottom: 2px solid var(--surface);
+    transform: rotate(45deg);
+    opacity: 0;
+}
+
+.privacy-consent input:checked + span::before {
+    border-color: var(--ink);
+    background: var(--ink);
+}
+
+.privacy-consent input:checked + span::after {
+    opacity: 1;
+}
+
+.privacy-consent input:focus-visible + span::before {
+    outline: 2px solid var(--moss);
+    outline-offset: 2px;
+}
+
+/* 送信ボタン（.cta-main-btn を button 要素で使うための補正） */
+.reserve-submit {
+    justify-self: start;
+    margin-top: 0.25rem;
+    border: 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
 }
 
 .reserve-submit:disabled {
-    opacity: 0.6;
-    cursor: wait;
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
-/* ----- 送信完了 ----- */
+.reserve-submit[aria-busy='true'] {
+    cursor: progress;
+}
+
+.reserve-submit:disabled:hover {
+    background: var(--moss);
+}
+
+.reserve-submit:disabled:hover::after {
+    transform: skewX(45deg);
+}
+
+/* ---------- 準備中の表示（送信先が未設定のとき JS が差し替える） ---------- */
+.reserve-form-closed {
+    max-width: 40em;
+    font-size: 0.9375rem;
+    line-height: 2;
+    color: var(--ink-soft);
+}
+
+.reserve-form-closed a {
+    color: var(--ink);
+}
+
+/* ---------- 送信完了 ---------- */
 .form-success {
-    background: #fff;
-    border: 1px solid var(--color-gold);
-    padding: 50px 36px;
-    text-align: center;
+    margin-top: 2.75rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--ink);
 }
 
+/* 完了の印：細い線の丸とチェック（HTML 側の文字は隠して線で描く） */
 .form-success-mark {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 20px;
-    border: 1px solid var(--color-gold);
+    position: relative;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--moss);
     border-radius: 50%;
-    color: var(--color-gold);
-    font-size: 1.6rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 0;
+}
+
+.form-success-mark::before {
+    content: '';
+    position: absolute;
+    top: 0.72rem;
+    left: 1rem;
+    width: 0.55rem;
+    height: 1rem;
+    border-right: 1px solid var(--moss-deep);
+    border-bottom: 1px solid var(--moss-deep);
+    transform: rotate(45deg);
 }
 
 .form-success-title {
-    font-size: 1.3rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    color: var(--color-primary);
-    margin-bottom: 18px;
+    margin-bottom: 1.25rem;
+    font-size: clamp(1.5rem, 2.9vw, 2rem);
+    letter-spacing: 0.08em;
 }
 
 .form-success-text {
-    font-size: 0.88rem;
-    line-height: 2.1;
-    color: #666;
-    margin-bottom: 28px;
+    max-width: 40em;
+    font-size: 0.9375rem;
+    line-height: 2;
+    color: var(--ink-soft);
+}
+
+.form-success-text strong {
+    color: var(--ink);
 }
 
 .form-success-actions {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
+    gap: 0.9rem 1rem;
+    margin-top: 2.25rem;
 }
 
 .form-success-note {
-    font-size: 0.78rem;
-    color: #999;
-    margin-top: 14px;
+    margin-top: 1.1rem;
+    font-size: 0.8125rem;
     line-height: 1.8;
+    color: var(--ink-mute);
 }
 
-/* ----- 補足 ----- */
-.reserve-notes {
-    background: #f5f4f0;
-    border: 1px solid var(--color-border);
-    padding: 28px 30px;
-}
-
-.reserve-notes-title {
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    color: var(--color-primary);
-    margin-bottom: 14px;
-}
-
-.reserve-notes-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.reserve-notes-list li {
-    font-size: 0.83rem;
-    line-height: 1.9;
-    color: #666;
-    padding-left: 1.2em;
-    position: relative;
-    margin-bottom: 6px;
-}
-
-.reserve-notes-list li::before {
-    content: '※';
-    position: absolute;
-    left: 0;
-    color: var(--color-gold);
-}
-
-/* ----- モバイル ----- */
-@media (max-width: 768px) {
-    .reserve-methods {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        margin-bottom: 45px;
+/* ---------- レスポンシブ ---------- */
+@media (max-width: 960px) {
+    .reserve-container {
+        grid-template-columns: minmax(0, 1fr);
+        justify-content: stretch;
     }
 
-    .reserve-method-card {
-        padding: 28px 20px 26px;
+    .reserve-form-section,
+    .reserve-notes {
+        grid-column: auto;
+        grid-row: auto;
     }
 
     .reserve-form-section {
-        scroll-margin-top: 75px;
-        margin-bottom: 45px;
+        max-width: 720px;
     }
 
+    .reserve-notes {
+        position: static;
+        max-width: 720px;
+    }
+}
+
+@media (max-width: 640px) {
     .reserve-form {
-        padding: 28px 18px;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.75rem;
+        margin-top: 2.25rem;
+        padding-top: 2rem;
+    }
+
+    .reserve-form > .form-block--half,
+    .reserve-form > .form-block--half:has(#genre) {
+        grid-column: 1 / -1;
     }
 
     .datetime-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .course-option-body {
-        gap: 8px 12px;
-        padding: 14px;
+        padding: 0.9rem 1rem 0.95rem;
     }
 
-    .form-success {
-        padding: 36px 20px;
+    .pay-options {
+        max-width: none;
+    }
+
+    /* 親指で押しやすいよう、ボタンは幅いっぱいに */
+    .reserve-submit {
+        display: grid;
+        justify-self: stretch;
+        width: 100%;
+    }
+
+    .form-success-actions {
+        flex-direction: column;
     }
 }

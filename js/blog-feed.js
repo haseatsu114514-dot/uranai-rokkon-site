@@ -1,78 +1,59 @@
+/**
+ * ブログ一覧：カテゴリ絞り込みと「もっと見る」
+ * カード（.article-card）はビルド時に #blog-grid へ全件出力済み。
+ * ここでは hidden 属性の付け外しだけで出し分ける（見た目は css/blog.css が持つ）。
+ */
 document.addEventListener('DOMContentLoaded', () => {
     const BLOG_GRID = document.getElementById('blog-grid');
     const LOADING_INDICATOR = document.getElementById('loading-indicator');
     const PAGINATION_CONTAINER = document.getElementById('pagination-container');
     const LOAD_MORE_BTN = document.getElementById('load-more-btn');
+    const EMPTY_MESSAGE = document.getElementById('blog-empty');
     const FILTER_BTNS = document.querySelectorAll('.filter-btn');
 
     if (!BLOG_GRID) return;
 
-    // Configuration
+    // 1回に表示する件数
     const ITEMS_PER_PAGE = 9;
 
-    let allItems = []; // All item elements
-    let filteredItems = []; // Currently visible item elements
+    let allItems = [];
+    let filteredItems = [];
     let displayedCount = 0;
-    let currentFilter = 'all';
 
-    // Hydrate from DOM
     function hydrate() {
-        // Hide loading indicator if it still exists (it shouldn't if build script ran, but good for safety)
-        if (LOADING_INDICATOR) LOADING_INDICATOR.style.display = 'none';
-
-        // Get all article cards that were rendered by the build script
-        const cards = Array.from(BLOG_GRID.querySelectorAll('.article-card'));
-
-        // Store them in memory and remove from DOM temporarily to manage pagination/filtering
-        // Or better: keep them in DOM but toggle display:none? 
-        // Approach: Extract them, then re-append based on filter/pagination.
-
-        allItems = cards;
-
-        // Clear grid to prepare for controlled rendering
-        // BLOG_GRID.innerHTML = ''; 
-        // Actually, for SEO, we want them to remain in the source. 
-        // But for "Load More" functionality, we need to hide the ones that overflow.
-        // So we will just hide them via CSS/style.
-
+        if (LOADING_INDICATOR) LOADING_INDICATOR.hidden = true;
+        allItems = Array.from(BLOG_GRID.querySelectorAll('.article-card'));
         applyFilter('all');
     }
 
-    // Filter Click Handler
     FILTER_BTNS.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Update active state
-            FILTER_BTNS.forEach(b => b.classList.remove('active'));
+            FILTER_BTNS.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
             btn.classList.add('active');
-
-            // Apply filter
-            const filterType = btn.getAttribute('data-filter');
-            applyFilter(filterType);
+            btn.setAttribute('aria-pressed', 'true');
+            applyFilter(btn.getAttribute('data-filter'));
         });
     });
 
     function applyFilter(filterType) {
-        currentFilter = filterType;
         displayedCount = 0;
 
-        // Filter items
-        if (filterType === 'all') {
-            filteredItems = allItems;
-        } else {
-            filteredItems = allItems.filter(card => card.getAttribute('data-category') === filterType);
-        }
+        filteredItems = filterType === 'all'
+            ? allItems
+            : allItems.filter(card => card.getAttribute('data-category') === filterType);
 
-        // Reset display
         allItems.forEach(card => {
-            card.style.display = 'none';
+            card.hidden = true;
+            card.style.display = '';
         });
 
-        // Show first batch
         showMoreItems();
         updatePagination();
     }
 
-    // Load More Click Handler
     if (LOAD_MORE_BTN) {
         LOAD_MORE_BTN.addEventListener('click', () => {
             showMoreItems();
@@ -82,31 +63,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showMoreItems() {
         const nextBatch = filteredItems.slice(displayedCount, displayedCount + ITEMS_PER_PAGE);
-
         nextBatch.forEach(card => {
-            card.style.display = 'flex'; // Restore display
-            // If we detached them, we would appendChild here. 
-            // Since we just hid them, we change style.
-            // Ensure they are in the grid. If we haven't removed them from DOM, this is fine.
+            card.hidden = false;
         });
-
         displayedCount += nextBatch.length;
     }
 
     function updatePagination() {
-        if (displayedCount >= filteredItems.length) {
-            PAGINATION_CONTAINER.style.display = 'none';
-        } else {
-            PAGINATION_CONTAINER.style.display = 'block';
+        if (PAGINATION_CONTAINER) {
+            PAGINATION_CONTAINER.hidden = displayedCount >= filteredItems.length;
         }
-
-        // Handle empty state
-        if (filteredItems.length === 0) {
-            // We could show a message here if needed
+        if (EMPTY_MESSAGE) {
+            EMPTY_MESSAGE.hidden = filteredItems.length > 0;
         }
     }
 
-    // Initialize
     hydrate();
 });
-

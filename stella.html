@@ -26,30 +26,19 @@
     <meta property="og:image" content="https://uranai-rokkon.com/images/otya.png">
 
     <!-- Favicon -->
-    <link rel="icon" href="images/favicon.png">
+    <link rel="icon" href="images/favicon-rokkon.png">
+    <link rel="apple-touch-icon" href="images/favicon-rokkon.png">
+    <meta name="theme-color" content="#f6f3ec">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap"
         rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css?v=20261023a">
-    <link rel="stylesheet" href="css/redesign.css?v=20261023a">
-    <link rel="stylesheet" href="css/animations.css?v=20261023a">
-    <style>
-        .stella-lead { font-size: 1rem; line-height: 2.3; color: var(--color-primary); }
-        .stella-body { font-size: 0.95rem; line-height: 2.2; color: #4c4b4a; }
-        .stella-body p { margin-bottom: 1.4em; }
-        .operator-table { width: 100%; border-collapse: collapse; margin-top: 2rem; font-size: 0.92rem; line-height: 1.9; }
-        .operator-table th, .operator-table td { border: 1px solid var(--color-border); padding: 1rem 1.2rem; text-align: left; vertical-align: top; }
-        .operator-table th { background: #f4f3f0; width: 30%; font-weight: 600; letter-spacing: 0.05em; white-space: nowrap; }
-        .english-summary { background: #f4f3f0; border: 1px solid var(--color-border); padding: 2rem 2.2rem; margin-top: 2rem; }
-        .english-summary p { font-size: 0.92rem; line-height: 2; color: #4c4b4a; margin-bottom: 1em; }
-        .english-summary p:last-child { margin-bottom: 0; }
-        @media (max-width: 640px) { .operator-table th { white-space: normal; width: 38%; } }
-    </style>
+    <link rel="stylesheet" href="css/style.css?v=20261111a">
+    <link rel="stylesheet" href="css/redesign.css?v=20261111a">
 
     <!-- JSON-LD (Breadcrumb) -->
     <script type="application/ld+json">
@@ -76,48 +65,70 @@
     <!-- ヘッダー -->
     <header class="header">
         <div class="header-inner">
-            <a href="index.html" class="logo">
-                <span class="logo-main">六根清浄</span>
-                <span class="logo-sub">(Rokkon shojo)</span>
+            <a href="index.html" class="logo" aria-label="占い処 六根清浄 トップページ">
+                <img src="images/logo-mark-ink.png" alt="" class="logo-mark" width="38" height="38">
+                <span class="logo-text">
+                    <span class="logo-sub">占い処</span>
+                    <span class="logo-main">六根清浄</span>
+                </span>
             </a>
-            <div class="nav-wrapper">
-                <nav class="nav">
+            <div class="nav-wrapper" id="siteNav">
+                <nav class="nav" aria-label="メインメニュー">
                     <a href="index.html">TOP</a>
                     <a href="beginner.html">はじめて</a>
                     <a href="about.html">占い師</a>
                     <a href="pricing.html">料金案内</a>
                     <a href="testimonials.html">口コミ</a>
-                    <a href="faq.html">Q&A</a>
+                    <a href="faq.html">Q&amp;A</a>
                     <a href="blog.html">ブログ</a>
-                    <a href="stella.html" class="current">ステラファイル</a>
                 </nav>
                 <a href="reserve.html" class="contact-btn">ご予約</a>
             </div>
-            <button type="button" class="menu-toggle" onclick="toggleMenu(this);" aria-label="メニューを開く" aria-expanded="false">
-                <span></span>
+            <button type="button" class="menu-toggle" onclick="toggleMenu(this);" aria-label="メニューを開く"
+                aria-expanded="false" aria-controls="siteNav">
                 <span></span>
                 <span></span>
             </button>
         </div>
     </header>
 
-    <main class="main-content">
+    <main class="main-content sub-page">
+        <div class="page-header">
+            <div class="page-header-inner">
+                <nav class="breadcrumb" aria-label="パンくずリスト">
+                    <ol>
+                        <li><a href="index.html">TOP</a></li>
+                        <li aria-current="page">ステラファイル</li>
+                    </ol>
+                </nav>
+                <h1 class="page-title">ステラファイル<wbr>（StellaFile）とは</h1>
+            </div>
+        </div>
 
         <!-- 導入 -->
-        <section class="rk-section">
-            <div class="rk-section-inner">
-                <h1 class="section-title">ステラファイル（StellaFile）とは</h1>
-                <p class="stella-lead">
-                    ステラファイル（StellaFile）は、六根清浄が運営する、四柱推命をやさしく体験していただくためのサービスです。四柱推命は奥深い一方で、専門用語が多く、初めての方には少し遠く感じられることがあります。そこで、一般の方にも親しみやすい言葉やキャラクター、診断の形に置き換えてお届けしています。生年月日から、ご自身のタイプや時期を知るきっかけとしてご利用いただけます。
-                </p>
+        <section class="rk-section rk-section--compact">
+            <div class="rk-wrap rk-split">
+                <header class="rk-head">
+                    <p class="rk-label">サービス概要</p>
+                </header>
+                <div class="rk-body">
+                    <p class="rk-statement">
+                        ステラファイル（StellaFile）は、六根清浄が運営する、四柱推命をやさしく体験していただくためのサービスです。
+                    </p>
+                    <p>
+                        四柱推命は奥深い一方で、専門用語が多く、初めての方には少し遠く感じられることがあります。そこで、一般の方にも親しみやすい言葉やキャラクター、診断の形に置き換えてお届けしています。生年月日から、ご自身のタイプや時期を知るきっかけとしてご利用いただけます。
+                    </p>
+                </div>
             </div>
         </section>
 
         <!-- 仕組み -->
-        <section class="rk-section rk-section-alt">
-            <div class="rk-section-inner">
-                <h2 class="section-title">「診断体験に変える」仕組み</h2>
-                <div class="stella-body">
+        <section class="rk-section rk-section--compact rk-section--ruled">
+            <div class="rk-wrap rk-split">
+                <header class="rk-head">
+                    <h2 class="rk-title">「診断体験に変える」仕組み</h2>
+                </header>
+                <div class="rk-body">
                     <p>四柱推命では、生年月日をもとに「命式」と呼ばれる、その人の持ち味や巡りを読み解くための表をつくります。ステラファイルでは、この命式の要素を、専門知識がなくても受け取りやすい「タイプ」や「時期」の言葉に整理し、診断として表示します。</p>
                     <p>難しい用語を並べるのではなく、ご自身を振り返るための材料として、無理なく読める形にすることを心がけています。結果は未来を言い切るものではなく、考えを整理する手がかりとしてご覧ください。</p>
                 </div>
@@ -125,10 +136,12 @@
         </section>
 
         <!-- AI活用 -->
-        <section class="rk-section">
-            <div class="rk-section-inner">
-                <h2 class="section-title">AI（Claude）の活用と、鑑定師の判断</h2>
-                <div class="stella-body">
+        <section class="rk-section rk-section--compact rk-section--ruled">
+            <div class="rk-wrap rk-split">
+                <header class="rk-head">
+                    <h2 class="rk-title">AI（Claude）の活用と、<wbr>鑑定師の判断</h2>
+                </header>
+                <div class="rk-body">
                     <p>ステラファイルでは、AI（Claude）を、命式の分析補助や、診断テキスト・鑑定準備（事前分析）の下書きづくりに活用しています。AIを使うことで、材料を整理する時間を確保し、一人ひとりの内容に向き合う時間を増やすことが目的です。</p>
                     <p>AIはあくまで下書きと整理のための補助であり、最終的な鑑定と判断は鑑定師が行います。AIの出力をそのまま結果としてお渡しすることはありません。</p>
                 </div>
@@ -136,22 +149,26 @@
         </section>
 
         <!-- 六根清浄との関係 -->
-        <section class="rk-section rk-section-alt">
-            <div class="rk-section-inner">
-                <h2 class="section-title">六根清浄との関係</h2>
-                <div class="stella-body">
+        <section class="rk-section rk-section--compact rk-section--ruled">
+            <div class="rk-wrap rk-split">
+                <header class="rk-head">
+                    <h2 class="rk-title">六根清浄との関係</h2>
+                </header>
+                <div class="rk-body">
                     <p>ステラファイルは、六根清浄が運営する別サービスです。ステラファイルは、四柱推命を気軽に知っていただくための入口です。もう少し詳しく知りたい、じっくり相談したいと感じられた場合には、名古屋・栄での対面、またはオンラインによる六根清浄の本格的な鑑定へお進みいただけます。</p>
                     <p>無理にお勧めすることはなく、ご希望に応じてお選びいただく形です。</p>
-                    <p><a href="index.html" class="text-link">六根清浄トップページへ</a>　<a href="reserve.html" class="text-link">鑑定のご予約はこちら</a></p>
+                    <p class="rk-links"><a href="index.html" class="arrow-link">六根清浄トップページへ</a><a href="reserve.html" class="arrow-link">鑑定のご予約はこちら</a></p>
                 </div>
             </div>
         </section>
 
         <!-- ツール開発 -->
-        <section class="rk-section">
-            <div class="rk-section-inner">
-                <h2 class="section-title">占い業界向けのツール開発</h2>
-                <div class="stella-body">
+        <section class="rk-section rk-section--compact rk-section--ruled">
+            <div class="rk-wrap rk-split">
+                <header class="rk-head">
+                    <h2 class="rk-title">占い業界向けのツール開発</h2>
+                </header>
+                <div class="rk-body">
                     <p>六根清浄は、占い業界向けのツール開発も行っています。個人で活動する占い師の方は、鑑定の準備から結果のお伝えまでを、お一人で担うことが少なくありません。そうした方の鑑定準備や、結果を相談者に伝わりやすくまとめる作業を助けるツールを、自らの鑑定の経験を踏まえてつくっています。</p>
                     <p>ご相談やお問い合わせは、<a href="mailto:stella@uranai-rokkon.com" class="text-link">stella@uranai-rokkon.com</a> までお寄せください。</p>
                 </div>
@@ -160,30 +177,36 @@
 
         <!-- 事業者情報 -->
         <section class="rk-section rk-section-alt" id="operator">
-            <div class="rk-section-inner">
-                <h2 class="section-title">事業者情報</h2>
-                <p class="stella-body">ステラファイルおよび六根清浄の事業者情報は、以下のとおりです。</p>
-                <table class="operator-table">
-                    <tbody>
-                        <tr><th>屋号</th><td>六根清浄（Rokkon Shojo）</td></tr>
-                        <tr><th>サービス名</th><td>ステラファイル（StellaFile）</td></tr>
-                        <tr><th>代表</th><td>長谷川 貴紀</td></tr>
-                        <tr><th>運営形態</th><td>個人事業</td></tr>
-                        <tr><th>開業</th><td>2026年5月</td></tr>
-                        <tr><th>所在地</th><td>名古屋・栄（対面鑑定）／オンライン対応</td></tr>
-                        <tr><th>事業内容</th><td>四柱推命鑑定の運営／ステラファイル（四柱推命の診断サービス）の運営／占い業界向けのツール開発</td></tr>
-                        <tr><th>連絡先</th><td><a href="mailto:stella@uranai-rokkon.com">stella@uranai-rokkon.com</a></td></tr>
-                        <tr><th>ウェブサイト</th><td><a href="https://uranai-rokkon.com/">https://uranai-rokkon.com/</a></td></tr>
-                    </tbody>
-                </table>
+            <div class="rk-wrap rk-split">
+                <header class="rk-head">
+                    <h2 class="rk-title">事業者情報</h2>
+                    <p class="rk-desc">ステラファイルおよび六根清浄の事業者情報は、以下のとおりです。</p>
+                </header>
+                <div class="rk-body">
+                    <table class="rk-table">
+                        <tbody>
+                            <tr><th scope="row">屋号</th><td>六根清浄（Rokkon Shojo）</td></tr>
+                            <tr><th scope="row">サービス名</th><td>ステラファイル（StellaFile）</td></tr>
+                            <tr><th scope="row">代表</th><td>長谷川 貴紀</td></tr>
+                            <tr><th scope="row">運営形態</th><td>個人事業</td></tr>
+                            <tr><th scope="row">開業</th><td>2026年5月</td></tr>
+                            <tr><th scope="row">所在地</th><td>名古屋・栄（対面鑑定）／オンライン対応</td></tr>
+                            <tr><th scope="row">事業内容</th><td>四柱推命鑑定の運営／ステラファイル（四柱推命の診断サービス）の運営／占い業界向けのツール開発</td></tr>
+                            <tr><th scope="row">連絡先</th><td><a href="mailto:stella@uranai-rokkon.com" class="text-link">stella@uranai-rokkon.com</a></td></tr>
+                            <tr><th scope="row">ウェブサイト</th><td><a href="https://uranai-rokkon.com/" class="text-link">https://uranai-rokkon.com/</a></td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
 
         <!-- English Summary -->
         <section class="rk-section" id="english">
-            <div class="rk-section-inner">
-                <h2 class="section-title">About StellaFile (English Summary)</h2>
-                <div class="english-summary" lang="en">
+            <div class="rk-wrap rk-split">
+                <header class="rk-head">
+                    <h2 class="rk-title" lang="en">About StellaFile <wbr>(English Summary)</h2>
+                </header>
+                <div class="rk-body rk-english" lang="en">
                     <p>StellaFile is a service operated by Rokkon Shojo, an individual business founded in May 2026 and based in Sakae, Nagoya, Japan (in-person and online).</p>
                     <p>It turns Four Pillars of Destiny (Shichu Suimei) into easy-to-understand language, characters, and diagnostic experiences for general users.</p>
                     <p>AI (Claude) assists with chart analysis and drafting diagnostic texts and reading preparation, while the final reading and judgment are always made by the diviner.</p>
@@ -193,61 +216,69 @@
             </div>
         </section>
 
-        <!-- ページ導線 -->
-        <section class="page-links">
-            <div class="page-links-inner">
-                <a href="index.html" class="page-link-card">
-                    <span class="page-link-title">TOP</span>
-                    <span class="page-link-desc">トップページ</span>
-                </a>
-                <a href="about.html" class="page-link-card">
-                    <span class="page-link-title">占い師</span>
-                    <span class="page-link-desc">活動履歴</span>
-                </a>
-                <a href="pricing.html" class="page-link-card">
-                    <span class="page-link-title">料金案内</span>
-                    <span class="page-link-desc">コース・料金</span>
-                </a>
-                <a href="reserve.html" class="page-link-card">
-                    <span class="page-link-title">ご予約</span>
-                    <span class="page-link-desc">鑑定のご予約</span>
-                </a>
-            </div>
-        </section>
-
     </main>
 
     <!-- フッター -->
     <footer class="footer">
         <div class="footer-inner">
-            <nav class="footer-nav">
-                <a href="index.html">TOP</a>
-                <a href="beginner.html">はじめて</a>
-                <a href="about.html">占い師</a>
-                <a href="pricing.html">料金案内</a>
-                <a href="testimonials.html">口コミ</a>
-                <a href="faq.html">Q&A</a>
-                <a href="blog.html">ブログ</a>
-                <a href="stella.html">ステラファイル</a>
-                <a href="reserve.html">ご予約</a>
-                <a href="privacy.html">プライバシー</a>
-            </nav>
-            <div class="footer-info">
-                <p class="footer-hours">鑑定営業時間：14:00〜22:00（最終受付 21:00）/ 予約フォーム24時間受付</p>
-                <p class="footer-contact">お問い合わせ：uranai.rokkon@gmail.com</p>
-                <p class="footer-contact">運営：六根清浄（個人事業・2026年5月開業／名古屋・栄）｜ステラファイルに関するお問い合わせ：stella@uranai-rokkon.com</p>
+            <div class="footer-brand">
+                <a href="index.html" class="footer-logo">
+                    <img src="images/logo-mark-paper.png" alt="" width="46" height="46" loading="lazy">
+                    <span class="footer-logo-text"><span class="footer-logo-sub">占い処</span>六根清浄</span>
+                </a>
+                <p class="footer-tagline">出会う場所。選ぶ相手。動く時期。<br>相性とタイミングを、次の一手に変える四柱推命。</p>
             </div>
-            <div class="footer-copy">© 2026 六根清浄 All Rights Reserved.</div>
+            <nav class="footer-nav" aria-label="フッターメニュー">
+                <p class="footer-heading">ご案内</p>
+                <ul>
+                    <li><a href="index.html">TOP</a></li>
+                    <li><a href="beginner.html">はじめて</a></li>
+                    <li><a href="about.html">占い師</a></li>
+                    <li><a href="pricing.html">料金案内</a></li>
+                    <li><a href="testimonials.html">口コミ</a></li>
+                    <li><a href="faq.html">Q&amp;A</a></li>
+                    <li><a href="blog.html">ブログ</a></li>
+                    <li><a href="reserve.html">ご予約</a></li>
+                    <li><a href="stella.html">ステラファイル</a></li>
+                    <li><a href="privacy.html">プライバシー</a></li>
+                </ul>
+            </nav>
+            <div class="footer-about">
+                <p class="footer-heading">鑑定のご案内</p>
+                <dl class="footer-info">
+                    <div>
+                        <dt>鑑定時間</dt>
+                        <dd>14:00〜22:00（最終受付 21:00）</dd>
+                    </div>
+                    <div>
+                        <dt>ご予約</dt>
+                        <dd>予約フォーム24時間受付</dd>
+                    </div>
+                    <div>
+                        <dt>場所</dt>
+                        <dd>名古屋・栄（対面）／オンライン</dd>
+                    </div>
+                    <div>
+                        <dt>お問い合わせ</dt>
+                        <dd><a href="mailto:uranai.rokkon@gmail.com">uranai.rokkon@gmail.com</a></dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-operator">運営：六根清浄（個人事業・2026年5月開業／名古屋・栄）｜ステラファイルに関するお問い合わせ：stella@uranai-rokkon.com</p>
+            <p class="footer-copy">© 2026 六根清浄</p>
         </div>
     </footer>
 
     <button type="button" id="back-to-top" class="back-to-top" aria-label="トップへ戻る">↑</button>
 
+    <!-- スマホ追従予約ボタン -->
     <a href="reserve.html" class="sticky-reservation-btn">
         <span class="sticky-text">ご予約はこちら｜24時間受付</span>
     </a>
 
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=20261111a"></script>
 </body>
 
 </html>
